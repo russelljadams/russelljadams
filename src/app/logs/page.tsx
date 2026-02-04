@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import fs from "fs";
+import path from "path";
 
 export const metadata: Metadata = {
   title: "logs",
@@ -6,6 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function LogsPage() {
+  const summary = loadSummary();
+  const latestDaily = summary?.latestDay
+    ? loadDaily(summary.latestDay)
+    : null;
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
       <header className="mb-16">
@@ -19,22 +26,89 @@ export default function LogsPage() {
 
       <Section id="01" title="summary">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Stat label="total_sessions" value="—" />
-          <Stat label="total_hours" value="—" />
-          <Stat label="this_week" value="—" />
-          <Stat label="streak" value="—" />
+          <Stat
+            label="total_sessions"
+            value={summary ? String(summary.totalSessions) : "—"}
+          />
+          <Stat
+            label="total_hours"
+            value={summary ? String(summary.totalHours) : "—"}
+          />
+          <Stat
+            label="latest_day"
+            value={summary?.latestDay ?? "—"}
+          />
+          <Stat
+            label="total_resets"
+            value={summary ? String(summary.totalResets) : "—"}
+          />
         </div>
       </Section>
 
-      <Section id="02" title="recent">
-        <div className="border border-border p-8 text-center">
-          <p className="text-xs text-muted-foreground">
-            no sessions logged yet
-          </p>
+      <Section id="02" title="jan + feb (sfl)">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Stat
+            label="jan_2026_sessions"
+            value={summary ? String(summary.jan2026Sessions) : "—"}
+          />
+          <Stat
+            label="jan_2026_hours"
+            value={summary ? String(summary.jan2026Hours) : "—"}
+          />
+          <Stat
+            label="feb_2026_sessions"
+            value={summary ? String(summary.feb2026Sessions) : "—"}
+          />
+          <Stat
+            label="feb_2026_hours"
+            value={summary ? String(summary.feb2026Hours) : "—"}
+          />
         </div>
       </Section>
 
-      <Section id="03" title="log format">
+      <Section id="03" title="recent">
+        {latestDaily ? (
+          <div className="border border-border p-6 text-sm">
+            <div className="text-xs text-muted-foreground mb-4">
+              // {latestDaily.date}
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-6">
+              <Stat label="sessions" value={String(latestDaily.sessions)} />
+              <Stat label="laps" value={String(latestDaily.laps)} />
+              <Stat
+                label="hours"
+                value={String(latestDaily.durationHours ?? "—")}
+              />
+              <Stat label="resets" value={String(latestDaily.resets)} />
+            </div>
+            <div className="text-xs text-muted-foreground mb-2">
+              // reset hotspots (bins)
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              {latestDaily.resetHotspotsBins?.length ? (
+                latestDaily.resetHotspotsBins.slice(0, 6).map((bin) => (
+                  <span
+                    key={`${bin.startPct}-${bin.endPct}`}
+                    className="border border-border px-2 py-1"
+                  >
+                    {bin.startPct}–{bin.endPct}: {bin.count}
+                  </span>
+                ))
+              ) : (
+                <span className="text-muted-foreground">no resets yet</span>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="border border-border p-8 text-center">
+            <p className="text-xs text-muted-foreground">
+              no sessions logged yet
+            </p>
+          </div>
+        )}
+      </Section>
+
+      <Section id="04" title="log format">
         <div className="border border-border p-4 text-sm">
           <div className="text-xs text-muted-foreground mb-4">
             // session template
@@ -74,7 +148,7 @@ export default function LogsPage() {
         </div>
       </Section>
 
-      <Section id="04" title="filters">
+      <Section id="05" title="filters">
         <div className="flex flex-wrap gap-2 text-xs">
           <span className="border border-border px-2 py-1">by track</span>
           <span className="border border-border px-2 py-1">by date</span>
@@ -116,4 +190,52 @@ function Stat({ label, value }: { label: string; value: string }) {
       <div className="text-xs text-muted-foreground">{label}</div>
     </div>
   );
+}
+
+type SummaryData = {
+  totalSessions: number;
+  totalHours: number;
+  totalResets: number;
+  latestDay: string | null;
+  jan2026Sessions: number;
+  jan2026Hours: number;
+  feb2026Sessions: number;
+  feb2026Hours: number;
+};
+
+type DailyData = {
+  date: string;
+  sessions: number;
+  laps: number;
+  durationHours: number;
+  resets: number;
+  resetHotspotsBins: Array<{
+    startPct: number;
+    endPct: number;
+    count: number;
+  }>;
+};
+
+function loadSummary(): SummaryData | null {
+  const summaryPath = path.join(process.cwd(), "public", "data", "summary.json");
+  if (!fs.existsSync(summaryPath)) {
+    return null;
+  }
+  const raw = fs.readFileSync(summaryPath, "utf-8");
+  return JSON.parse(raw) as SummaryData;
+}
+
+function loadDaily(date: string): DailyData | null {
+  const dailyPath = path.join(
+    process.cwd(),
+    "public",
+    "data",
+    "daily",
+    `${date}.json`
+  );
+  if (!fs.existsSync(dailyPath)) {
+    return null;
+  }
+  const raw = fs.readFileSync(dailyPath, "utf-8");
+  return JSON.parse(raw) as DailyData;
 }

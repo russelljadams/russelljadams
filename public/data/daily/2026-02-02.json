@@ -1,0 +1,17 @@
+{
+  "date": "2026-02-02",
+  "sessions": 7,
+  "laps": 82,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "monza full": {
+      "sessions": 7,
+      "laps": 82,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 2.46
+    }
+  },
+  "durationHours": 2.46
+}

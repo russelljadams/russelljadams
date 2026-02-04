@@ -1,0 +1,31 @@
+{
+  "date": "2025-12-15",
+  "sessions": 14,
+  "laps": 62,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "adelaide": {
+      "sessions": 3,
+      "laps": 19,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 0.48
+    },
+    "okayama full": {
+      "sessions": 1,
+      "laps": 2,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 0.01
+    },
+    "spa 2024 bike": {
+      "sessions": 10,
+      "laps": 41,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 1.39
+    }
+  },
+  "durationHours": 1.88
+}

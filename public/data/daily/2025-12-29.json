@@ -1,0 +1,24 @@
+{
+  "date": "2025-12-29",
+  "sessions": 50,
+  "laps": 275,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "indianapolis 2022 road": {
+      "sessions": 8,
+      "laps": 51,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 1.43
+    },
+    "silverstone 2019 gp": {
+      "sessions": 42,
+      "laps": 224,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 6.48
+    }
+  },
+  "durationHours": 7.91
+}

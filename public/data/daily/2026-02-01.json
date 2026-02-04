@@ -1,0 +1,36 @@
+{
+  "date": "2026-02-01",
+  "sessions": 11,
+  "laps": 137,
+  "resets": 2,
+  "resetHotspotsBins": [
+    {
+      "startPct": 0.9,
+      "endPct": 0.95,
+      "count": 2
+    }
+  ],
+  "tracks": {
+    "monza full": {
+      "sessions": 8,
+      "laps": 69,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 1.94
+    },
+    "donington gp": {
+      "sessions": 3,
+      "laps": 68,
+      "resets": 2,
+      "resetHotspotsBins": [
+        {
+          "startPct": 0.9,
+          "endPct": 0.95,
+          "count": 2
+        }
+      ],
+      "durationHours": 0.73
+    }
+  },
+  "durationHours": 2.67
+}

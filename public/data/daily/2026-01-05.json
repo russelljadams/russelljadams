@@ -1,0 +1,182 @@
+{
+  "date": "2026-01-05",
+  "sessions": 18,
+  "laps": 228,
+  "resets": 155,
+  "resetHotspotsBins": [
+    {
+      "startPct": 0.05,
+      "endPct": 0.1,
+      "count": 2
+    },
+    {
+      "startPct": 0.1,
+      "endPct": 0.15,
+      "count": 1
+    },
+    {
+      "startPct": 0.15,
+      "endPct": 0.2,
+      "count": 78
+    },
+    {
+      "startPct": 0.2,
+      "endPct": 0.25,
+      "count": 44
+    },
+    {
+      "startPct": 0.25,
+      "endPct": 0.3,
+      "count": 5
+    },
+    {
+      "startPct": 0.3,
+      "endPct": 0.35,
+      "count": 12
+    },
+    {
+      "startPct": 0.35,
+      "endPct": 0.4,
+      "count": 4
+    },
+    {
+      "startPct": 0.4,
+      "endPct": 0.45,
+      "count": 1
+    },
+    {
+      "startPct": 0.55,
+      "endPct": 0.6,
+      "count": 1
+    },
+    {
+      "startPct": 0.65,
+      "endPct": 0.7,
+      "count": 1
+    },
+    {
+      "startPct": 0.7,
+      "endPct": 0.75,
+      "count": 1
+    },
+    {
+      "startPct": 0.75,
+      "endPct": 0.8,
+      "count": 2
+    },
+    {
+      "startPct": 0.9,
+      "endPct": 0.95,
+      "count": 3
+    }
+  ],
+  "tracks": {
+    "silverstone 2019 gp": {
+      "sessions": 14,
+      "laps": 169,
+      "resets": 24,
+      "resetHotspotsBins": [
+        {
+          "startPct": 0.05,
+          "endPct": 0.1,
+          "count": 1
+        },
+        {
+          "startPct": 0.1,
+          "endPct": 0.15,
+          "count": 1
+        },
+        {
+          "startPct": 0.15,
+          "endPct": 0.2,
+          "count": 12
+        },
+        {
+          "startPct": 0.2,
+          "endPct": 0.25,
+          "count": 6
+        },
+        {
+          "startPct": 0.25,
+          "endPct": 0.3,
+          "count": 1
+        },
+        {
+          "startPct": 0.35,
+          "endPct": 0.4,
+          "count": 2
+        },
+        {
+          "startPct": 0.55,
+          "endPct": 0.6,
+          "count": 1
+        }
+      ],
+      "durationHours": 3.12
+    },
+    "sebring international": {
+      "sessions": 4,
+      "laps": 59,
+      "resets": 131,
+      "resetHotspotsBins": [
+        {
+          "startPct": 0.05,
+          "endPct": 0.1,
+          "count": 1
+        },
+        {
+          "startPct": 0.15,
+          "endPct": 0.2,
+          "count": 66
+        },
+        {
+          "startPct": 0.2,
+          "endPct": 0.25,
+          "count": 38
+        },
+        {
+          "startPct": 0.25,
+          "endPct": 0.3,
+          "count": 4
+        },
+        {
+          "startPct": 0.3,
+          "endPct": 0.35,
+          "count": 12
+        },
+        {
+          "startPct": 0.35,
+          "endPct": 0.4,
+          "count": 2
+        },
+        {
+          "startPct": 0.4,
+          "endPct": 0.45,
+          "count": 1
+        },
+        {
+          "startPct": 0.65,
+          "endPct": 0.7,
+          "count": 1
+        },
+        {
+          "startPct": 0.7,
+          "endPct": 0.75,
+          "count": 1
+        },
+        {
+          "startPct": 0.75,
+          "endPct": 0.8,
+          "count": 2
+        },
+        {
+          "startPct": 0.9,
+          "endPct": 0.95,
+          "count": 3
+        }
+      ],
+      "durationHours": 1.38
+    }
+  },
+  "durationHours": 4.5
+}

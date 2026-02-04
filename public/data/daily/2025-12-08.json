@@ -1,0 +1,24 @@
+{
+  "date": "2025-12-08",
+  "sessions": 47,
+  "laps": 158,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "imola gp": {
+      "sessions": 6,
+      "laps": 15,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 0.2
+    },
+    "okayama full": {
+      "sessions": 41,
+      "laps": 143,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 2.35
+    }
+  },
+  "durationHours": 2.56
+}

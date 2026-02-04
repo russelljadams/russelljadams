@@ -1,0 +1,17 @@
+{
+  "date": "2025-12-11",
+  "sessions": 104,
+  "laps": 923,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "adelaide": {
+      "sessions": 104,
+      "laps": 923,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 8.65
+    }
+  },
+  "durationHours": 8.65
+}

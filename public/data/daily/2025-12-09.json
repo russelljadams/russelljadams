@@ -1,0 +1,24 @@
+{
+  "date": "2025-12-09",
+  "sessions": 85,
+  "laps": 671,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "adelaide": {
+      "sessions": 84,
+      "laps": 576,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 6.48
+    },
+    "okayama full": {
+      "sessions": 1,
+      "laps": 95,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 0.6
+    }
+  },
+  "durationHours": 7.08
+}

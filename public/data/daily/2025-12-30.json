@@ -1,0 +1,17 @@
+{
+  "date": "2025-12-30",
+  "sessions": 39,
+  "laps": 340,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "silverstone 2019 gp": {
+      "sessions": 39,
+      "laps": 340,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 8.93
+    }
+  },
+  "durationHours": 8.93
+}

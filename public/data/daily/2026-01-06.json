@@ -1,0 +1,49 @@
+{
+  "date": "2026-01-06",
+  "sessions": 1,
+  "laps": 72,
+  "resets": 3,
+  "resetHotspotsBins": [
+    {
+      "startPct": 0.15,
+      "endPct": 0.2,
+      "count": 1
+    },
+    {
+      "startPct": 0.2,
+      "endPct": 0.25,
+      "count": 1
+    },
+    {
+      "startPct": 0.9,
+      "endPct": 0.95,
+      "count": 1
+    }
+  ],
+  "tracks": {
+    "sebring international": {
+      "sessions": 1,
+      "laps": 72,
+      "resets": 3,
+      "resetHotspotsBins": [
+        {
+          "startPct": 0.15,
+          "endPct": 0.2,
+          "count": 1
+        },
+        {
+          "startPct": 0.2,
+          "endPct": 0.25,
+          "count": 1
+        },
+        {
+          "startPct": 0.9,
+          "endPct": 0.95,
+          "count": 1
+        }
+      ],
+      "durationHours": 0.73
+    }
+  },
+  "durationHours": 0.73
+}

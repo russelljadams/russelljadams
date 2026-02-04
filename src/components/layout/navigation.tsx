@@ -40,6 +40,11 @@ export function Navigation() {
           ))}
         </nav>
       </div>
+      <div className="border-t border-border">
+        <div className="max-w-4xl mx-auto px-4 py-2 text-xs text-muted-foreground">
+          experiment window: 2026-01-01 → 2026-12-31 (data outside this window excluded)
+        </div>
+      </div>
     </header>
   );
 }

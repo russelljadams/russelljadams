@@ -1,0 +1,29 @@
+{
+  "date": "2026-01-21",
+  "sessions": 7,
+  "laps": 94,
+  "resets": 1,
+  "resetHotspotsBins": [
+    {
+      "startPct": 0.3,
+      "endPct": 0.35,
+      "count": 1
+    }
+  ],
+  "tracks": {
+    "mosport": {
+      "sessions": 7,
+      "laps": 94,
+      "resets": 1,
+      "resetHotspotsBins": [
+        {
+          "startPct": 0.3,
+          "endPct": 0.35,
+          "count": 1
+        }
+      ],
+      "durationHours": 1.83
+    }
+  },
+  "durationHours": 1.83
+}

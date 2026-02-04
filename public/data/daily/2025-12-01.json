@@ -1,0 +1,17 @@
+{
+  "date": "2025-12-01",
+  "sessions": 1,
+  "laps": 4,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "okayama full": {
+      "sessions": 1,
+      "laps": 4,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 0.06
+    }
+  },
+  "durationHours": 0.06
+}

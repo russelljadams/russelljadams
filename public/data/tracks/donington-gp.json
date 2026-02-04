@@ -1,0 +1,14 @@
+{
+  "track": "donington gp",
+  "sessions": 3,
+  "laps": 68,
+  "resets": 2,
+  "resetHotspotsBins": [
+    {
+      "startPct": 0.9,
+      "endPct": 0.95,
+      "count": 2
+    }
+  ],
+  "durationHours": 0.73
+}

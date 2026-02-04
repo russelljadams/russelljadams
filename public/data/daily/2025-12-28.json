@@ -1,0 +1,17 @@
+{
+  "date": "2025-12-28",
+  "sessions": 18,
+  "laps": 178,
+  "resets": 0,
+  "resetHotspotsBins": [],
+  "tracks": {
+    "indianapolis 2022 road": {
+      "sessions": 18,
+      "laps": 178,
+      "resets": 0,
+      "resetHotspotsBins": [],
+      "durationHours": 2.65
+    }
+  },
+  "durationHours": 2.65
+}
