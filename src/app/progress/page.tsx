@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import fs from "fs";
+import path from "path";
 
 export const metadata: Metadata = {
   title: "progress",
@@ -6,6 +8,22 @@ export const metadata: Metadata = {
 };
 
 export default function ProgressPage() {
+  const summary = loadSummary();
+  const daysActive = countDailySessions();
+  const avgSession =
+    summary && summary.totalSessions > 0
+      ? (summary.totalHours / summary.totalSessions).toFixed(2)
+      : "—";
+
+  const trackHours = loadTrackHours({
+    monza: "monza-full",
+    silverstone: "silverstone-2019-gp",
+    suzuka: "suzuka",
+    spa: "spa-2024-bike",
+  });
+
+  const totalHours = summary ? summary.totalHours : 0;
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
       <header className="mb-16">
@@ -23,26 +41,39 @@ export default function ProgressPage() {
             <span className="text-sm">active</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            experiment in progress. awaiting first logged sessions.
+            experiment in progress. {summary ? "2026 data live." : "awaiting first logged sessions."}
           </p>
         </div>
       </Section>
 
       <Section id="02" title="metrics">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Metric label="hours_logged" value="—" target="1,200" />
-          <Metric label="sessions" value="—" target="—" />
-          <Metric label="days_active" value="—" target="365" />
-          <Metric label="avg_session" value="—" target="~3h" />
+          <Metric
+            label="hours_logged"
+            value={summary ? String(summary.totalHours) : "—"}
+            target="1,200"
+          />
+          <Metric
+            label="sessions"
+            value={summary ? String(summary.totalSessions) : "—"}
+          />
+          <Metric
+            label="days_active"
+            value={daysActive ? String(daysActive) : "—"}
+          />
+          <Metric
+            label="avg_session"
+            value={avgSession}
+          />
         </div>
       </Section>
 
       <Section id="03" title="tracks">
         <div className="space-y-3">
-          <TrackRow name="monza" hours={0} target={300} variance="—" />
-          <TrackRow name="silverstone" hours={0} target={300} variance="—" />
-          <TrackRow name="suzuka" hours={0} target={300} variance="—" />
-          <TrackRow name="spa" hours={0} target={300} variance="—" />
+          <TrackRow name="monza" hours={trackHours.monza} target={300} variance="—" />
+          <TrackRow name="silverstone" hours={trackHours.silverstone} target={300} variance="—" />
+          <TrackRow name="suzuka" hours={trackHours.suzuka} target={300} variance="—" />
+          <TrackRow name="spa" hours={trackHours.spa} target={300} variance="—" />
         </div>
       </Section>
 
@@ -56,14 +87,14 @@ export default function ProgressPage() {
 
       <Section id="05" title="milestones">
         <div className="space-y-2">
-          <Milestone done={false} text="100 hours logged" />
+          <Milestone done={totalHours >= 100} text="100 hours logged" />
           <Milestone done={false} text="baseline times established on all tracks" />
           <Milestone done={false} text="first variance report" />
-          <Milestone done={false} text="250 hours" />
-          <Milestone done={false} text="500 hours" />
+          <Milestone done={totalHours >= 250} text="250 hours" />
+          <Milestone done={totalHours >= 500} text="500 hours" />
           <Milestone done={false} text="first race validation" />
-          <Milestone done={false} text="1,000 hours" />
-          <Milestone done={false} text="experiment complete" />
+          <Milestone done={totalHours >= 1000} text="1,000 hours" />
+          <Milestone done={totalHours >= 1200} text="experiment complete" />
         </div>
       </Section>
     </div>
@@ -96,13 +127,15 @@ function Metric({
 }: {
   label: string;
   value: string;
-  target: string;
+  target?: string;
 }) {
   return (
     <div className="border border-border p-3">
       <div className="text-xs text-muted-foreground mb-1">{label}</div>
       <div className="text-lg font-medium">{value}</div>
-      <div className="text-xs text-muted-foreground">target: {target}</div>
+      {target ? (
+        <div className="text-xs text-muted-foreground">target: {target}</div>
+      ) : null}
     </div>
   );
 }
@@ -152,4 +185,45 @@ function Milestone({ done, text }: { done: boolean; text: string }) {
       </span>
     </div>
   );
+}
+
+type SummaryData = {
+  totalSessions: number;
+  totalHours: number;
+};
+
+type TrackData = {
+  durationHours: number;
+};
+
+function loadSummary(): SummaryData | null {
+  const summaryPath = path.join(process.cwd(), "public", "data", "summary.json");
+  if (!fs.existsSync(summaryPath)) {
+    return null;
+  }
+  const raw = fs.readFileSync(summaryPath, "utf-8");
+  return JSON.parse(raw) as SummaryData;
+}
+
+function countDailySessions(): number {
+  const dailyDir = path.join(process.cwd(), "public", "data", "daily");
+  if (!fs.existsSync(dailyDir)) {
+    return 0;
+  }
+  return fs.readdirSync(dailyDir).filter((name) => name.endsWith(".json")).length;
+}
+
+function loadTrackHours(trackMap: Record<string, string>) {
+  const result: Record<string, number> = {};
+  for (const [label, file] of Object.entries(trackMap)) {
+    const trackPath = path.join(process.cwd(), "public", "data", "tracks", `${file}.json`);
+    if (!fs.existsSync(trackPath)) {
+      result[label] = 0;
+      continue;
+    }
+    const raw = fs.readFileSync(trackPath, "utf-8");
+    const data = JSON.parse(raw) as TrackData;
+    result[label] = Number(data.durationHours ?? 0);
+  }
+  return result;
 }
