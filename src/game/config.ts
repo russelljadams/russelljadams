@@ -10,6 +10,7 @@ import { ArcadeScene } from './scenes/ArcadeScene';
 import { DepotScene } from './scenes/DepotScene';
 import { RacetrackScene } from './scenes/RacetrackScene';
 import { DeliveryScene } from './scenes/DeliveryScene';
+import { NavOverlayScene } from './scenes/NavOverlayScene';
 
 export const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -34,6 +35,7 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     TitleScene,
     OverworldScene,
     HUDScene,
+    NavOverlayScene,
     GarageScene,
     OfficeScene,
     MailroomScene,

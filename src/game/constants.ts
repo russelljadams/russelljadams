@@ -42,6 +42,7 @@ export const SCENES = {
   TITLE: 'TitleScene',
   OVERWORLD: 'OverworldScene',
   HUD: 'HUDScene',
+  NAV_OVERLAY: 'NavOverlayScene',
   GARAGE: 'GarageScene',
   OFFICE: 'OfficeScene',
   MAILROOM: 'MailroomScene',
@@ -50,6 +51,23 @@ export const SCENES = {
   RACETRACK: 'RacetrackScene',
   DELIVERY: 'DeliveryScene',
 } as const;
+
+export const EXPERIMENT_URL = 'https://experiment.russelljadams.com';
+
+export interface NavTarget {
+  label: string;
+  scene?: string;
+  url?: string;
+  highlight?: boolean;
+}
+
+export const NAV_TARGETS: NavTarget[] = [
+  { label: 'The Experiment', url: EXPERIMENT_URL, highlight: true },
+  { label: 'About Me', scene: SCENES.GARAGE },
+  { label: 'Experience', scene: SCENES.OFFICE },
+  { label: 'Projects', scene: SCENES.ARCADE },
+  { label: 'Contact', scene: SCENES.MAILROOM },
+];
 
 export const TILES = {
   GRASS: 0,

@@ -7,6 +7,8 @@ export class HUDScene extends Phaser.Scene {
   private vehicleText!: Phaser.GameObjects.Text;
   private deliveryText!: Phaser.GameObjects.Text;
   private drsText!: Phaser.GameObjects.Text;
+  private navButton!: Phaser.GameObjects.Text;
+  private navOpen = false;
 
   constructor() {
     super(SCENES.HUD);
@@ -96,5 +98,41 @@ export class HUDScene extends Phaser.Scene {
         this.drsText.setVisible(true);
       }
     });
+
+    // [NAV] button top-right
+    this.navButton = this.add.text(790, 10, '[NAV]', {
+      fontSize: '14px',
+      fontFamily: 'monospace',
+      color: '#ffffff',
+      backgroundColor: '#000000aa',
+      padding: { x: 6, y: 3 },
+    }).setOrigin(1, 0).setInteractive({ useHandCursor: true });
+
+    this.navButton.on('pointerdown', () => this.openNav());
+
+    // TAB key to open nav
+    this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
+      .on('down', (event: KeyboardEvent) => {
+        event.preventDefault();
+        this.openNav();
+      });
+
+    // Re-enable button when nav closes
+    this.events.on('navClosed', () => {
+      this.navOpen = false;
+      this.navButton.setColor('#ffffff');
+    });
+  }
+
+  private openNav() {
+    if (this.navOpen) return;
+    this.navOpen = true;
+    this.navButton.setColor('#555555');
+    // Notify overworld to pause
+    const overworld = this.scene.get(SCENES.OVERWORLD);
+    if (overworld?.scene.isActive()) {
+      overworld.events.emit('navOpened');
+    }
+    this.scene.launch(SCENES.NAV_OVERLAY);
   }
 }

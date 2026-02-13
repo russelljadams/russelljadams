@@ -182,6 +182,16 @@ export class OverworldScene extends Phaser.Scene {
     this.car.setVirtualPad(this.vpad);
 
     this.scene.launch(SCENES.HUD);
+
+    // Pause physics when nav overlay opens
+    this.events.on('navOpened', () => {
+      this.physics.pause();
+    });
+
+    // Resume physics when nav overlay closes
+    this.events.on('navClosed', () => {
+      this.physics.resume();
+    });
   }
 
   update(time: number, delta: number) {
