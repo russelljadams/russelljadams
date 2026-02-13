@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
-import { SCENES, TILE_SIZE, TILES } from '../constants';
+import { SCENES, TILE_SIZE, TILES, VehicleType } from '../constants';
 import { Car } from '../../objects/Car';
+import { VirtualPad } from '../../ui/VirtualPad';
 
 export interface ContentPanel {
   x: number;
@@ -14,17 +15,26 @@ export abstract class InteriorScene extends Phaser.Scene {
   protected car!: Car;
   private returnX = 0;
   private returnY = 0;
+  private vehicleType: VehicleType = 'car';
+  private deliveries = 0;
   private spaceKey!: Phaser.Input.Keyboard.Key;
   private escKey!: Phaser.Input.Keyboard.Key;
+  private vpad!: VirtualPad;
 
   protected abstract roomWidth: number;
   protected abstract roomHeight: number;
   protected abstract roomLabel: string;
   protected abstract getContent(): ContentPanel[];
 
-  create(data: { returnX: number; returnY: number }) {
+  create(data: { returnX: number; returnY: number; vehicleType?: VehicleType; deliveries?: number }) {
     this.returnX = data.returnX;
     this.returnY = data.returnY;
+    if (data.vehicleType) {
+      this.vehicleType = data.vehicleType;
+    }
+    if (data.deliveries !== undefined) {
+      this.deliveries = data.deliveries;
+    }
 
     const rw = this.roomWidth;
     const rh = this.roomHeight;
@@ -46,7 +56,7 @@ export abstract class InteriorScene extends Phaser.Scene {
     // Car spawns near the exit door
     const doorX = Math.floor(rw / 2) * TILE_SIZE;
     const doorY = (rh - 3) * TILE_SIZE;
-    this.car = new Car(this, doorX, doorY);
+    this.car = new Car(this, doorX, doorY, this.vehicleType);
     this.physics.add.collider(this.car, layer);
 
     this.cameras.main.setBounds(0, 0, worldW, worldH);
@@ -81,10 +91,14 @@ export abstract class InteriorScene extends Phaser.Scene {
       this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
+    this.vpad = new VirtualPad(this, { dpad: true, buttonA: true, buttonB: true });
+    this.car.setVirtualPad(this.vpad);
+
     this.scene.launch(SCENES.HUD);
   }
 
   update(time: number, delta: number) {
+    this.vpad.update();
     this.car.update(time, delta);
 
     // Check if near exit door
@@ -98,14 +112,16 @@ export abstract class InteriorScene extends Phaser.Scene {
     const nearExit = dist < TILE_SIZE * 3;
 
     const shouldExit =
-      (nearExit && Phaser.Input.Keyboard.JustDown(this.spaceKey)) ||
-      Phaser.Input.Keyboard.JustDown(this.escKey);
+      (nearExit && (Phaser.Input.Keyboard.JustDown(this.spaceKey) || this.vpad.justDown('a'))) ||
+      Phaser.Input.Keyboard.JustDown(this.escKey) || this.vpad.justDown('b');
 
     if (shouldExit) {
       this.scene.stop(SCENES.HUD);
       this.scene.start(SCENES.OVERWORLD, {
         returnX: this.returnX,
         returnY: this.returnY,
+        vehicleType: this.vehicleType,
+        deliveries: this.deliveries,
       });
       return;
     }
@@ -117,6 +133,7 @@ export abstract class InteriorScene extends Phaser.Scene {
         'updatePrompt',
         nearExit ? 'SPACE to exit  |  ESC anytime' : 'ESC to exit',
       );
+      hud.events.emit('updateVehicle', this.vehicleType);
     }
   }
 

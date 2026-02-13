@@ -30,15 +30,16 @@ export class TitleScene extends Phaser.Scene {
       color: '#aaaaaa',
     }).setOrigin(0.5);
 
-    this.add.text(width / 2, height * 0.56, 'Drive to buildings and explore inside', {
+    this.add.text(width / 2, height * 0.54, 'Drive to buildings and explore inside', {
       fontSize: '13px',
       fontFamily: 'monospace',
       color: '#666666',
     }).setOrigin(0.5);
 
-    this.add.text(width / 2, height * 0.67, [
+    this.add.text(width / 2, height * 0.65, [
       'Arrow Keys ........ Drive',
-      'SPACE ............ Enter',
+      'SPACE .. Enter / DRS / Throw',
+      'ESC .............. Exit Room',
     ], {
       fontSize: '13px',
       fontFamily: 'monospace',
@@ -46,7 +47,11 @@ export class TitleScene extends Phaser.Scene {
       lineSpacing: 4,
     }).setOrigin(0.5);
 
-    const start = this.add.text(width / 2, height * 0.82, '[ PRESS ENTER TO START ]', {
+    const startLabel = ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+      ? '[ TAP TO START ]'
+      : '[ PRESS ENTER TO START ]';
+
+    const start = this.add.text(width / 2, height * 0.84, startLabel, {
       fontSize: '16px',
       fontFamily: 'monospace',
       color: '#ffcc00',
@@ -61,6 +66,11 @@ export class TitleScene extends Phaser.Scene {
     });
 
     this.input.keyboard?.on('keydown-ENTER', () => {
+      this.scene.start(SCENES.OVERWORLD);
+    });
+
+    // Tap to start on mobile
+    this.input.on('pointerdown', () => {
       this.scene.start(SCENES.OVERWORLD);
     });
   }
