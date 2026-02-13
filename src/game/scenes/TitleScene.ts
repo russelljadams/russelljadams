@@ -61,11 +61,22 @@ export class TitleScene extends Phaser.Scene {
     });
 
     // Controls
-    this.add.text(width / 2, height * 0.52, [
-      'Arrow Keys ........ Drive',
-      'SPACE .. Enter / DRS / Throw',
-      'ESC .............. Exit Room',
-    ], {
+    const isMobile = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const controls = isMobile
+      ? [
+        'D-Pad .............. Drive',
+        'GAS / BRK ........ Throttle',
+        '[A] ... Enter / DRS / Throw',
+        '[S] ........... Swap Vehicle',
+      ]
+      : [
+        'Arrow Keys ........ Drive',
+        'SPACE .. Enter / DRS / Throw',
+        'S ............. Swap Vehicle',
+        'ESC .............. Exit Room',
+      ];
+
+    this.add.text(width / 2, height * 0.52, controls, {
       fontSize: '13px',
       fontFamily: 'monospace',
       color: '#555555',
@@ -125,7 +136,6 @@ export class TitleScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     // Press Enter / Tap to start
-    const isMobile = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
     const startLabel = isMobile ? '[ TAP TO START ]' : '[ PRESS ENTER TO START ]';
 
     const start = this.add.text(width / 2, height * 0.87, startLabel, {

@@ -278,6 +278,8 @@ export class OverworldScene extends Phaser.Scene {
     this.updatePackages();
 
     // Build prompt text
+    const actionKey = this.vpad.isActive() ? '[A]' : 'SPACE';
+    const swapKey = this.vpad.isActive() ? '[S]' : 'S';
     let promptText = '';
     let promptColor = '#ffcc00';
     if (nearDoor) {
@@ -286,22 +288,22 @@ export class OverworldScene extends Phaser.Scene {
         promptColor = '#ff4444';
       } else if (nearDepot) {
         if (this.vehicleType === 'van') {
-          promptText = 'SPACE=deliver  S=swap to CAR';
+          promptText = `${actionKey}=deliver  ${swapKey}=swap to CAR`;
           promptColor = '#ff9900';
         } else {
-          promptText = 'SPACE=enter  S=swap to VAN';
+          promptText = `${actionKey}=enter  ${swapKey}=swap to VAN`;
         }
       } else {
-        promptText = `SPACE to enter ${nearDoor.label}`;
+        promptText = `${actionKey} to enter ${nearDoor.label}`;
       }
     } else if (this.vehicleType === 'van' && this.car.getSpeed() > 5) {
-      promptText = 'SPACE to throw package';
+      promptText = `${actionKey} to throw package`;
       promptColor = '#ff9900';
     } else if (this.vehicleType === 'car' && this.car.isDrsActive()) {
       promptText = 'DRS ACTIVE';
       promptColor = '#00ff00';
     } else if (this.vehicleType === 'car' && this.car.isDrsReady()) {
-      promptText = 'SPACE for DRS boost';
+      promptText = `${actionKey} for DRS boost`;
       promptColor = '#00ccff';
     }
 
