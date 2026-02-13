@@ -7,9 +7,18 @@ export interface VirtualPadConfig {
   buttonS?: boolean;   // swap (S key)
 }
 
-const BTN_ALPHA = 0.3;
-const BTN_ALPHA_PRESSED = 0.6;
+const BTN_ALPHA = 0.35;
+const BTN_ALPHA_PRESSED = 0.7;
 const DEPTH = 100;
+
+// D-pad sizing
+const DPAD_BTN = 60;       // each direction button size
+const DPAD_GAP = 6;        // gap between buttons
+const DPAD_MARGIN = 20;    // margin from screen edges
+
+// Action button sizing
+const ACTION_RADIUS = 36;
+const ACTION_MARGIN = 25;
 
 export class VirtualPad {
   private scene: Phaser.Scene;
@@ -25,23 +34,33 @@ export class VirtualPad {
     if (!VirtualPad.isTouchDevice()) return;
     this.active = true;
 
-    // Enable multi-touch
-    scene.input.addPointer(2);
+    // Enable multi-touch (3 extra pointers = 4 total)
+    scene.input.addPointer(3);
 
     const H = scene.scale.height;
     const W = scene.scale.width;
 
+    // D-pad: bottom-left, with generous margin
     if (config.dpad !== false) {
-      this.createDPad(90, H - 100);
+      const dpadCx = DPAD_MARGIN + DPAD_BTN + DPAD_GAP;
+      const dpadCy = H - DPAD_MARGIN - DPAD_BTN - DPAD_GAP;
+      this.createDPad(dpadCx, dpadCy);
     }
+
+    // Action buttons: bottom-right
+    // Stack vertically: A on top, B below, S to the left of A
+    const btnX = W - ACTION_MARGIN - ACTION_RADIUS;
+    const btnAY = H - ACTION_MARGIN - ACTION_RADIUS * 3 - 10;
+    const btnBY = H - ACTION_MARGIN - ACTION_RADIUS;
+
     if (config.buttonA) {
-      this.createButton(W - 80, H - 120, 30, 0x22aa22, 'A', 'a');
+      this.createButton(btnX, btnAY, ACTION_RADIUS, 0x22aa22, 'A', 'a');
     }
     if (config.buttonB) {
-      this.createButton(W - 80, H - 50, 24, 0xaa2222, 'B', 'b');
+      this.createButton(btnX, btnBY, ACTION_RADIUS - 4, 0xaa2222, 'B', 'b');
     }
     if (config.buttonS) {
-      this.createButton(W - 160, H - 85, 22, 0x2266cc, 'S', 's');
+      this.createButton(btnX - ACTION_RADIUS * 2 - 10, btnAY, ACTION_RADIUS - 4, 0x2266cc, 'S', 's');
     }
   }
 
@@ -61,7 +80,6 @@ export class VirtualPad {
   }
 
   update() {
-    // Snapshot previous state for justDown detection
     for (const key of Object.keys(this.state)) {
       this.prevState[key] = this.state[key];
     }
@@ -81,22 +99,25 @@ export class VirtualPad {
   }
 
   private createDPad(cx: number, cy: number) {
-    const size = 40;
-    const gap = 4;
+    const s = DPAD_BTN;
+    const g = DPAD_GAP;
+    const halfS = s / 2;
+    const offset = halfS + g + halfS; // center of adjacent button
 
-    // Background circle
-    const bg = this.scene.add.circle(cx, cy, 70, 0x000000, 0.15)
-      .setDepth(DEPTH - 1);
+    // Background rounded rect
+    const bgSize = s * 3 + g * 2 + 16;
+    const bg = this.scene.add.rectangle(cx, cy, bgSize, bgSize, 0x000000, 0.2)
+      .setDepth(DEPTH - 1).setScrollFactor(0);
     this.elements.push(bg);
 
     // Up
-    this.createDPadButton(cx, cy - size - gap, size, size, 'up', '\u25B2');
+    this.createDPadButton(cx, cy - offset, s, s, 'up', '\u25B2');
     // Down
-    this.createDPadButton(cx, cy + size + gap, size, size, 'down', '\u25BC');
+    this.createDPadButton(cx, cy + offset, s, s, 'down', '\u25BC');
     // Left
-    this.createDPadButton(cx - size - gap, cy, size, size, 'left', '\u25C0');
+    this.createDPadButton(cx - offset, cy, s, s, 'left', '\u25C0');
     // Right
-    this.createDPadButton(cx + size + gap, cy, size, size, 'right', '\u25B6');
+    this.createDPadButton(cx + offset, cy, s, s, 'right', '\u25B6');
   }
 
   private createDPadButton(x: number, y: number, w: number, h: number, key: string, label: string) {
@@ -106,10 +127,8 @@ export class VirtualPad {
       .setScrollFactor(0);
 
     const text = this.scene.add.text(x, y, label, {
-      fontSize: '18px', fontFamily: 'monospace', color: '#ffffff',
-    }).setOrigin(0.5).setDepth(DEPTH + 1).setAlpha(0.5).setScrollFactor(0);
-
-    btn.setScrollFactor(0);
+      fontSize: '22px', fontFamily: 'monospace', color: '#ffffff',
+    }).setOrigin(0.5).setDepth(DEPTH + 1).setAlpha(0.6).setScrollFactor(0);
 
     btn.on('pointerdown', () => {
       this.state[key] = true;
@@ -137,9 +156,9 @@ export class VirtualPad {
       .setScrollFactor(0);
 
     const text = this.scene.add.text(x, y, label, {
-      fontSize: '16px', fontFamily: 'monospace', color: '#ffffff',
+      fontSize: '20px', fontFamily: 'monospace', color: '#ffffff',
       fontStyle: 'bold',
-    }).setOrigin(0.5).setDepth(DEPTH + 1).setAlpha(0.6).setScrollFactor(0);
+    }).setOrigin(0.5).setDepth(DEPTH + 1).setAlpha(0.7).setScrollFactor(0);
 
     btn.on('pointerdown', () => {
       this.state[key] = true;
