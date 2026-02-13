@@ -178,7 +178,8 @@ export class DeliveryScene extends Phaser.Scene {
       ).setDepth(4);
 
       // Compute the world Y corresponding to the van's current screen position
-      const vanWorldY = this.scrollY + (this.van.y - height * 0.75);
+      // Invert worldToScreenY: screenY = H*0.75 - (worldY - scrollY)  →  worldY = scrollY + H*0.75 - screenY
+      const vanWorldY = this.scrollY + (height * 0.75 - this.van.y);
 
       this.packages.push({
         rect,
