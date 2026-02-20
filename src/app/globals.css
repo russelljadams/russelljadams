@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg-deep: #080c14;
+  --color-bg-panel: #0d1117;
+  --color-bg-card: #131a24;
+  --color-bg-card-hover: #1a2332;
+  --color-green: #00ffaa;
+  --color-green-dim: #00cc88;
+  --color-amber: #ffb800;
+  --color-red: #ff4757;
+  --color-cyan: #00d4ff;
+  --color-txt: #d0d8e4;
+  --color-txt-sec: #6b7d95;
+  --color-txt-dim: #3d4f63;
+  --color-border: #1e2a3a;
+  --font-display: var(--font-chakra);
+  --font-body: var(--font-outfit);
+  --font-mono: var(--font-fira);
+}
+
+::selection {
+  background: var(--color-green);
+  color: var(--color-bg-deep);
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-green-dim) var(--color-bg-deep);
+}
+
+body {
+  background: var(--color-bg-deep);
+  color: var(--color-txt);
+  font-family: var(--font-body);
+}
+
+/* Scanline overlay */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 170, 0.008) 2px,
+    rgba(0, 255, 170, 0.008) 4px
+  );
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.scanlines.active { opacity: 1; }
+
+/* Boot screen */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  cursor: pointer;
+}
+.boot-screen.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Terminal styles */
+.terminal-body {
+  scrollbar-width: thin;
+  scrollbar-color: #222 #000;
+}
+.terminal-body::-webkit-scrollbar { width: 6px; }
+.terminal-body::-webkit-scrollbar-track { background: #000; }
+.terminal-body::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+
+.t-prompt { color: var(--color-green); }
+.t-info { color: var(--color-cyan); }
+.t-warn { color: var(--color-amber); }
+.t-err { color: var(--color-red); }
+.t-dim { color: var(--color-txt-dim); }
+.t-bold { color: #fff; font-weight: 600; }
+
+/* Animations */
+@keyframes blink {
+  50% { opacity: 0; }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Section reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Timeline connector */
+.timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-green), var(--color-amber), var(--color-red), var(--color-cyan));
+  border-radius: 2px;
+}
+
+/* Glow effects */
+.glow-green {
+  background: radial-gradient(circle, rgba(0, 255, 170, 0.12) 0%, transparent 70%);
+}
