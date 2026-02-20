@@ -170,8 +170,7 @@ export default function Home() {
           </h1>
 
           <p className="font-[family-name:var(--font-body)] text-lg md:text-2xl font-light text-[var(--color-txt-sec)] max-w-[650px] mb-10 opacity-0 animate-[fadeInUp_0.7s_ease_2.6s_forwards]">
-            Air Force intelligence analyst turned field technician. I bring operational discipline, hands-on
-            technical skill, and a relentless work ethic.
+            Grand Junction, CO
           </p>
 
           <div className="flex flex-wrap gap-3 opacity-0 animate-[fadeInUp_0.7s_ease_2.8s_forwards]">
@@ -208,62 +207,12 @@ export default function Home() {
             <code className="text-[var(--color-green)] font-[family-name:var(--font-fira)]">
               help
             </code>{" "}
-            to see available commands. Explore my background the way I&apos;d
-            explore a target.
+            to see available commands.
           </p>
           <Terminal />
         </RevealSection>
 
-        {/* ═══ ABOUT ═══ */}
-        <RevealSection
-          id="about"
-          className="px-8 md:px-[60px] py-[100px] grid grid-cols-1 lg:grid-cols-2 gap-[60px] items-start"
-        >
-          <div>
-            <div className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-amber)] tracking-[3px] uppercase mb-3">
-              // Who I Am
-            </div>
-            <h2 className="font-[family-name:var(--font-chakra)] text-3xl md:text-4xl font-bold text-[var(--color-txt)] mb-6">
-              About
-            </h2>
-            <div className="space-y-5 text-[17px] leading-[1.8] text-[var(--color-txt-sec)]">
-              <p>
-                I spent{" "}
-                <strong className="text-[var(--color-txt)] font-medium">
-                  4 years in the Air Force
-                </strong>{" "}
-                as an{" "}
-                <em className="text-[var(--color-green)] not-italic">
-                  Operations Intelligence Analyst
-                </em>
-                That&apos;s where I learned
-                OPSEC, discipline, and how to think critically when the stakes
-                are real.
-              </p>
-              <p>
-                After the military, I studied{" "}
-                <strong className="text-[var(--color-txt)] font-medium">
-                  Mathematics, Algorithms, Network Security, and Cryptography
-                </strong>{" "}
-                at the University of Kansas. Then I spent{" "}
-                <strong className="text-[var(--color-txt)] font-medium">
-                  4 years at Spectrum
-                </strong>{" "}
-                as a Field Technician, running cable, building racks,
-                troubleshooting networks, and solving problems in the field
-                every single day.
-              </p>
-              <p>
-                Right now I&apos;m at{" "}
-                <strong className="text-[var(--color-txt)] font-medium">
-                  Amazon
-                </strong>{" "}
-              </p>
-            </div>
-          </div>
-
-          <div />
-        </RevealSection>
+        {/* About section removed — the work speaks for itself */}
 
         {/* ═══ EXPERIENCE ═══ */}
         <RevealSection id="experience" className="px-8 md:px-[60px] py-[100px]">
@@ -431,7 +380,7 @@ export default function Home() {
             &copy; 2026 Russell J. Adams
           </p>
           <p className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-dim)]">
-            Built with discipline, caffeine, and curiosity.
+            Built from scratch.
           </p>
         </footer>
       </ClientShell>
