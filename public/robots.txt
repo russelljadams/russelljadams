@@ -1,5 +1,2 @@
 User-agent: *
 Allow: /
-
-# Nothing interesting here... or is there?
-Disallow: /classified/

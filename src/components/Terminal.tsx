@@ -2,25 +2,33 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 
-// FLAG #4: Hidden terminal command `cat .secret` reveals base64
-// Decodes to: FLAG{terminal_treasure_hunter}
-const SECRET_B64 = "RkxBR3t0ZXJtaW5hbF90cmVhc3VyZV9odW50ZXJ9";
-
-// FLAG #5: XOR encrypted flag hidden in source
-// Users must find _ENCRYPTED_FLAG in source, identify XOR key 0x52
-// from data-sk attribute on #hero, then decrypt
-// Decrypts to: FLAG{reverse_engineer_this}
-const _ENCRYPTED_FLAG = [
-  0x14, 0x1e, 0x13, 0x15, 0x29, 0x20, 0x37, 0x24, 0x37, 0x20, 0x21, 0x37,
-  0x0d, 0x37, 0x3c, 0x35, 0x3b, 0x3c, 0x37, 0x37, 0x20, 0x0d, 0x26, 0x3a,
-  0x3b, 0x21, 0x2f,
-];
-// Key derivation hint is in hero section data attribute
-
 type HistoryEntry = {
   type: "input" | "output";
   content: string;
 };
+
+const QUOTES = [
+  `"There is no spoon." — The Matrix`,
+  `"The quieter you become, the more you are able to hear." — Kali Linux motd`,
+  `"Hack the planet." — Hackers (1995)`,
+  `"I'm in." — Every hacker movie ever`,
+  `"It's not a bug, it's a feature." — Anonymous`,
+  `"The best way to predict the future is to invent it." — Alan Kay`,
+  `"Never trust a computer you can't throw out a window." — Steve Wozniak`,
+];
+
+const FAKE_HISTORY = `  1  nmap -sV 192.168.1.0/24
+  2  ssh root@10.10.10.1
+  3  python3 exploit.py --target 10.10.10.1
+  4  wireshark -i eth0
+  5  hashcat -m 0 hash.txt rockyou.txt
+  6  gobuster dir -u http://10.10.10.1 -w /usr/share/wordlists/common.txt
+  7  curl -s http://10.10.10.1/robots.txt
+  8  john --wordlist=rockyou.txt shadow.hash
+  9  nc -lvnp 4444`;
+
+const MOTD = `<span class="t-dim">Last login: ${new Date().toDateString()} from 127.0.0.1</span>
+<span class="t-dim">Welcome back, visitor. Look around.</span>`;
 
 const COMMANDS: Record<string, () => string> = {
   help: () =>
@@ -94,27 +102,36 @@ Looking for work in cybersecurity or IT.`,
 <span class="t-prompt">   /'\\_   _/\`\\    </span>  <span class="t-info">CTFs:</span>   TryHackMe, HTB
 <span class="t-prompt">   \\___)=(___/    </span>  <span class="t-info">Status:</span> Available`,
 
-  // Hidden commands (not in help)
+  // Visible files
   ls: () =>
     `<span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">certs/</span>`,
 
+  // Hidden files revealed
   "ls -la": () =>
     `total 42
 drwxr-xr-x  6 radams radams 4096 Feb 19 12:00 <span class="t-info">.</span>
 drwxr-xr-x  3 radams radams 4096 Feb 19 12:00 <span class="t-info">..</span>
--rw-------  1 radams radams   64 Feb 19 12:00 <span class="t-warn">.secret</span>
+-rw-r--r--  1 radams radams  512 Feb 19 12:00 <span class="t-warn">.history</span>
+-rw-r--r--  1 radams radams   42 Feb 19 12:00 <span class="t-warn">.motd</span>
+-rw-r--r--  1 radams radams  256 Feb 19 12:00 <span class="t-warn">.quotes</span>
 -rw-r--r--  1 radams radams  220 Feb 19 12:00 about.txt
 drwxr-xr-x  2 radams radams 4096 Feb 19 12:00 <span class="t-info">certs/</span>
 drwxr-xr-x  2 radams radams 4096 Feb 19 12:00 <span class="t-info">experience/</span>
 -rw-r--r--  1 radams radams  512 Feb 19 12:00 skills.dat`,
 
   "ls -a": () =>
-    `<span class="t-info">.</span>  <span class="t-info">..</span>  <span class="t-warn">.secret</span>  <span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">certs/</span>`,
+    `<span class="t-info">.</span>  <span class="t-info">..</span>  <span class="t-warn">.history</span>  <span class="t-warn">.motd</span>  <span class="t-warn">.quotes</span>  <span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">certs/</span>`,
 
-  "cat .secret": () =>
-    `<span class="t-dim">// Decode this:</span>
+  // Hidden file contents
+  "cat .quotes": () => {
+    const idx = Math.floor(Math.random() * QUOTES.length);
+    return `<span class="t-warn">${QUOTES[idx]}</span>`;
+  },
 
-<span class="t-warn">${SECRET_B64}</span>`,
+  "cat .history": () =>
+    `<span class="t-dim">${FAKE_HISTORY}</span>`,
+
+  "cat .motd": () => MOTD,
 
   "cat about.txt": () => COMMANDS.whoami(),
 
@@ -140,7 +157,7 @@ Access denied.`,
 Access denied.`,
 
   hack: () =>
-    `<span class="t-dim">There are hidden things on this site if you look.</span>`,
+    `<span class="t-dim">Try looking around with ls -la.</span>`,
 
   "cat flag.txt": () =>
     `<span class="t-err">No such file or directory</span>`,

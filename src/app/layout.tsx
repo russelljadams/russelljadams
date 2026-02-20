@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     "Veteran technician and aspiring cybersecurity professional. Air Force intelligence analyst turned field tech turned security enthusiast.",
 };
 
-// FLAG #2: Hidden in source — <!-- FLAG{view_source_is_recon} -->
 export default function RootLayout({
   children,
 }: Readonly<{

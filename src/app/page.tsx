@@ -2,7 +2,6 @@
 
 import RevealSection from "@/components/RevealSection";
 import Nav from "@/components/Nav";
-import ConsoleFlag from "@/components/ConsoleFlag";
 import Terminal from "@/components/Terminal";
 import ClientShell from "@/components/ClientShell";
 
@@ -146,15 +145,12 @@ const COLOR_MAP = {
 export default function Home() {
   return (
     <>
-      <ConsoleFlag />
-      {/* FLAG{view_source_is_recon} */}
       <ClientShell>
         <Nav />
 
         {/* ═══ HERO ═══ */}
         <section
           id="hero"
-          data-sk="0x52"
           className="min-h-screen flex flex-col justify-center px-8 md:px-[60px] pt-[120px] pb-20 relative overflow-hidden"
         >
           <div className="absolute -top-[200px] -right-[200px] w-[600px] h-[600px] glow-green pointer-events-none" />
