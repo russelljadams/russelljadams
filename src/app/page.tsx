@@ -8,23 +8,14 @@ import ClientShell from "@/components/ClientShell";
 
 const BADGES = [
   { label: "USAF Veteran", active: true },
-  { label: "Field Technician", active: true },
-  { label: "CEH (In Progress)", active: false },
-  { label: "Google CyberSec (In Progress)", active: false },
-  { label: "Home Lab: 15+ VMs", active: false },
-  { label: "TryHackMe / HackTheBox", active: false },
-];
-
-const STATS = [
-  { number: "4", label: "Years USAF Service" },
-  { number: "4", label: "Years Field Tech" },
-  { number: "200", label: "Daily Stops at Amazon" },
-  { number: "15+", label: "VMs in Home Lab" },
+  { label: "Telecommunications Field Technician", active: true },
+  { label: "CEH", active: true },
+  { label: "Google CyberSec", active: true },
 ];
 
 const TIMELINE = [
   {
-    date: "2021 — Present",
+    date: "2024 — Present",
     role: "Delivery Associate",
     company: "Amazon Logistics · Grand Junction, CO",
     color: "green" as const,
@@ -63,7 +54,6 @@ const TIMELINE = [
     color: "cyan" as const,
     details: [
       "Analyzed technical and operational data under strict deadlines",
-      "Earned Air Force Commendation Medal for operational excellence",
       "Applied OPSEC and documentation discipline in fast-moving environments",
     ],
   },
@@ -120,15 +110,15 @@ const CERTS = [
     code: "CEH",
     name: "Certified Ethical Hacker",
     issuer: "EC-Council",
-    status: "In Progress — 2025",
-    complete: false,
+    status: "Coursework Completed",
+    complete: true,
   },
   {
     code: "GCC",
     name: "Google Cybersecurity Certificate",
     issuer: "Google / Coursera",
-    status: "In Progress — 2025",
-    complete: false,
+    status: "Coursework Completed",
+    complete: true,
   },
   {
     code: "KU",
@@ -139,7 +129,7 @@ const CERTS = [
   },
   {
     code: "USAF",
-    name: "Intelligence Operations Specialist",
+    name: "Operations Intelligence Analyst",
     issuer: "United States Air Force · 2006 – 2010",
     status: "Completed",
     complete: true,
@@ -180,8 +170,7 @@ export default function Home() {
           </h1>
 
           <p className="font-[family-name:var(--font-body)] text-lg md:text-2xl font-light text-[var(--color-txt-sec)] max-w-[650px] mb-10 opacity-0 animate-[fadeInUp_0.7s_ease_2.6s_forwards]">
-            Air Force intelligence analyst turned field technician, now building
-            a future in cybersecurity. I bring operational discipline, hands-on
+            Air Force intelligence analyst turned field technician. I bring operational discipline, hands-on
             technical skill, and a relentless work ethic.
           </p>
 
@@ -247,8 +236,7 @@ export default function Home() {
                 <em className="text-[var(--color-green)] not-italic">
                   Operations Intelligence Analyst
                 </em>
-                , earning an Air Force Commendation Medal for analyzing
-                operational data under pressure. That&apos;s where I learned
+                That&apos;s where I learned
                 OPSEC, discipline, and how to think critically when the stakes
                 are real.
               </p>
@@ -270,40 +258,11 @@ export default function Home() {
                 <strong className="text-[var(--color-txt)] font-medium">
                   Amazon
                 </strong>{" "}
-                proving I outwork anyone in the building &mdash;{" "}
-                <em className="text-[var(--color-green)] not-italic">
-                  longest tenured driver, Driver of the Month, 180-200 stops a
-                  day
-                </em>
-                . Meanwhile I&apos;m training for cybersecurity with a{" "}
-                <strong className="text-[var(--color-txt)] font-medium">
-                  home lab of 15+ VMs
-                </strong>
-                , hands-on CTF platforms, and working toward my certifications.
-              </p>
-              <p>
-                I&apos;m not just looking for a job. I&apos;m building toward a
-                career where my military discipline, field experience, and
-                obsessive curiosity about security actually matter.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            {STATS.map((s) => (
-              <div
-                key={s.label}
-                className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-6 transition-all duration-300 hover:border-[var(--color-green-dim)] hover:bg-[var(--color-bg-card-hover)] hover:-translate-y-0.5"
-              >
-                <div className="font-[family-name:var(--font-chakra)] text-4xl font-bold text-[var(--color-green)] leading-none mb-1.5">
-                  {s.number}
-                </div>
-                <div className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-sec)] tracking-wide uppercase">
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
+          <div />
         </RevealSection>
 
         {/* ═══ EXPERIENCE ═══ */}
@@ -469,7 +428,7 @@ export default function Home() {
         {/* ═══ FOOTER ═══ */}
         <footer className="px-8 md:px-[60px] py-8 border-t border-[var(--color-border)] flex flex-col md:flex-row justify-between items-center gap-2">
           <p className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-dim)]">
-            &copy; 2025 Russell J. Adams
+            &copy; 2026 Russell J. Adams
           </p>
           <p className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-dim)]">
             Built with discipline, caffeine, and curiosity.

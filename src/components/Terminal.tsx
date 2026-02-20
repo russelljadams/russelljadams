@@ -26,36 +26,25 @@ const COMMANDS: Record<string, () => string> = {
   help: () =>
     `<span class="t-bold">Available commands:</span>
 
-  <span class="t-prompt">whoami</span>      <span class="t-dim">-</span> Quick introduction
+  <span class="t-prompt">whoami</span>      <span class="t-dim">-</span> About me
   <span class="t-prompt">skills</span>      <span class="t-dim">-</span> Technical skills
-  <span class="t-prompt">experience</span>  <span class="t-dim">-</span> Career history
+  <span class="t-prompt">experience</span>  <span class="t-dim">-</span> Work history
   <span class="t-prompt">certs</span>       <span class="t-dim">-</span> Certifications
-  <span class="t-prompt">lab</span>         <span class="t-dim">-</span> Home lab details
-  <span class="t-prompt">education</span>   <span class="t-dim">-</span> Education background
-  <span class="t-prompt">contact</span>     <span class="t-dim">-</span> Get in touch
-  <span class="t-prompt">amazon</span>      <span class="t-dim">-</span> Why Amazon matters
+  <span class="t-prompt">education</span>   <span class="t-dim">-</span> Education
+  <span class="t-prompt">contact</span>     <span class="t-dim">-</span> Contact info
   <span class="t-prompt">clear</span>       <span class="t-dim">-</span> Clear terminal
   <span class="t-prompt">neofetch</span>    <span class="t-dim">-</span> System info`,
 
   whoami: () =>
     `<span class="t-bold">Russell J. Adams</span>
 <span class="t-dim">──────────────────────────────</span>
-Air Force veteran, field technician, and aspiring cybersecurity
-professional based in Grand Junction, CO.
-
-I've analyzed intelligence under pressure, run cable through
-crawlspaces, and delivered 200 packages a day in the Colorado
-heat. Now I'm channeling that same intensity into security.
-
-<span class="t-info">Currently pursuing:</span> CEH + Google Cybersecurity Certificate
-<span class="t-info">Home lab:</span> 15+ VMs for networking and security configs
-<span class="t-info">CTF platforms:</span> TryHackMe, HackTheBox`,
+Grand Junction, CO
+USAF veteran, telecom field tech, CEH, Google Cybersecurity.
+Looking for work in cybersecurity or IT.`,
 
   skills: () =>
-    `<span class="t-bold">Technical Skills</span>
-<span class="t-dim">──────────────────────────────</span>
-<span class="t-warn">[Security]</span>    Network Security, Vuln Assessment, OPSEC,
-              Threat Analysis, Cryptography, CTFs
+    `<span class="t-warn">[Security]</span>    Network Security, OPSEC, Vuln Assessment,
+              Cryptography, Threat Analysis
 
 <span class="t-warn">[Network]</span>     TCP/IP, Wi-Fi, DOCSIS, DNS/DHCP,
               VPN, Firewalls, Routing
@@ -68,103 +57,46 @@ heat. Now I'm channeling that same intensity into security.
               Python, Bash, VirtualBox/VMware`,
 
   experience: () =>
-    `<span class="t-bold">Career Timeline</span>
-<span class="t-dim">──────────────────────────────</span>
-<span class="t-prompt">[2021-NOW]</span>  Amazon Logistics - Delivery Associate
-            180-200+ stops/day | Driver of the Month
-            Longest tenured driver at station
+    `<span class="t-prompt">[2024-NOW]</span>  Amazon Logistics - Delivery Associate
 
 <span class="t-warn">[2017-2021]</span> Spectrum - Field Technician II
-            Installed Internet/TV/Voice services
+            Internet/TV/Voice install and service
             Coax & Cat6 termination, rack building
 
 <span class="t-err">[2012-2017]</span> Telecom - Technical Support
             Modem/router/Wi-Fi troubleshooting
 
-<span class="t-info">[2006-2010]</span> USAF - Operations Intelligence Analyst
-            Air Force Commendation Medal
-            OPSEC & operational data analysis`,
+<span class="t-info">[2006-2010]</span> USAF - Operations Intelligence Analyst`,
 
   certs: () =>
-    `<span class="t-bold">Certifications & Training</span>
-<span class="t-dim">──────────────────────────────</span>
-<span class="t-warn">[IN PROGRESS]</span> Certified Ethical Hacker (CEH) - EC-Council
-<span class="t-warn">[IN PROGRESS]</span> Google Cybersecurity Certificate
-
-<span class="t-prompt">[COMPLETED]</span>   Univ. of Kansas - Math, Algorithms,
-              Network Security, Cryptography (2010-12)
-<span class="t-prompt">[COMPLETED]</span>   USAF Intelligence Ops Specialist (2006-10)`,
-
-  lab: () =>
-    `<span class="t-bold">Home Lab Environment</span>
-<span class="t-dim">──────────────────────────────</span>
-<span class="t-info">15+ virtual machines</span> configured for:
-
-  <span class="t-prompt">></span> Network security testing and configuration
-  <span class="t-prompt">></span> Vulnerability scanning and exploitation practice
-  <span class="t-prompt">></span> Active Directory environments
-  <span class="t-prompt">></span> Firewall and routing simulations
-  <span class="t-prompt">></span> Malware analysis in sandboxed environments
-
-<span class="t-info">Platforms:</span> TryHackMe, HackTheBox
-<span class="t-info">Primary OS:</span> Kali Linux
-
-This isn't a checkbox lab. I use it to learn how attacks
-work so I can defend against them.`,
+    `<span class="t-prompt">CEH</span>        Certified Ethical Hacker - EC-Council
+<span class="t-prompt">GCC</span>        Google Cybersecurity Certificate
+<span class="t-prompt">KU</span>         Math, Algorithms, Network Security, Crypto
+<span class="t-prompt">USAF</span>       Intelligence Operations Specialist`,
 
   education: () =>
-    `<span class="t-bold">Education</span>
-<span class="t-dim">──────────────────────────────</span>
-<span class="t-info">University of Kansas</span> (2010-2012)
-  Coursework in Mathematics, Algorithms,
-  Network Security, and Cryptography
+    `<span class="t-info">University of Kansas</span> (2010-2012)
+  Mathematics, Algorithms, Network Security, Cryptography
 
-<span class="t-info">USAF Training</span> (2006-2010)
+<span class="t-info">USAF</span> (2006-2010)
   Intelligence Operations Specialist Course`,
 
   contact: () =>
-    `<span class="t-bold">Contact</span>
-<span class="t-dim">──────────────────────────────</span>
-<span class="t-info">Location:</span>  Grand Junction, CO
-<span class="t-info">Email:</span>     radams.starpointlogistics@gmail.com
-<span class="t-info">Status:</span>    Open to relocation for the right role
-
-Interested in: SOC Analyst, Security Operations,
-Network Security, IT/Field Technician roles`,
-
-  amazon: () =>
-    `<span class="t-bold">Why Amazon Matters</span>
-<span class="t-dim">──────────────────────────────</span>
-People overlook delivery work. They shouldn't.
-
-<span class="t-info">180-200+ stops a day.</span> Every day. In Colorado weather.
-Longest tenured driver at my station. Driver of the Month.
-
-What this proves:
-  <span class="t-prompt">></span> I show up. Every single day.
-  <span class="t-prompt">></span> I perform under pressure and time constraints.
-  <span class="t-prompt">></span> I solve logistics problems on the fly.
-  <span class="t-prompt">></span> I maintain equipment and follow safety protocols.
-  <span class="t-prompt">></span> I do the hardest version of the job, consistently.
-
-The same discipline that makes me reliable at 200 stops
-makes me reliable in a SOC at 2 AM.`,
+    `<span class="t-info">Location:</span>  Grand Junction, CO
+<span class="t-info">Email:</span>     radams.starpointlogistics@gmail.com`,
 
   neofetch: () =>
     `<span class="t-prompt">       .--.        </span>  <span class="t-bold">radams@portfolio</span>
 <span class="t-prompt">      |o_o |       </span>  <span class="t-dim">──────────────────</span>
 <span class="t-prompt">      |:_/ |       </span>  <span class="t-info">OS:</span>     Kali Linux
-<span class="t-prompt">     //   \\ \\      </span>  <span class="t-info">Role:</span>   Security Enthusiast
-<span class="t-prompt">    (|     | )     </span>  <span class="t-info">Shell:</span>  /bin/bash
-<span class="t-prompt">   /'\\_   _/\`\\    </span>  <span class="t-info">Uptime:</span> 15+ years in tech
-<span class="t-prompt">   \\___)=(___/    </span>  <span class="t-info">VMs:</span>    15+
-                   <span class="t-info">CTFs:</span>   TryHackMe, HTB
-                   <span class="t-info">Certs:</span>  CEH (wip), GCC (wip)
-                   <span class="t-info">Medal:</span>  AF Commendation`,
+<span class="t-prompt">     //   \\ \\      </span>  <span class="t-info">Shell:</span>  /bin/bash
+<span class="t-prompt">    (|     | )     </span>  <span class="t-info">Certs:</span>  CEH, GCC
+<span class="t-prompt">   /'\\_   _/\`\\    </span>  <span class="t-info">CTFs:</span>   TryHackMe, HTB
+<span class="t-prompt">   \\___)=(___/    </span>  <span class="t-info">Status:</span> Available`,
 
   // Hidden commands (not in help)
   ls: () =>
-    `<span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">lab/</span>  <span class="t-info">certs/</span>`,
+    `<span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">certs/</span>`,
 
   "ls -la": () =>
     `total 42
@@ -174,15 +106,13 @@ drwxr-xr-x  3 radams radams 4096 Feb 19 12:00 <span class="t-info">..</span>
 -rw-r--r--  1 radams radams  220 Feb 19 12:00 about.txt
 drwxr-xr-x  2 radams radams 4096 Feb 19 12:00 <span class="t-info">certs/</span>
 drwxr-xr-x  2 radams radams 4096 Feb 19 12:00 <span class="t-info">experience/</span>
-drwxr-xr-x  2 radams radams 4096 Feb 19 12:00 <span class="t-info">lab/</span>
 -rw-r--r--  1 radams radams  512 Feb 19 12:00 skills.dat`,
 
   "ls -a": () =>
-    `<span class="t-info">.</span>  <span class="t-info">..</span>  <span class="t-warn">.secret</span>  <span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">lab/</span>  <span class="t-info">certs/</span>`,
+    `<span class="t-info">.</span>  <span class="t-info">..</span>  <span class="t-warn">.secret</span>  <span class="t-info">about.txt</span>  <span class="t-info">experience/</span>  <span class="t-info">skills.dat</span>  <span class="t-info">certs/</span>`,
 
   "cat .secret": () =>
-    `<span class="t-dim">// Interesting. You found the hidden file.</span>
-<span class="t-dim">// Decode this to claim your flag:</span>
+    `<span class="t-dim">// Decode this:</span>
 
 <span class="t-warn">${SECRET_B64}</span>`,
 
@@ -198,32 +128,30 @@ drwxr-xr-x  2 radams radams 4096 Feb 19 12:00 <span class="t-info">lab/</span>
   date: () => `<span class="t-info">${new Date().toString()}</span>`,
 
   ping: () =>
-    `<span class="t-info">PING hiring-manager (10.0.0.1): 56 data bytes</span>
-64 bytes from 10.0.0.1: time=0.1ms <span class="t-prompt">&lt;-- I respond fast</span>`,
+    `<span class="t-info">PING localhost (127.0.0.1): 56 data bytes</span>
+64 bytes from 127.0.0.1: time=0.1ms`,
 
   sudo: () =>
     `<span class="t-err">[sudo] password for radams:</span>
-Nice try. OPSEC says no.`,
+Access denied.`,
 
   "sudo su": () =>
     `<span class="t-err">[sudo] password for radams:</span>
-Nice try. OPSEC says no.`,
+Access denied.`,
 
   hack: () =>
-    `<span class="t-warn">[!] Unauthorized access detected...</span>
-<span class="t-warn">[!] Tracing IP address...</span>
-<span class="t-warn">[!] Just kidding.</span> But there are hidden flags on this site.`,
+    `<span class="t-dim">There are hidden things on this site if you look.</span>`,
 
   "cat flag.txt": () =>
-    `<span class="t-err">Permission denied.</span> You'll have to look harder than that.`,
+    `<span class="t-err">No such file or directory</span>`,
 
   rm: () =>
-    `<span class="t-err">rm: cannot remove: this portfolio is permanent</span>`,
+    `<span class="t-err">rm: permission denied</span>`,
 
   exit: () =>
-    `<span class="t-dim">Logout? No. You should hire me first.</span>`,
+    `<span class="t-dim">Connection closed.</span>`,
 
-  id: () => `uid=1000(radams) gid=1000(radams) groups=1000(radams),27(sudo),44(video)`,
+  id: () => `uid=1000(radams) gid=1000(radams) groups=1000(radams),27(sudo)`,
 
   hostname: () => `portfolio`,
 
