@@ -3,6 +3,7 @@
 import RevealSection from "@/components/RevealSection";
 import Nav from "@/components/Nav";
 import Terminal from "@/components/Terminal";
+import CredlyBadge from "@/components/CredlyBadge";
 import ClientShell from "@/components/ClientShell";
 
 const BADGES = [
@@ -114,10 +115,11 @@ const CERTS = [
   },
   {
     code: "GCC",
-    name: "Google Cybersecurity Certificate",
+    name: "Google Cybersecurity Professional Certificate",
     issuer: "Google / Coursera",
-    status: "Coursework Completed",
+    status: "Verified",
     complete: true,
+    badgeId: "e4440991-5903-458d-b184-3b72584ad77b",
   },
   {
     code: "KU",
@@ -312,7 +314,7 @@ export default function Home() {
                 >
                   {c.code}
                 </div>
-                <div>
+                <div className="flex-1">
                   <div className="font-[family-name:var(--font-chakra)] text-base font-semibold text-[var(--color-txt)] mb-0.5">
                     {c.name}
                   </div>
@@ -328,6 +330,11 @@ export default function Home() {
                   >
                     {c.status}
                   </span>
+                  {"badgeId" in c && c.badgeId && (
+                    <div className="mt-4">
+                      <CredlyBadge badgeId={c.badgeId as string} />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
