@@ -339,6 +339,19 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          <div className="mt-12">
+            <div className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-dim)] tracking-[2px] uppercase mb-4">
+              // TryHackMe Profile
+            </div>
+            <div className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-6 inline-block transition-all duration-300 hover:border-[var(--color-green-dim)] hover:shadow-[0_8px_30px_rgba(0,255,170,0.05)]">
+              <iframe
+                src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=1602223"
+                style={{ border: "none" }}
+                className="max-w-full"
+              />
+            </div>
+          </div>
         </RevealSection>
 
         {/* ═══ CONTACT ═══ */}
