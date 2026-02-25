@@ -186,6 +186,14 @@ export default function Home() {
             ))}
           </div>
 
+          <div className="mt-8 opacity-0 animate-[fadeInUp_0.7s_ease_3s_forwards]">
+            <iframe
+              src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=1602223"
+              style={{ border: "none" }}
+              className="max-w-full"
+            />
+          </div>
+
           <div className="absolute bottom-10 left-8 md:left-[60px] font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-dim)] tracking-[2px] opacity-0 animate-[fadeInUp_0.6s_ease_3s_forwards]">
             SCROLL
             <div className="w-px h-10 bg-gradient-to-b from-[var(--color-green-dim)] to-transparent mt-2 ml-1.5 animate-[scrollPulse_2s_ease-in-out_infinite]" />
@@ -340,18 +348,6 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12">
-            <div className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-txt-dim)] tracking-[2px] uppercase mb-4">
-              // TryHackMe Profile
-            </div>
-            <div className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-6 inline-block transition-all duration-300 hover:border-[var(--color-green-dim)] hover:shadow-[0_8px_30px_rgba(0,255,170,0.05)]">
-              <iframe
-                src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=1602223"
-                style={{ border: "none" }}
-                className="max-w-full"
-              />
-            </div>
-          </div>
         </RevealSection>
 
         {/* ═══ CONTACT ═══ */}
