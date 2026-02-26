@@ -40,6 +40,7 @@ const COMMANDS: Record<string, () => string> = {
   <span class="t-prompt">certs</span>       <span class="t-dim">-</span> Certifications
   <span class="t-prompt">education</span>   <span class="t-dim">-</span> Education
   <span class="t-prompt">contact</span>     <span class="t-dim">-</span> Contact info
+  <span class="t-prompt">tools</span>       <span class="t-dim">-</span> Study tools & resources
   <span class="t-prompt">clear</span>       <span class="t-dim">-</span> Clear terminal
   <span class="t-prompt">neofetch</span>    <span class="t-dim">-</span> System info`,
 
@@ -92,6 +93,14 @@ Looking for work in cybersecurity or IT.`,
   contact: () =>
     `<span class="t-info">Location:</span>  Grand Junction, CO
 <span class="t-info">Email:</span>     radams.starpointlogistics@gmail.com`,
+
+  tools: () =>
+    `<span class="t-bold">Study Tools & Resources</span>
+<span class="t-dim">──────────────────────────────</span>
+
+<span class="t-info">[CEH Cram Station]</span>  424-question spaced repetition app
+                    for the CEH v13 (312-50) exam.
+                    <a href="/ceh-cram/" style="color:#00d4ff">/ceh-cram/</a>`,
 
   neofetch: () =>
     `<span class="t-prompt">       .--.        </span>  <span class="t-bold">radams@portfolio</span>

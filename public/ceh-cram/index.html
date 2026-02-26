@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEH v13 Cram Station</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+button, .option-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+:root {
+  --bg-deep: #0a0e13;
+  --bg-card: #111820;
+  --bg-card-hover: #161e28;
+  --bg-surface: #0d1219;
+  --border: #1e2a38;
+  --border-bright: #2a3a4e;
+  --text-primary: #e4e8ee;
+  --text-secondary: #7a8a9e;
+  --text-dim: #4a5a6e;
+  --accent-cyan: #00e5ff;
+  --accent-cyan-dim: rgba(0, 229, 255, 0.15);
+  --accent-green: #00ff88;
+  --accent-green-dim: rgba(0, 255, 136, 0.12);
+  --accent-red: #ff3366;
+  --accent-red-dim: rgba(255, 51, 102, 0.12);
+  --accent-amber: #ffaa00;
+  --accent-amber-dim: rgba(255, 170, 0, 0.12);
+  --radius: 8px;
+  --radius-lg: 14px;
+  --transition: 0.2s ease;
+}
+
+html { font-size: 16px; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 229, 255, 0.008) 2px,
+    rgba(0, 229, 255, 0.008) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── HEADER ─── */
+.header {
+  text-align: center;
+  padding: 30px 0 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.header h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+  margin-bottom: 6px;
+}
+
+.header .subtitle {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 2px;
+}
+
+/* ─── DASHBOARD ─── */
+.dashboard { animation: fadeIn 0.4s ease; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  border-color: var(--border-bright);
+  background: var(--bg-card-hover);
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.stat-card.cyan .stat-value { color: var(--accent-cyan); }
+.stat-card.green .stat-value { color: var(--accent-green); }
+.stat-card.amber .stat-value { color: var(--accent-amber); }
+.stat-card.red .stat-value { color: var(--accent-red); }
+
+/* Domain breakdown */
+.domain-breakdown {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.domain-breakdown h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.domain-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.domain-name {
+  flex: 0 0 220px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.domain-bar-bg {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-deep);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.domain-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent-cyan);
+  transition: width 0.6s ease;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+}
+
+.domain-pct {
+  flex: 0 0 42px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+/* Buttons */
+.btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: var(--accent-cyan);
+  color: var(--bg-deep);
+  padding: 16px 40px;
+  font-size: 1rem;
+  display: block;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.3), inset 0 0 30px rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  font-size: 0.85rem;
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-bright);
+  color: var(--text-primary);
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+/* ─── STUDY SCREEN ─── */
+.study-screen { animation: fadeIn 0.3s ease; flex: 1; display: flex; flex-direction: column; }
+
+.study-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.study-progress-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.study-progress-text span { color: var(--accent-cyan); }
+
+.study-topbar .btn-secondary {
+  padding: 6px 16px;
+  font-size: 0.75rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+}
+
+.card-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.question-domain {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.question-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.question-text {
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+  padding: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.question-text::before {
+  content: 'Q';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--bg-deep);
+  background: var(--accent-cyan);
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  position: relative;
+}
+
+.option-btn:hover:not(.disabled) {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+}
+
+@media (hover: hover) {
+  .option-btn:hover:not(.disabled) {
+    transform: translateX(4px);
+  }
+}
+
+.option-btn .option-letter {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  color: var(--text-dim);
+  transition: all var(--transition);
+}
+
+.option-btn:hover:not(.disabled) .option-letter {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.option-btn.correct {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+.option-btn.correct .option-letter {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: rgba(0, 255, 136, 0.15);
+}
+
+.option-btn.wrong {
+  border-color: var(--accent-red);
+  background: var(--accent-red-dim);
+}
+.option-btn.wrong .option-letter {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: rgba(255, 51, 102, 0.15);
+}
+
+.option-btn.disabled { cursor: default; pointer-events: none; }
+.option-btn.dimmed { opacity: 0.35; }
+
+/* Explanation panel */
+.explanation {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  animation: slideUp 0.3s ease;
+  position: relative;
+}
+
+.explanation::before {
+  content: 'EXPLANATION';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.explanation p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.next-btn-wrap { margin-top: auto; padding-top: 10px; }
+
+.btn-next {
+  background: var(--bg-card);
+  border: 1px solid var(--border-bright);
+  color: var(--text-primary);
+  padding: 14px;
+  font-size: 0.9rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-next:hover {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+}
+
+.btn-next .shortcut {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  background: var(--bg-deep);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* Result flash */
+.result-flash {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 10px;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  animation: flashIn 0.3s ease;
+}
+
+.result-flash.correct {
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.result-flash.wrong {
+  color: var(--accent-red);
+  background: var(--accent-red-dim);
+  border: 1px solid rgba(255, 51, 102, 0.2);
+}
+
+/* ─── SUMMARY SCREEN ─── */
+.summary { animation: fadeIn 0.4s ease; }
+
+.summary-header {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.summary-header h2 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  color: var(--accent-cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.summary-header p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.summary-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+
+.summary-stat .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.summary-stat .lbl {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+
+.missed-list {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.missed-list h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent-red);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.missed-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.missed-item:last-child { border-bottom: none; }
+
+.missed-item .missed-answer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent-green);
+  margin-top: 4px;
+}
+
+/* ─── DATA MANAGEMENT ─── */
+.data-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.data-section h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.data-section .btn-row { justify-content: flex-start; }
+
+.btn-danger {
+  background: transparent;
+  color: var(--accent-red);
+  border: 1px solid rgba(255, 51, 102, 0.3);
+  padding: 8px 16px;
+  font-size: 0.8rem;
+}
+
+.btn-danger:hover {
+  background: var(--accent-red-dim);
+  border-color: var(--accent-red);
+}
+
+/* ─── EMPTY STATE ─── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state .big-check {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.empty-state h3 {
+  font-size: 1.1rem;
+  color: var(--accent-green);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.next-review-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent-cyan);
+  margin-top: 16px;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flashIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  50% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .container { padding: 14px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .stat-value { font-size: 1.4rem; }
+  .stat-card { padding: 12px 8px; }
+  .domain-name { flex: 0 0 100px; font-size: 0.65rem; }
+  .domain-breakdown { padding: 14px; }
+  .question-text { font-size: 1rem; padding: 16px; }
+  .option-btn { padding: 14px; font-size: 0.9rem; min-height: 48px; }
+  .btn-row { flex-wrap: wrap; }
+  .btn-next { padding: 16px; font-size: 1rem; }
+  .summary-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .summary-stat { padding: 14px 8px; }
+  .summary-stat .val { font-size: 1.4rem; }
+  .header h1 { font-size: 1.2rem; letter-spacing: 2px; }
+  .data-section .btn-row { gap: 8px; }
+}
+
+@media (max-width: 380px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .domain-name { flex: 0 0 80px; font-size: 0.6rem; }
+  .summary-stats { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1rem; }
+}
+
+/* Hidden utility */
+.hidden { display: none !important; }
+
+/* Loading */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 16px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent-cyan);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <a href="/" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#4a5a6e;text-decoration:none;letter-spacing:1px;display:inline-block;margin-bottom:12px;transition:color 0.2s" onmouseover="this.style.color='#00e5ff'" onmouseout="this.style.color='#4a5a6e'">&larr; russelljadams.com</a>
+    <h1>CEH Cram Station</h1>
+    <div class="subtitle">312-50v13 // spaced repetition</div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading questions...</p>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard hidden">
+    <div class="stats-grid">
+      <div class="stat-card cyan">
+        <div class="stat-value" id="stat-due">0</div>
+        <div class="stat-label">Due Now</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-value" id="stat-mastered">0</div>
+        <div class="stat-label">Mastered</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-value" id="stat-seen">0</div>
+        <div class="stat-label">Seen</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-value" id="stat-accuracy">0%</div>
+        <div class="stat-label">Accuracy</div>
+      </div>
+    </div>
+
+    <div class="domain-breakdown">
+      <h3>Domain Mastery</h3>
+      <div id="domain-bars"></div>
+    </div>
+
+    <button class="btn btn-primary" id="btn-study" onclick="startStudy()">
+      Study Now
+    </button>
+
+    <div class="data-section">
+      <h3>Data Management</h3>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="exportProgress()">Export Progress</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Progress</button>
+        <button class="btn btn-danger" onclick="resetProgress()">Reset All</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importProgress(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Study Screen -->
+  <div id="study-screen" class="study-screen hidden">
+    <div class="study-topbar">
+      <div class="study-progress-text">
+        <span id="study-reviewed">0</span> reviewed // <span id="study-remaining">0</span> remaining
+      </div>
+      <button class="btn btn-secondary" onclick="endSession()">End Session</button>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="study-progress-bar" style="width: 0%"></div>
+    </div>
+
+    <div class="card-container" id="card-container"></div>
+  </div>
+
+  <!-- Summary Screen -->
+  <div id="summary-screen" class="summary hidden"></div>
+</div>
+
+<script>
+// ─── CONSTANTS ───
+const STORAGE_KEY = 'ceh-cram-progress';
+const NEW_CARDS_PER_SESSION = 20;
+const INTERVALS = [1, 30, 240, 1440, 4320]; // minutes: 1min, 30min, 4hr, 24hr, 72hr
+
+// ─── STATE ───
+let questions = [];
+let progress = {};
+let sessionQueue = [];
+let sessionStats = { reviewed: 0, correct: 0, wrong: 0, missed: [] };
+let totalSessionCards = 0;
+let answered = false;
+let currentShuffleMap = {}; // maps display letter -> original key
+
+// ─── INIT ───
+async function init() {
+  try {
+    const resp = await fetch('CEH_Master_Question_Bank.json');
+    const data = await resp.json();
+    questions = data.questions;
+    loadProgress();
+    document.getElementById('loading').classList.add('hidden');
+    showDashboard();
+  } catch (e) {
+    document.getElementById('loading').innerHTML =
+      `<p style="color: var(--accent-red);">Failed to load questions. Make sure CEH_Master_Question_Bank.json is in the same folder.</p>`;
+    console.error(e);
+  }
+}
+
+// ─── PROGRESS PERSISTENCE ───
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) progress = JSON.parse(saved);
+  } catch (e) {
+    progress = {};
+  }
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+}
+
+function getCardProgress(id) {
+  if (!progress[id]) {
+    progress[id] = { streak: 0, interval: 0, nextReview: 0, correct: 0, wrong: 0 };
+  }
+  return progress[id];
+}
+
+// ─── DASHBOARD ───
+function showDashboard() {
+  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('study-screen').classList.add('hidden');
+  document.getElementById('summary-screen').classList.add('hidden');
+  updateDashboardStats();
+}
+
+function updateDashboardStats() {
+  const now = Date.now();
+  let due = 0, mastered = 0, seen = 0, totalCorrect = 0, totalAnswered = 0;
+  const domainStats = {};
+
+  questions.forEach(q => {
+    const d = q.domain;
+    if (!domainStats[d]) domainStats[d] = { total: 0, mastered: 0 };
+    domainStats[d].total++;
+
+    const p = progress[q.id];
+    if (p) {
+      seen++;
+      totalCorrect += p.correct;
+      totalAnswered += p.correct + p.wrong;
+      if (p.streak >= 4) {
+        mastered++;
+        domainStats[d].mastered++;
+      }
+      if (p.nextReview <= now) due++;
+    } else {
+      // unseen cards count as due (up to NEW_CARDS_PER_SESSION will be introduced)
+    }
+  });
+
+  // Count unseen cards that would be introduced
+  const unseenCount = questions.length - seen;
+  const newCardsDue = Math.min(unseenCount, NEW_CARDS_PER_SESSION);
+  due += newCardsDue;
+
+  document.getElementById('stat-due').textContent = due;
+  document.getElementById('stat-mastered').textContent = mastered;
+  document.getElementById('stat-seen').textContent = seen + '/' + questions.length;
+  document.getElementById('stat-accuracy').textContent = totalAnswered > 0
+    ? Math.round((totalCorrect / totalAnswered) * 100) + '%' : '—';
+
+  // Update study button
+  const btn = document.getElementById('btn-study');
+  if (due === 0) {
+    btn.textContent = 'All caught up! Check back later';
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+
+    // Find next review time
+    let nextTime = Infinity;
+    Object.values(progress).forEach(p => {
+      if (p.nextReview > now && p.nextReview < nextTime) nextTime = p.nextReview;
+    });
+    if (nextTime < Infinity) {
+      const mins = Math.round((nextTime - now) / 60000);
+      if (mins < 60) btn.textContent = `Next review in ${mins}m`;
+      else btn.textContent = `Next review in ${Math.round(mins / 60)}h`;
+    }
+  } else {
+    btn.textContent = `Study Now (${due} cards)`;
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+
+  // Domain bars
+  const barsEl = document.getElementById('domain-bars');
+  barsEl.innerHTML = '';
+  Object.entries(domainStats)
+    .sort((a, b) => b[1].total - a[1].total)
+    .forEach(([domain, stats]) => {
+      const pct = stats.total > 0 ? Math.round((stats.mastered / stats.total) * 100) : 0;
+      const shortName = domain.length > 30 ? domain.substring(0, 28) + '...' : domain;
+      barsEl.innerHTML += `
+        <div class="domain-row">
+          <div class="domain-name" title="${domain}">${shortName}</div>
+          <div class="domain-bar-bg"><div class="domain-bar-fill" style="width: ${pct}%"></div></div>
+          <div class="domain-pct">${pct}%</div>
+        </div>`;
+    });
+}
+
+// ─── STUDY SESSION ───
+function startStudy() {
+  const now = Date.now();
+  sessionQueue = [];
+  sessionStats = { reviewed: 0, correct: 0, wrong: 0, missed: [] };
+
+  // Gather due cards (already seen, review time passed)
+  const dueCards = [];
+  const unseenCards = [];
+
+  questions.forEach(q => {
+    const p = progress[q.id];
+    if (p) {
+      if (p.nextReview <= now) dueCards.push(q);
+    } else {
+      unseenCards.push(q);
+    }
+  });
+
+  // Sort due cards: most overdue first
+  dueCards.sort((a, b) => {
+    const pa = progress[a.id], pb = progress[b.id];
+    return pa.nextReview - pb.nextReview;
+  });
+
+  // Mix in new cards
+  const newCards = unseenCards.slice(0, NEW_CARDS_PER_SESSION);
+
+  // Interleave: every 3 due cards, insert 1 new card
+  let di = 0, ni = 0;
+  while (di < dueCards.length || ni < newCards.length) {
+    for (let i = 0; i < 3 && di < dueCards.length; i++) {
+      sessionQueue.push(dueCards[di++]);
+    }
+    if (ni < newCards.length) {
+      sessionQueue.push(newCards[ni++]);
+    }
+  }
+
+  if (sessionQueue.length === 0) {
+    showDashboard();
+    return;
+  }
+
+  totalSessionCards = sessionQueue.length;
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('study-screen').classList.remove('hidden');
+  answered = false;
+  showNextCard();
+}
+
+function showNextCard() {
+  if (sessionQueue.length === 0) {
+    showSummary();
+    return;
+  }
+
+  answered = false;
+  const q = sessionQueue[0];
+  const container = document.getElementById('card-container');
+
+  // Shuffle options so you can't memorize positions
+  const entries = Object.entries(q.options);
+  for (let i = entries.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [entries[i], entries[j]] = [entries[j], entries[i]];
+  }
+  const displayLetters = ['A', 'B', 'C', 'D'];
+  // Map display letter -> original key for grading
+  currentShuffleMap = {};
+  entries.forEach(([origKey], i) => { currentShuffleMap[displayLetters[i]] = origKey; });
+
+  container.innerHTML = `
+    <div class="question-domain">${q.domain}</div>
+    <div class="question-id">#${q.id} of ${questions.length}</div>
+    <div class="question-text">${escapeHtml(q.question)}</div>
+    <div class="options-grid" id="options-grid">
+      ${entries.map(([origKey, text], i) => `
+        <button class="option-btn" onclick="selectAnswer('${displayLetters[i]}')" data-key="${displayLetters[i]}" data-orig="${origKey}">
+          <span class="option-letter">${displayLetters[i]}</span>
+          <span>${escapeHtml(text)}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div id="feedback-area"></div>
+    <div class="next-btn-wrap hidden" id="next-btn-wrap">
+      <button class="btn btn-next" onclick="advanceCard()">
+        Next Card <span class="shortcut">SPACE</span>
+      </button>
+    </div>
+  `;
+
+  // Update top bar
+  document.getElementById('study-reviewed').textContent = sessionStats.reviewed;
+  document.getElementById('study-remaining').textContent = sessionQueue.length;
+
+  const pct = totalSessionCards > 0
+    ? Math.round((sessionStats.reviewed / totalSessionCards) * 100) : 0;
+  document.getElementById('study-progress-bar').style.width = pct + '%';
+}
+
+function selectAnswer(displayKey) {
+  if (answered) return;
+  answered = true;
+
+  const q = sessionQueue[0];
+  const origKey = currentShuffleMap[displayKey]; // translate display -> original
+  const correctOrig = q.answer;
+  const isCorrect = origKey === correctOrig;
+
+  // Find which display letter maps to the correct original answer
+  const correctDisplay = Object.entries(currentShuffleMap).find(([dk, ok]) => ok === correctOrig)[0];
+
+  // Update progress
+  const p = getCardProgress(q.id);
+  if (isCorrect) {
+    p.streak++;
+    p.correct++;
+    const idx = Math.min(p.streak, INTERVALS.length - 1);
+    p.interval = INTERVALS[idx];
+  } else {
+    p.streak = 0;
+    p.wrong++;
+    p.interval = INTERVALS[0]; // 1 minute
+    sessionStats.missed.push({
+      question: q.question,
+      correct: correctOrig + ': ' + q.options[correctOrig],
+      chosen: origKey + ': ' + q.options[origKey]
+    });
+  }
+  p.nextReview = Date.now() + p.interval * 60000;
+  saveProgress();
+
+  sessionStats.reviewed++;
+  if (isCorrect) sessionStats.correct++;
+  else sessionStats.wrong++;
+
+  // Update UI — highlight using display letters
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(btn => {
+    const key = btn.dataset.key;
+    btn.classList.add('disabled');
+    if (key === correctDisplay) btn.classList.add('correct');
+    if (key === displayKey && !isCorrect) btn.classList.add('wrong');
+    if (key !== correctDisplay && key !== displayKey) btn.classList.add('dimmed');
+  });
+
+  const feedback = document.getElementById('feedback-area');
+  feedback.innerHTML = `
+    <div class="result-flash ${isCorrect ? 'correct' : 'wrong'}">
+      ${isCorrect ? 'CORRECT' : 'WRONG'}
+    </div>
+    <div class="explanation"><p>${escapeHtml(q.explanation)}</p></div>
+  `;
+
+  document.getElementById('next-btn-wrap').classList.remove('hidden');
+
+  // If wrong, re-queue the card near the front (after 2-4 cards)
+  if (!isCorrect && sessionQueue.length > 1) {
+    const reinsertPos = Math.min(3, sessionQueue.length - 1);
+    const card = sessionQueue[0];
+    sessionQueue.splice(reinsertPos, 0, card);
+  }
+}
+
+function advanceCard() {
+  sessionQueue.shift();
+  showNextCard();
+}
+
+function endSession() {
+  showSummary();
+}
+
+// ─── SUMMARY ───
+function showSummary() {
+  document.getElementById('study-screen').classList.add('hidden');
+  const el = document.getElementById('summary-screen');
+  el.classList.remove('hidden');
+
+  const accuracy = sessionStats.reviewed > 0
+    ? Math.round((sessionStats.correct / sessionStats.reviewed) * 100) : 0;
+
+  let missedHtml = '';
+  if (sessionStats.missed.length > 0) {
+    missedHtml = `
+      <div class="missed-list">
+        <h3>Missed Questions (${sessionStats.missed.length})</h3>
+        ${sessionStats.missed.map(m => `
+          <div class="missed-item">
+            ${escapeHtml(m.question)}
+            <div class="missed-answer">Correct: ${escapeHtml(m.correct)}</div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+
+  el.innerHTML = `
+    <div class="summary-header">
+      <h2>Session Complete</h2>
+      <p>Keep grinding. The exam won't know what hit it.</p>
+    </div>
+    <div class="summary-stats">
+      <div class="summary-stat">
+        <div class="val" style="color: var(--accent-cyan)">${sessionStats.reviewed}</div>
+        <div class="lbl">Reviewed</div>
+      </div>
+      <div class="summary-stat">
+        <div class="val" style="color: var(--accent-green)">${accuracy}%</div>
+        <div class="lbl">Accuracy</div>
+      </div>
+      <div class="summary-stat">
+        <div class="val" style="color: var(--accent-red)">${sessionStats.wrong}</div>
+        <div class="lbl">Missed</div>
+      </div>
+    </div>
+    ${missedHtml}
+    <button class="btn btn-primary" onclick="showDashboard()" style="margin-bottom: 12px">Back to Dashboard</button>
+  `;
+}
+
+// ─── DATA MANAGEMENT ───
+function exportProgress() {
+  const data = JSON.stringify(progress, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ceh-cram-progress.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importProgress(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      progress = data;
+      saveProgress();
+      updateDashboardStats();
+    } catch (err) {
+      alert('Invalid file format');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function resetProgress() {
+  if (confirm('Reset all progress? This cannot be undone.')) {
+    progress = {};
+    saveProgress();
+    updateDashboardStats();
+  }
+}
+
+// ─── KEYBOARD SHORTCUTS ───
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('study-screen').classList.contains('hidden')) return;
+
+  if (!answered) {
+    // 1-4 or A-D to select answer
+    const keyMap = { '1': 'A', '2': 'B', '3': 'C', '4': 'D', 'a': 'A', 'b': 'B', 'c': 'C', 'd': 'D' };
+    const mapped = keyMap[e.key.toLowerCase()];
+    if (mapped) {
+      e.preventDefault();
+      selectAnswer(mapped);
+    }
+  } else {
+    // Space or Enter to advance
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      advanceCard();
+    }
+  }
+});
+
+// ─── UTIL ───
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ─── GO ───
+init();
+</script>
+</body>
+</html>

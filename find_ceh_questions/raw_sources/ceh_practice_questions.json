@@ -1,0 +1,1485 @@
+{
+  "metadata": {
+    "title": "CEH (Certified Ethical Hacker) Practice Questions - High-Weight Domains",
+    "description": "Comprehensive collection of CEH practice questions across 6 high-weight exam domains",
+    "date_collected": "2026-02-26",
+    "total_questions": 125,
+    "domains_covered": [
+      "Network Scanning and Enumeration",
+      "Web Application Hacking",
+      "Cryptography",
+      "System Hacking",
+      "Sniffing and Session Hijacking",
+      "Social Engineering"
+    ]
+  },
+  "domains": {
+    "1_network_scanning_and_enumeration": {
+      "domain_name": "Network Scanning and Enumeration",
+      "exam_weight": "~12-15%",
+      "questions": [
+        {
+          "id": "NSE-001",
+          "question": "Which scanning technique involves sending SYN packets to a target and analyzing the responses to determine open ports?",
+          "options": {
+            "A": "Xmas Scan",
+            "B": "ACK Scan",
+            "C": "SYN Scan",
+            "D": "FIN Scan"
+          },
+          "correct_answer": "C",
+          "explanation": "SYN Scan (also called half-open scan) sends SYN packets to identify open ports without completing the full TCP handshake. Xmas Scan uses FIN, PSH, and URG flags. ACK Scan maps firewall rules rather than identifying open ports. FIN Scan is less reliable than SYN for port detection.",
+          "source": "FlashGenius - CEH Scanning Networks Domain"
+        },
+        {
+          "id": "NSE-002",
+          "question": "During a network scan, an ethical hacker discovers a service running on port 22. Which of the following tools would best help the hacker identify the software version and potential vulnerabilities of this service?",
+          "options": {
+            "A": "Wireshark",
+            "B": "Nmap",
+            "C": "Burp Suite",
+            "D": "Metasploit"
+          },
+          "correct_answer": "B",
+          "explanation": "Nmap can perform service version detection (-sV flag) to identify software versions on open ports. Wireshark analyzes packets but lacks dedicated version detection. Burp Suite focuses on web application testing. Metasploit is primarily an exploitation framework.",
+          "source": "FlashGenius - CEH Scanning Networks Domain"
+        },
+        {
+          "id": "NSE-003",
+          "question": "You have been tasked with performing a network scan to identify live hosts in a client's internal network. Which tool would you use to perform a simple ping sweep to achieve this task?",
+          "options": {
+            "A": "Nmap",
+            "B": "Wireshark",
+            "C": "John the Ripper",
+            "D": "Metasploit"
+          },
+          "correct_answer": "A",
+          "explanation": "Nmap provides versatile scanning capabilities including ping sweeps (nmap -sn) for host discovery. Wireshark captures and analyzes packets. John the Ripper is a password cracker. Metasploit is an exploitation framework.",
+          "source": "FlashGenius - CEH Scanning Networks Domain"
+        },
+        {
+          "id": "NSE-004",
+          "question": "An ethical hacker is using a tool to perform a vulnerability scan on a network. Which of the following is a common output of such a scan?",
+          "options": {
+            "A": "List of open ports",
+            "B": "List of user passwords",
+            "C": "List of detected vulnerabilities",
+            "D": "List of encrypted files"
+          },
+          "correct_answer": "C",
+          "explanation": "A vulnerability scanner's primary output is a list of detected vulnerabilities with severity ratings. Port lists come from port scans specifically. User passwords and encrypted file lists are not typical vulnerability scan outputs.",
+          "source": "FlashGenius - CEH Scanning Networks Domain"
+        },
+        {
+          "id": "NSE-005",
+          "question": "While performing a network scan, you notice several hosts responding to both UDP and TCP requests on unusual ports. What could this indicate?",
+          "options": {
+            "A": "Normal network behavior",
+            "B": "A well-configured firewall",
+            "C": "Potential Trojan activity",
+            "D": "Misconfigured DNS servers"
+          },
+          "correct_answer": "C",
+          "explanation": "Hosts responding on unusual/non-standard ports may indicate Trojan activity, as Trojans frequently use non-standard ports for command-and-control communication. This deviates from normal network configurations.",
+          "source": "FlashGenius - CEH Scanning Networks Domain"
+        },
+        {
+          "id": "NSE-006",
+          "question": "While performing enumeration tasks, you receive the results from an SMB scan. Which of the following could SMB enumeration reveal about the target system?",
+          "options": {
+            "A": "Open TCP and UDP ports",
+            "B": "User accounts and shared resources",
+            "C": "SSL certificate details",
+            "D": "Firewall rules and configurations"
+          },
+          "correct_answer": "B",
+          "explanation": "SMB enumeration can reveal user accounts, shared resources (file shares, printer shares), and potentially sensitive information stored or shared on the network. Port information comes from port scanning, not SMB enumeration specifically.",
+          "source": "FlashGenius - CEH Enumeration Domain"
+        },
+        {
+          "id": "NSE-007",
+          "question": "As part of an enumeration phase, you're tasked with identifying shared folders on a target Windows network. Which command provides this information using SMB?",
+          "options": {
+            "A": "smbclient -L //targetIP",
+            "B": "nmap -sP targetIP",
+            "C": "netstat -rn",
+            "D": "tracert targetIP"
+          },
+          "correct_answer": "A",
+          "explanation": "The 'smbclient -L //targetIP' command lists shared folders on a specified target using the SMB protocol. nmap -sP performs a ping scan. netstat -rn displays routing tables. tracert traces network paths.",
+          "source": "FlashGenius - CEH Enumeration Domain"
+        },
+        {
+          "id": "NSE-008",
+          "question": "You are conducting a penetration test and need to identify email addresses associated with a domain. Which technique would be most useful for this enumeration task?",
+          "options": {
+            "A": "DNS zone transfer",
+            "B": "WHOIS lookup",
+            "C": "Harvesting from public sources",
+            "D": "Port scanning"
+          },
+          "correct_answer": "C",
+          "explanation": "Harvesting from public sources such as social media, company websites, and public forums is the most effective method for collecting email addresses. DNS zone transfers provide DNS records. WHOIS provides domain registration info. Port scanning identifies open services.",
+          "source": "FlashGenius - CEH Enumeration Domain"
+        },
+        {
+          "id": "NSE-009",
+          "question": "You're attempting to enumerate a target system's DNS records to gather more information about the domain. Which tool would be most appropriate for this task?",
+          "options": {
+            "A": "nslookup",
+            "B": "Wireshark",
+            "C": "Hydra",
+            "D": "Metasploit"
+          },
+          "correct_answer": "A",
+          "explanation": "nslookup is a network administration command-line tool designed for querying the Domain Name System (DNS) to obtain domain name or IP address mapping, DNS records, and other DNS information.",
+          "source": "FlashGenius - CEH Enumeration Domain"
+        },
+        {
+          "id": "NSE-010",
+          "question": "In a corporate environment, you need to enumerate the wireless networks within range. Which tool would be most appropriate for this task?",
+          "options": {
+            "A": "Aircrack-ng",
+            "B": "Wireshark",
+            "C": "Kismet",
+            "D": "Nmap"
+          },
+          "correct_answer": "C",
+          "explanation": "Kismet is designed specifically for wireless network detection and enumeration, capable of passively capturing SSIDs and other network details. Aircrack-ng focuses on cracking wireless encryption. Wireshark is a general packet analyzer. Nmap is primarily for TCP/IP scanning.",
+          "source": "FlashGenius - CEH Enumeration Domain"
+        },
+        {
+          "id": "NSE-011",
+          "question": "What is the purpose of a port scanner?",
+          "options": {
+            "A": "Identify vulnerabilities in software",
+            "B": "Encrypt network traffic",
+            "C": "Identify open ports on a network",
+            "D": "Monitor network traffic"
+          },
+          "correct_answer": "C",
+          "explanation": "Port scanners identify open ports and potentially exploitable services on networks. They do not encrypt traffic, monitor ongoing traffic, or directly identify software vulnerabilities.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "NSE-012",
+          "question": "Which tool is most commonly used for port scanning?",
+          "options": {
+            "A": "Wireshark",
+            "B": "Nmap",
+            "C": "Hydra",
+            "D": "Nikto"
+          },
+          "correct_answer": "B",
+          "explanation": "Nmap is the industry-standard tool for identifying open ports and services on networks. Wireshark captures packets. Hydra performs password attacks. Nikto scans web servers.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "NSE-013",
+          "question": "What does a SYN scan do?",
+          "options": {
+            "A": "Completes the entire TCP handshake",
+            "B": "Sends a SYN packet to check open ports",
+            "C": "Performs a denial-of-service attack",
+            "D": "Tracks encrypted packets"
+          },
+          "correct_answer": "B",
+          "explanation": "A SYN scan (half-open scan) sends SYN packets to detect open ports without completing the full TCP three-way handshake. It does not complete connections, perform DoS, or track encrypted traffic.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "NSE-014",
+          "question": "Enumeration is used to identify what?",
+          "options": {
+            "A": "Wireless routers",
+            "B": "Usernames, shares, and system details",
+            "C": "Power supply failures",
+            "D": "Malware signatures"
+          },
+          "correct_answer": "B",
+          "explanation": "Enumeration extracts usernames, network shares, services, and system configuration details from a target system or network.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "NSE-015",
+          "question": "Which protocol is often used during enumeration?",
+          "options": {
+            "A": "SNMP",
+            "B": "FTP",
+            "C": "SSH",
+            "D": "SMTP"
+          },
+          "correct_answer": "A",
+          "explanation": "SNMP (Simple Network Management Protocol) provides extensive network device and management information, making it a primary target during enumeration. Misconfigured SNMP community strings can leak significant network data.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "NSE-016",
+          "question": "Enumeration is useful to system hacking because it provides _______.",
+          "options": {
+            "A": "Passwords",
+            "B": "IP ranges",
+            "C": "Configuration",
+            "D": "Usernames"
+          },
+          "correct_answer": "D",
+          "explanation": "Usernames are especially useful in the system-hacking process because they let you target accounts for password cracking. Enumeration can provide information regarding usernames and accounts that directly facilitate further attacks.",
+          "source": "Infibee - CEH Review Questions"
+        },
+        {
+          "id": "NSE-017",
+          "question": "What does the enumeration phase NOT discover?",
+          "options": {
+            "A": "Services",
+            "B": "User accounts",
+            "C": "Ports",
+            "D": "Shares"
+          },
+          "correct_answer": "C",
+          "explanation": "Ports are usually uncovered during the scanning phase, not the enumeration phase. Enumeration focuses on extracting detailed information like services, user accounts, and network shares from identified hosts.",
+          "source": "Infibee - CEH Review Questions"
+        },
+        {
+          "id": "NSE-018",
+          "question": "Which of the following is a commonly used vulnerability assessment tool?",
+          "options": {
+            "A": "Metasploit",
+            "B": "Nikto",
+            "C": "Nessus",
+            "D": "Wireshark"
+          },
+          "correct_answer": "C",
+          "explanation": "Nessus is a popular vulnerability scanner that identifies vulnerabilities, misconfigurations, and compliance issues. Metasploit is an exploitation framework. Nikto scans web servers. Wireshark is a packet analyzer.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "NSE-019",
+          "question": "You see the following text written down: port:502. What does that likely reference?",
+          "options": {
+            "A": "Shodan search",
+            "B": "I/O search",
+            "C": "p0f results",
+            "D": "RIR query"
+          },
+          "correct_answer": "A",
+          "explanation": "Shodan uses the 'port:' filter syntax to search for devices with specific ports open. Port 502 is commonly associated with Modbus/SCADA systems. This syntax is characteristic of Shodan queries.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "NSE-020",
+          "question": "Which of the following tools can be used to perform a DNS zone transfer?",
+          "options": {
+            "A": "NSLookup",
+            "B": "Finger",
+            "C": "Dig",
+            "D": "Netcat"
+          },
+          "correct_answer": "A",
+          "explanation": "NSLookup (and also Dig, Sam Spade, Host) can be used to perform DNS zone transfers. Zone transfers copy DNS records from one server to another and can reveal the entire DNS zone file including all subdomains and IP mappings.",
+          "source": "Pass4Success - CEH 312-50"
+        },
+        {
+          "id": "NSE-021",
+          "question": "Tess King is using the nslookup command to craft queries to list all DNS information (Name Servers, host names, MX records, CNAME records, zone serial number, TTL records, etc.) for a domain. What is Tess King trying to accomplish?",
+          "options": {
+            "A": "A zone harvesting",
+            "B": "A zone transfer",
+            "C": "A zone update",
+            "D": "A zone estimate"
+          },
+          "correct_answer": "B",
+          "explanation": "A zone transfer (AXFR) attempts to copy all DNS records from a DNS server. This can reveal the complete DNS zone file including all hostnames, subdomains, IP addresses, mail servers, and other DNS records for the target domain.",
+          "source": "Pass4Success - CEH 312-50"
+        }
+      ]
+    },
+    "2_web_application_hacking": {
+      "domain_name": "Web Application Hacking",
+      "exam_weight": "~22-25%",
+      "questions": [
+        {
+          "id": "WAH-001",
+          "question": "Which of the following is a common sign that a web application might be vulnerable to SQL injection?",
+          "options": {
+            "A": "The application uses HTTPS for data transmission",
+            "B": "The application displays error messages with SQL syntax",
+            "C": "The application has a CAPTCHA on login forms",
+            "D": "The application redirects to a secure page after login"
+          },
+          "correct_answer": "B",
+          "explanation": "Error messages containing SQL syntax indicate that user input is being processed directly in SQL queries without proper sanitization, signaling potential SQL injection vulnerability. HTTPS, CAPTCHAs, and secure redirects are unrelated to SQL injection.",
+          "source": "FlashGenius - CEH SQL Injection Domain"
+        },
+        {
+          "id": "WAH-002",
+          "question": "A client-side web application is suspected of being vulnerable to SQL injection. What is a potential impact if this vulnerability is exploited?",
+          "options": {
+            "A": "The web server's IP address is exposed",
+            "B": "Sensitive data from the database can be extracted",
+            "C": "Client-side scripts are executed on the user's browser",
+            "D": "The server's SSL certificate is compromised"
+          },
+          "correct_answer": "B",
+          "explanation": "SQL injection enables unauthorized database access and extraction of sensitive data including usernames, passwords, credit cards, and other stored information. SSL certificates, client-side script execution (XSS), and IP exposure are separate concerns.",
+          "source": "FlashGenius - CEH SQL Injection Domain"
+        },
+        {
+          "id": "WAH-003",
+          "question": "While conducting a vulnerability assessment, you find a parameter that echoes back database error messages. How can this information be used to further exploit SQL Injection?",
+          "options": {
+            "A": "Use the error messages to refine injection payloads for blind SQL Injection",
+            "B": "Use the error messages to launch a Distributed Denial of Service (DDoS) attack",
+            "C": "Use the error messages to perform a phishing attack",
+            "D": "Use the error messages to identify Cross-Site Scripting (XSS) vulnerabilities"
+          },
+          "correct_answer": "A",
+          "explanation": "Database error messages reveal structural information about the database (table names, column names, query structure) enabling attackers to craft refined injection payloads. This is called error-based SQL injection. Error messages don't facilitate DDoS, phishing, or XSS.",
+          "source": "FlashGenius - CEH SQL Injection Domain"
+        },
+        {
+          "id": "WAH-004",
+          "question": "During a penetration test, you discover that a web application is vulnerable to SQL injection. Which of the following techniques would allow you to extract data from the database?",
+          "options": {
+            "A": "Using a UNION-based injection to retrieve database tables",
+            "B": "Performing a SYN flood attack to disrupt the database connection",
+            "C": "Utilizing XSS to execute scripts on the database server",
+            "D": "Deploying a DDoS attack to overload the web server"
+          },
+          "correct_answer": "A",
+          "explanation": "UNION-based SQL injection combines the results of the original query with an injected SELECT statement to retrieve data from other tables. SYN floods are DoS attacks. XSS targets client browsers, not databases. DDoS disrupts availability, not data extraction.",
+          "source": "FlashGenius - CEH SQL Injection Domain"
+        },
+        {
+          "id": "WAH-005",
+          "question": "What is the best method to prevent SQL injection attacks?",
+          "options": {
+            "A": "Encrypting network traffic",
+            "B": "Implementing a firewall",
+            "C": "Input validation",
+            "D": "Installing antivirus software"
+          },
+          "correct_answer": "C",
+          "explanation": "Input validation (including parameterized queries and prepared statements) prevents malicious SQL code from being injected into database queries. Encryption protects data in transit. Firewalls filter network traffic. Antivirus detects malware.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "WAH-006",
+          "question": "SQL Injection occurs due to:",
+          "options": {
+            "A": "Weak firewalls",
+            "B": "Invalid input validation",
+            "C": "Wrong encryption",
+            "D": "VPN failures"
+          },
+          "correct_answer": "B",
+          "explanation": "SQL injection is caused by insufficient input validation that allows malicious SQL code to be injected into application queries. It is not caused by firewall weaknesses, encryption issues, or VPN failures.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-007",
+          "question": "Which of the following is a common SQL Injection payload?",
+          "options": {
+            "A": "<script>alert(1)</script>",
+            "B": "' OR '1'='1",
+            "C": "sudo apt update",
+            "D": "ping 127.0.0.1"
+          },
+          "correct_answer": "B",
+          "explanation": "The payload ' OR '1'='1 is a classic SQL injection that bypasses authentication by making the WHERE clause always evaluate to true. Option A is an XSS payload. Options C and D are system commands.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-008",
+          "question": "Which database attack modifies queries to extract data?",
+          "options": {
+            "A": "DDoS",
+            "B": "XSS",
+            "C": "SQL Injection",
+            "D": "Sniffing"
+          },
+          "correct_answer": "C",
+          "explanation": "SQL Injection manipulates and modifies database queries to extract unauthorized data. DDoS disrupts availability. XSS injects client-side scripts. Sniffing captures network traffic.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-009",
+          "question": "What prevents SQL Injection?",
+          "options": {
+            "A": "Using more RAM",
+            "B": "Parameterized queries",
+            "C": "Removing admin accounts",
+            "D": "Using firewalls only"
+          },
+          "correct_answer": "B",
+          "explanation": "Parameterized queries (prepared statements) separate SQL code from data, preventing injected input from being executed as SQL commands. This is the most effective defense against SQL injection.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-010",
+          "question": "Which of the following is an example of XSS injection?",
+          "options": {
+            "A": "' OR '1'='1",
+            "B": "<script>alert('XSS')</script>",
+            "C": "nmap -sV 192.168.1.1",
+            "D": "sudo su"
+          },
+          "correct_answer": "B",
+          "explanation": "The <script>alert('XSS')</script> payload injects executable JavaScript into web pages. Option A is an SQL injection payload. Options C and D are command-line operations.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-011",
+          "question": "XSS allows attackers to:",
+          "options": {
+            "A": "Steal cookies",
+            "B": "Format SQL queries",
+            "C": "Scan networks",
+            "D": "Replace firewalls"
+          },
+          "correct_answer": "A",
+          "explanation": "Cross-Site Scripting (XSS) can capture session cookies, authentication tokens, and other sensitive client-side data by injecting malicious scripts that execute in victims' browsers.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-012",
+          "question": "Which type of XSS stores the script in a database?",
+          "options": {
+            "A": "Reflected",
+            "B": "Stored",
+            "C": "DOM-based",
+            "D": "Local"
+          },
+          "correct_answer": "B",
+          "explanation": "Stored (persistent) XSS saves the malicious script in the application's database, executing it every time a user views the affected page. Reflected XSS requires a crafted URL. DOM-based XSS modifies the DOM environment.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-013",
+          "question": "What prevents XSS?",
+          "options": {
+            "A": "Strong passwords",
+            "B": "Input sanitization",
+            "C": "Faster servers",
+            "D": "VPN"
+          },
+          "correct_answer": "B",
+          "explanation": "Input sanitization (encoding, escaping, and validating user input) removes or neutralizes harmful code before it is rendered in the browser, preventing XSS attacks.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "WAH-014",
+          "question": "Which of the following is a commonly exploited web application vulnerability?",
+          "options": {
+            "A": "Cross-site scripting (XSS)",
+            "B": "DNS spoofing",
+            "C": "SYN flood",
+            "D": "Ping of Death"
+          },
+          "correct_answer": "A",
+          "explanation": "XSS is one of the most common web application vulnerabilities, allowing attackers to inject malicious scripts into web pages viewed by other users. DNS spoofing, SYN flood, and Ping of Death are network-layer attacks.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "WAH-015",
+          "question": "While testing a web application, you identify a SQL injection vulnerability. Which of the following actions would be considered unethical?",
+          "options": {
+            "A": "Documenting the vulnerability and informing the client",
+            "B": "Exploiting the vulnerability to access unauthorized data",
+            "C": "Recommending security measures to fix the vulnerability",
+            "D": "Using the vulnerability to perform a denial of service attack on the database"
+          },
+          "correct_answer": "B",
+          "explanation": "Accessing unauthorized data through exploitation violates ethical standards and the scope of authorized testing. Documentation, recommendations, and responsible disclosure represent proper ethical hacker conduct.",
+          "source": "FlashGenius - CEH SQL Injection Domain"
+        },
+        {
+          "id": "WAH-016",
+          "question": "Which type of attack involves sending ICMP echo requests to broadcast addresses, overwhelming the network?",
+          "options": {
+            "A": "Smurf attack",
+            "B": "SQL injection",
+            "C": "Cross-site scripting",
+            "D": "Port scanning"
+          },
+          "correct_answer": "A",
+          "explanation": "A Smurf attack sends ICMP echo requests to network broadcast addresses with a spoofed source IP (the victim's), causing all hosts to reply to the victim, overwhelming it with traffic. This is a form of amplification DDoS attack.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "WAH-017",
+          "question": "Which technique is used to exploit a buffer overflow vulnerability?",
+          "options": {
+            "A": "Cross-site scripting",
+            "B": "SQL injection",
+            "C": "DNS spoofing",
+            "D": "Shellcode injection"
+          },
+          "correct_answer": "D",
+          "explanation": "Shellcode injection exploits buffer overflows by overwriting memory with malicious executable code (shellcode) that runs when the overflowed buffer is processed. XSS and SQL injection target different layers. DNS spoofing redirects DNS queries.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "WAH-018",
+          "question": "Which of the following is NOT a step in vulnerability assessment?",
+          "options": {
+            "A": "Scanning",
+            "B": "Enumeration",
+            "C": "Fuzzing",
+            "D": "Exploitation"
+          },
+          "correct_answer": "D",
+          "explanation": "Exploitation is part of penetration testing, not vulnerability assessment. Vulnerability assessment identifies and catalogs weaknesses through scanning, enumeration, and fuzzing but does not exploit them.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        }
+      ]
+    },
+    "3_cryptography": {
+      "domain_name": "Cryptography",
+      "exam_weight": "~6-8%",
+      "questions": [
+        {
+          "id": "CRY-001",
+          "question": "Symmetric encryption uses:",
+          "options": {
+            "A": "Two keys",
+            "B": "One key",
+            "C": "Four keys",
+            "D": "No keys"
+          },
+          "correct_answer": "B",
+          "explanation": "Symmetric encryption employs a single shared key for both encryption and decryption. Both sender and receiver must possess the same secret key. Examples include AES, DES, and Blowfish.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "CRY-002",
+          "question": "Which algorithm is asymmetric?",
+          "options": {
+            "A": "AES",
+            "B": "DES",
+            "C": "RSA",
+            "D": "SHA-256"
+          },
+          "correct_answer": "C",
+          "explanation": "RSA is an asymmetric algorithm that uses a public-private key pair. AES and DES are symmetric algorithms using a single shared key. SHA-256 is a hash function, not an encryption algorithm.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "CRY-003",
+          "question": "Hashing is used for:",
+          "options": {
+            "A": "Data encryption",
+            "B": "Data integrity",
+            "C": "Data storage",
+            "D": "File deletion"
+          },
+          "correct_answer": "B",
+          "explanation": "Hashing creates a fixed-size checksum/digest to verify that data hasn't been altered. Unlike encryption, hashing is a one-way function. It ensures data integrity, not confidentiality.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "CRY-004",
+          "question": "What is the purpose of encryption?",
+          "options": {
+            "A": "To hide vulnerabilities",
+            "B": "To protect data from unauthorized access",
+            "C": "To detect sniffing",
+            "D": "To speed up applications"
+          },
+          "correct_answer": "B",
+          "explanation": "Encryption transforms readable data (plaintext) into an unreadable format (ciphertext) to protect confidentiality and prevent unauthorized access to sensitive information.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "CRY-005",
+          "question": "Which of the following is NOT a cryptography algorithm?",
+          "options": {
+            "A": "AES",
+            "B": "RSA",
+            "C": "SHA",
+            "D": "SQL"
+          },
+          "correct_answer": "D",
+          "explanation": "SQL (Structured Query Language) is a database query language, not a cryptographic algorithm. AES is a symmetric cipher, RSA is an asymmetric cipher, and SHA is a hash algorithm.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "CRY-006",
+          "question": "Which of the following is NOT an encryption algorithm?",
+          "options": {
+            "A": "AES",
+            "B": "RSA",
+            "C": "SHA-1",
+            "D": "Blowfish"
+          },
+          "correct_answer": "C",
+          "explanation": "SHA-1 is a hash function (produces a one-way digest), not an encryption algorithm. AES (symmetric), RSA (asymmetric), and Blowfish (symmetric) are all encryption algorithms that can encrypt and decrypt data.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "CRY-007",
+          "question": "How would you ensure that confidentiality is implemented in an organization?",
+          "options": {
+            "A": "Watchdog processes",
+            "B": "Encryption",
+            "C": "Cryptographic hashes",
+            "D": "Web servers"
+          },
+          "correct_answer": "B",
+          "explanation": "Encryption is the primary mechanism for ensuring data confidentiality by converting data into an unreadable format. Hashes ensure integrity, not confidentiality. Watchdog processes and web servers serve different functions.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "CRY-008",
+          "question": "Which method is used to hide a message or file inside another file in an undetectable way?",
+          "options": {
+            "A": "Steganography",
+            "B": "Cryptography",
+            "C": "Hashing",
+            "D": "Brute-force attack"
+          },
+          "correct_answer": "A",
+          "explanation": "Steganography conceals messages or files within other innocent-looking files (images, audio, video) without altering the file's appearance. Cryptography encrypts data but doesn't hide its existence. Hashing verifies integrity.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "CRY-009",
+          "question": "Symmetric cryptography is also known as:",
+          "options": {
+            "A": "Hashing",
+            "B": "Shared key cryptography",
+            "C": "Public key cryptography",
+            "D": "Steganography"
+          },
+          "correct_answer": "B",
+          "explanation": "Symmetric cryptography is also called shared key, secret key, or private key cryptography because both parties share the same key for encryption and decryption. Public key cryptography is asymmetric.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "CRY-010",
+          "question": "Who manages digital certificates in a PKI infrastructure?",
+          "options": {
+            "A": "Key",
+            "B": "Certificate Authority",
+            "C": "Hub",
+            "D": "Public key"
+          },
+          "correct_answer": "B",
+          "explanation": "The Certificate Authority (CA) is the trusted entity in PKI that issues, manages, signs, and revokes digital certificates. The CA validates the identity of certificate requesters and maintains certificate revocation lists.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "CRY-011",
+          "question": "What is the primary difference between asymmetric and symmetric encryption?",
+          "options": {
+            "A": "Different keys vs. same keys used",
+            "B": "Speed differences only",
+            "C": "Channel security approaches",
+            "D": "All of the above"
+          },
+          "correct_answer": "D",
+          "explanation": "Asymmetric and symmetric encryption differ in multiple ways: symmetric uses one shared key while asymmetric uses a key pair; symmetric is faster for bulk data; and they require different approaches to secure key distribution channels.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "CRY-012",
+          "question": "What piece of software could you use to recover from a ransomware attack?",
+          "options": {
+            "A": "Decryptor",
+            "B": "Encryptor",
+            "C": "Anti-malware",
+            "D": "Endpoint detection and response"
+          },
+          "correct_answer": "A",
+          "explanation": "A decryptor tool can reverse the encryption applied by ransomware if the encryption key or algorithm weakness is known. Anti-malware can detect/remove ransomware but cannot decrypt files. EDR detects threats but doesn't decrypt data.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "CRY-013",
+          "question": "Which mechanism best protects against theft of hard drives containing sensitive data?",
+          "options": {
+            "A": "Locks",
+            "B": "Backups",
+            "C": "Encryption",
+            "D": "Size"
+          },
+          "correct_answer": "C",
+          "explanation": "Full-disk encryption (e.g., BitLocker, FileVault) ensures that even if a hard drive is physically stolen, the data remains unreadable without the encryption key. Locks deter physical theft but don't protect data. Backups preserve data but don't prevent theft.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "CRY-014",
+          "question": "What is the standard port used for SSL/HTTPS web traffic?",
+          "options": {
+            "A": "443",
+            "B": "255",
+            "C": "23",
+            "D": "80"
+          },
+          "correct_answer": "A",
+          "explanation": "Port 443 is the standard port for HTTPS (HTTP over SSL/TLS). Port 80 is used for unencrypted HTTP. Port 23 is used for Telnet. Port 255 is not a standard service port.",
+          "source": "Sulekha - CEH Exam Questions"
+        }
+      ]
+    },
+    "4_system_hacking": {
+      "domain_name": "System Hacking",
+      "exam_weight": "~10-12%",
+      "questions": [
+        {
+          "id": "SYS-001",
+          "question": "During a penetration test, you exploit a Windows vulnerability and gain access to an administrator account. What tool can you use to extract plaintext passwords from memory?",
+          "options": {
+            "A": "Cain & Abel",
+            "B": "Mimikatz",
+            "C": "Netcat",
+            "D": "Kali Linux"
+          },
+          "correct_answer": "B",
+          "explanation": "Mimikatz is specifically designed to extract plaintext passwords, hashes, PIN codes, and Kerberos tickets from Windows memory (LSASS process). Cain & Abel is for password recovery. Netcat is a networking utility. Kali Linux is an entire operating system.",
+          "source": "FlashGenius - CEH System Hacking Domain"
+        },
+        {
+          "id": "SYS-002",
+          "question": "You suspect that an attacker has installed a keylogger on a compromised system. What is the most effective method to confirm its presence?",
+          "options": {
+            "A": "Use a file integrity checker to detect changes",
+            "B": "Check running processes for suspicious programs",
+            "C": "Perform a network traffic analysis",
+            "D": "Review the firewall rules for anomalies"
+          },
+          "correct_answer": "B",
+          "explanation": "Checking running processes is the most direct way to find a keylogger, which often runs as a hidden process. While file integrity checkers may detect new files, process inspection provides real-time confirmation.",
+          "source": "FlashGenius - CEH System Hacking Domain"
+        },
+        {
+          "id": "SYS-003",
+          "question": "During a penetration test, you want to maintain access to a compromised machine after a reboot. Which approach should you take?",
+          "options": {
+            "A": "Change the user's password",
+            "B": "Install a rootkit",
+            "C": "Initiate a SYN flood",
+            "D": "Perform a DNS spoofing attack"
+          },
+          "correct_answer": "B",
+          "explanation": "Installing a rootkit maintains persistent access by hiding its presence from the OS while allowing remote control even after reboots. Changing passwords is easily detected. SYN floods and DNS spoofing don't maintain persistent access.",
+          "source": "FlashGenius - CEH System Hacking Domain"
+        },
+        {
+          "id": "SYS-004",
+          "question": "An attacker has successfully cracked user passwords from a target organization using a password hash dump. What step should be taken to verify the information gathered?",
+          "options": {
+            "A": "Conduct a phishing campaign",
+            "B": "Perform a DNS poisoning attack",
+            "C": "Log into the target system using the cracked credentials",
+            "D": "Run a man-in-the-middle attack"
+          },
+          "correct_answer": "C",
+          "explanation": "The most direct way to verify cracked passwords is to attempt authentication on the target system using those credentials. This confirms the passwords are correct and the accounts are active.",
+          "source": "FlashGenius - CEH System Hacking Domain"
+        },
+        {
+          "id": "SYS-005",
+          "question": "After gaining access to an internal network, you need to enumerate user accounts to identify privileged users. Which tool would be most appropriate for this task?",
+          "options": {
+            "A": "Snort",
+            "B": "Cain & Abel",
+            "C": "Wireshark",
+            "D": "OpenVAS"
+          },
+          "correct_answer": "B",
+          "explanation": "Cain & Abel is a versatile Windows tool for network analysis that can enumerate user accounts, sniff passwords, and perform ARP poisoning. Snort is an IDS. Wireshark captures packets. OpenVAS is a vulnerability scanner.",
+          "source": "FlashGenius - CEH System Hacking Domain"
+        },
+        {
+          "id": "SYS-006",
+          "question": "Which type of attack tries all possible combinations of characters until the correct password is found?",
+          "options": {
+            "A": "Brute force",
+            "B": "Cross-site scripting",
+            "C": "SQL injection",
+            "D": "Denial of Service"
+          },
+          "correct_answer": "A",
+          "explanation": "A brute force attack systematically tries every possible combination of characters until it finds the correct password. This is computationally expensive but guaranteed to eventually succeed given enough time and computing power.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SYS-007",
+          "question": "How is a brute-force attack performed?",
+          "options": {
+            "A": "By trying all possible combinations of characters",
+            "B": "By trying dictionary words",
+            "C": "By capturing hashes",
+            "D": "By comparing hashes"
+          },
+          "correct_answer": "A",
+          "explanation": "Brute-force attacks exhaustively try all possible character combinations. Dictionary attacks use wordlists. Hash capture is part of credential harvesting. Rainbow table attacks compare precomputed hashes.",
+          "source": "Infibee - CEH Review Questions"
+        },
+        {
+          "id": "SYS-008",
+          "question": "Which file holds password hashes in Windows systems?",
+          "options": {
+            "A": "Boot.ini",
+            "B": "SAM file",
+            "C": "Winlogin.exe",
+            "D": "System32.ini"
+          },
+          "correct_answer": "B",
+          "explanation": "The SAM (Security Accounts Manager) file in Windows stores password hashes for local user accounts. It is located at C:\\Windows\\System32\\config\\SAM and is locked while Windows is running.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SYS-009",
+          "question": "What is privilege escalation?",
+          "options": {
+            "A": "Installing new software",
+            "B": "Gaining higher access rights",
+            "C": "Changing user passwords",
+            "D": "Closing unused ports"
+          },
+          "correct_answer": "B",
+          "explanation": "Privilege escalation is the process of gaining higher-level permissions than initially authorized (e.g., from standard user to administrator/root). This can be vertical (higher privilege level) or horizontal (same level, different user).",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SYS-010",
+          "question": "Which tool is commonly used for password cracking?",
+          "options": {
+            "A": "John the Ripper",
+            "B": "Wireshark",
+            "C": "Nessus",
+            "D": "PuTTY"
+          },
+          "correct_answer": "A",
+          "explanation": "John the Ripper is a well-known password cracking tool that supports multiple hash types and attack modes (dictionary, brute force, hybrid). Wireshark captures packets. Nessus scans for vulnerabilities. PuTTY is an SSH/Telnet client.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SYS-011",
+          "question": "Keylogging helps the attacker to do what?",
+          "options": {
+            "A": "Encrypt files",
+            "B": "Record keystrokes of a user",
+            "C": "Scan open ports",
+            "D": "Capture network traffic"
+          },
+          "correct_answer": "B",
+          "explanation": "Keyloggers capture and record every keystroke a user types, including passwords, credit card numbers, and other sensitive data. They can be hardware-based or software-based.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SYS-012",
+          "question": "Which technique is used by attackers to hide evidence of compromise?",
+          "options": {
+            "A": "SQL injection",
+            "B": "Privilege escalation",
+            "C": "Fileless malware",
+            "D": "Log tampering"
+          },
+          "correct_answer": "D",
+          "explanation": "Log tampering involves modifying or deleting system, event, and application logs to erase evidence of an attacker's activities and avoid detection by forensic investigators.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SYS-013",
+          "question": "Which authentication mechanism exploitation technique tries common passwords against multiple accounts?",
+          "options": {
+            "A": "Password spraying",
+            "B": "Port scanning",
+            "C": "Ping of Death",
+            "D": "DNS rebinding"
+          },
+          "correct_answer": "A",
+          "explanation": "Password spraying tries a small number of commonly used passwords against many user accounts simultaneously. This avoids account lockout policies that trigger after multiple failed attempts against a single account.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SYS-014",
+          "question": "_______ is the process of exploiting services on a system.",
+          "options": {
+            "A": "System hacking",
+            "B": "Privilege escalation",
+            "C": "Enumeration",
+            "D": "Backdoor"
+          },
+          "correct_answer": "A",
+          "explanation": "System hacking encompasses the process of exploiting services and vulnerabilities on a target system to gain and increase access. Privilege escalation is a phase within system hacking. Enumeration gathers information. A backdoor is a persistence mechanism.",
+          "source": "Infibee - CEH Review Questions"
+        },
+        {
+          "id": "SYS-015",
+          "question": "You've installed multiple files and processes on the compromised system. What should you also look at installing?",
+          "options": {
+            "A": "Registry keys",
+            "B": "Alternate data streams",
+            "C": "Root login",
+            "D": "Rootkit"
+          },
+          "correct_answer": "D",
+          "explanation": "A rootkit should be installed to hide the presence of malicious files and processes from the operating system and security tools, maintaining persistent and covert access to the compromised system.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "SYS-016",
+          "question": "Rootkits are commonly used to do what?",
+          "options": {
+            "A": "Open ports",
+            "B": "Hide malicious activity",
+            "C": "Create user accounts",
+            "D": "Block firewalls"
+          },
+          "correct_answer": "B",
+          "explanation": "Rootkits conceal unauthorized access and malicious operations by modifying the operating system kernel, libraries, or user-space tools to hide processes, files, network connections, and registry entries from detection.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SYS-017",
+          "question": "Why is it important to store system logs remotely?",
+          "options": {
+            "A": "Local systems can't handle it",
+            "B": "Bandwidth is faster than disks",
+            "C": "Attackers might delete local logs",
+            "D": "It will defend against attacks"
+          },
+          "correct_answer": "C",
+          "explanation": "Storing logs remotely (on a centralized SIEM or log server) prevents attackers from deleting evidence of their activities. If logs are only stored locally, an attacker with system access can easily tamper with or delete them.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "SYS-018",
+          "question": "Which of the following is NOT a password attack?",
+          "options": {
+            "A": "Brute force",
+            "B": "Dictionary",
+            "C": "SQL injection",
+            "D": "Rainbow table"
+          },
+          "correct_answer": "C",
+          "explanation": "SQL injection targets database queries, not passwords directly. Brute force exhaustively tries all character combinations. Dictionary attacks use wordlists. Rainbow table attacks use precomputed hash lookup tables.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SYS-019",
+          "question": "You work for a company and are trying to steal data from the Sales database (Sales.xls). The company filters and monitors outbound traffic. How will you exfiltrate the data without raising suspicion?",
+          "options": {
+            "A": "Encrypt Sales.xls using PGP and email it to your personal account",
+            "B": "Package Sales.xls using Trojan wrappers and telnet it to your home computer",
+            "C": "Conceal Sales.xls inside another file like photo.jpg using steganography techniques",
+            "D": "Change the extension of Sales.xls to Sales.txt and upload as attachment"
+          },
+          "correct_answer": "C",
+          "explanation": "Steganography hides data within innocent-looking files (images, audio) making it undetectable by content filters. Encrypted files may trigger DLP alerts. Trojan wrappers would be detected. Renaming extensions doesn't hide the content from deep packet inspection.",
+          "source": "Pass4Success - CEH 312-50"
+        }
+      ]
+    },
+    "5_sniffing_and_session_hijacking": {
+      "domain_name": "Sniffing and Session Hijacking",
+      "exam_weight": "~8-10%",
+      "questions": [
+        {
+          "id": "SSH-001",
+          "question": "Which tool is widely used for packet sniffing?",
+          "options": {
+            "A": "Burp Suite",
+            "B": "Wireshark",
+            "C": "Hydra",
+            "D": "Nmap"
+          },
+          "correct_answer": "B",
+          "explanation": "Wireshark is the world's foremost and most widely-used network protocol analyzer. It captures and interactively analyzes network traffic. Burp Suite tests web apps. Hydra cracks passwords. Nmap scans networks.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-002",
+          "question": "What is the purpose of sniffing?",
+          "options": {
+            "A": "Cracking passwords",
+            "B": "Capturing and analyzing network traffic",
+            "C": "Removing logs",
+            "D": "Installing rootkits"
+          },
+          "correct_answer": "B",
+          "explanation": "Packet sniffing intercepts and examines data transmissions on a network. It can capture credentials, emails, files, and other sensitive data traveling across the network.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-003",
+          "question": "Which protocol is vulnerable to sniffing attacks?",
+          "options": {
+            "A": "HTTPS",
+            "B": "SSH",
+            "C": "Telnet",
+            "D": "FTPS"
+          },
+          "correct_answer": "C",
+          "explanation": "Telnet transmits all data including credentials in cleartext, making it highly vulnerable to packet sniffing. HTTPS, SSH, and FTPS all use encryption to protect data in transit.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-004",
+          "question": "Packet sniffing is mostly performed in which mode?",
+          "options": {
+            "A": "Silent mode",
+            "B": "Monitor mode",
+            "C": "Active mode",
+            "D": "Binary mode"
+          },
+          "correct_answer": "B",
+          "explanation": "Monitor mode (also called promiscuous mode for wired networks) enables the network interface card to capture all traffic on the network segment, not just traffic addressed to the host.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-005",
+          "question": "Which of the following is a passive network reconnaissance technique?",
+          "options": {
+            "A": "Port Scanning",
+            "B": "Ping sweep",
+            "C": "Banner grabbing",
+            "D": "Sniffing"
+          },
+          "correct_answer": "D",
+          "explanation": "Sniffing is passive because it captures and analyzes network traffic without actively sending any traffic to the network. Port scanning, ping sweeps, and banner grabbing all actively probe the target.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SSH-006",
+          "question": "Which of the following is a passive reconnaissance technique?",
+          "options": {
+            "A": "Port Scanning",
+            "B": "Social Engineering",
+            "C": "Sniffing",
+            "D": "SQL Injection"
+          },
+          "correct_answer": "C",
+          "explanation": "Sniffing gathers information passively by capturing network traffic without engaging or alerting target systems. Port scanning actively probes targets. Social engineering interacts with people. SQL injection actively exploits applications.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SSH-007",
+          "question": "How would you use Netcat to set up a listener on a system?",
+          "options": {
+            "A": "nc -l -p 192.168.1.1",
+            "B": "nc -l -p 1000",
+            "C": "nc -p -u 1000",
+            "D": "nc -l -p -t 192.168.1.1"
+          },
+          "correct_answer": "A",
+          "explanation": "Netcat uses the 'nc -l -p' syntax to listen on a specific port. The -l flag sets listen mode and -p specifies the port number. This creates a listener that can receive incoming connections.",
+          "source": "Infibee - CEH Review Questions"
+        },
+        {
+          "id": "SSH-008",
+          "question": "Which malware spreads without needing a host file?",
+          "options": {
+            "A": "Virus",
+            "B": "Worm",
+            "C": "Trojan",
+            "D": "Rootkit"
+          },
+          "correct_answer": "B",
+          "explanation": "Worms are self-replicating malware that propagate independently across networks without requiring a host file or user interaction. Viruses need host files. Trojans disguise as legitimate programs. Rootkits hide malicious activity.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-009",
+          "question": "What does ransomware do?",
+          "options": {
+            "A": "Deletes browser history",
+            "B": "Encrypts user data and demands payment",
+            "C": "Installs drivers",
+            "D": "Speeds up the system"
+          },
+          "correct_answer": "B",
+          "explanation": "Ransomware encrypts victims' files and demands a ransom payment (typically in cryptocurrency) in exchange for the decryption key. Without the key, the encrypted files are inaccessible.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-010",
+          "question": "Which malware appears legitimate but contains malicious code?",
+          "options": {
+            "A": "Trojan",
+            "B": "Worm",
+            "C": "Botnet",
+            "D": "Adware"
+          },
+          "correct_answer": "A",
+          "explanation": "Trojans disguise themselves as legitimate, useful programs to trick users into executing them. Once run, they can create backdoors, steal data, or download additional malware.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-011",
+          "question": "Which type of malware can spread rapidly across networks by exploiting vulnerabilities?",
+          "options": {
+            "A": "Adware",
+            "B": "Spyware",
+            "C": "Trojan",
+            "D": "Worm"
+          },
+          "correct_answer": "D",
+          "explanation": "Worms spread rapidly and autonomously across networks by exploiting vulnerabilities or social engineering, without requiring human interaction to propagate from system to system.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SSH-012",
+          "question": "An intrusion detection system can perform which of the following functions?",
+          "options": {
+            "A": "Block traffic",
+            "B": "Filter traffic based on headers",
+            "C": "Generate alerts on traffic",
+            "D": "Log system messages"
+          },
+          "correct_answer": "C",
+          "explanation": "An IDS (Intrusion Detection System) monitors network traffic and generates alerts when suspicious activity is detected. It does not block traffic (that's IPS). Firewalls filter traffic. Syslog servers log messages.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "SSH-013",
+          "question": "What does IDS stand for?",
+          "options": {
+            "A": "Internet Detection System",
+            "B": "Intrusion Detection System",
+            "C": "Internal Defense Structure",
+            "D": "Integrated Data Service"
+          },
+          "correct_answer": "B",
+          "explanation": "IDS stands for Intrusion Detection System. It monitors network traffic and system activities for malicious activity or policy violations and generates alerts.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-014",
+          "question": "What is the purpose of an IPS?",
+          "options": {
+            "A": "Blocking attacks in real time",
+            "B": "Storing logs",
+            "C": "Cracking passwords",
+            "D": "Running scripts"
+          },
+          "correct_answer": "A",
+          "explanation": "An IPS (Intrusion Prevention System) actively monitors and blocks malicious traffic in real time, unlike an IDS which only detects and alerts. IPS sits inline with network traffic.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-015",
+          "question": "Which type of firewall checks the connection state?",
+          "options": {
+            "A": "Stateless",
+            "B": "Stateful",
+            "C": "Hardware",
+            "D": "Cloud"
+          },
+          "correct_answer": "B",
+          "explanation": "Stateful firewalls track the state of active connections and make filtering decisions based on connection context (SYN, SYN-ACK, ACK sequence). Stateless firewalls evaluate packets individually without connection tracking.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-016",
+          "question": "Firewalls primarily work at which OSI layer?",
+          "options": {
+            "A": "Session",
+            "B": "Transport",
+            "C": "Network",
+            "D": "Application"
+          },
+          "correct_answer": "C",
+          "explanation": "Traditional firewalls primarily operate at the Network layer (Layer 3) of the OSI model, filtering traffic based on IP addresses, ports, and protocols. Next-generation firewalls can also operate at higher layers.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SSH-017",
+          "question": "If you wanted a lightweight protocol to send real-time data over, which of these would you use?",
+          "options": {
+            "A": "TCP",
+            "B": "HTTP",
+            "C": "ICMP",
+            "D": "UDP"
+          },
+          "correct_answer": "D",
+          "explanation": "UDP (User Datagram Protocol) is connectionless and lightweight, ideal for real-time applications like video streaming, VoIP, and gaming where speed is more important than guaranteed delivery. TCP adds overhead with connection management.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        }
+      ]
+    },
+    "6_social_engineering": {
+      "domain_name": "Social Engineering",
+      "exam_weight": "~6-8%",
+      "questions": [
+        {
+          "id": "SE-001",
+          "question": "What type of attack involves tricking people into giving sensitive information such as login credentials through deceptive emails or messages?",
+          "options": {
+            "A": "SQL injection",
+            "B": "Cross-site scripting",
+            "C": "Phishing",
+            "D": "Buffer overflow"
+          },
+          "correct_answer": "C",
+          "explanation": "Phishing involves sending deceptive emails or messages that appear legitimate to trick recipients into revealing sensitive data or clicking malicious links. SQL injection and XSS are technical web attacks. Buffer overflow exploits memory.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SE-002",
+          "question": "Which of the following is NOT a social engineering technique?",
+          "options": {
+            "A": "Pretexting",
+            "B": "Phishing",
+            "C": "Shoulder surfing",
+            "D": "SQL injection"
+          },
+          "correct_answer": "D",
+          "explanation": "SQL injection is a technical attack targeting databases through application vulnerabilities. Pretexting (fabricating scenarios), phishing (deceptive messages), and shoulder surfing (observing screens/keyboards) all manipulate human psychology.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SE-003",
+          "question": "Which of the following is NOT a common social engineering method?",
+          "options": {
+            "A": "Pretexting",
+            "B": "Phishing",
+            "C": "Vishing",
+            "D": "Port Scanning"
+          },
+          "correct_answer": "D",
+          "explanation": "Port scanning is a technical network reconnaissance technique, not a social engineering method. Pretexting, phishing, and vishing (voice phishing) all exploit human trust and psychology.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SE-004",
+          "question": "What is phishing?",
+          "options": {
+            "A": "Scanning open ports",
+            "B": "Sending fake messages to steal data",
+            "C": "Encrypting system files",
+            "D": "Testing system performance"
+          },
+          "correct_answer": "B",
+          "explanation": "Phishing uses deceptive communications (emails, websites, messages) designed to appear legitimate in order to trick recipients into revealing sensitive information such as passwords and financial data.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SE-005",
+          "question": "Which type of social engineering uses phone calls?",
+          "options": {
+            "A": "Smishing",
+            "B": "Phishing",
+            "C": "Vishing",
+            "D": "Baiting"
+          },
+          "correct_answer": "C",
+          "explanation": "Vishing (voice phishing) exploits telephone communication to manipulate victims into revealing sensitive information. Smishing uses SMS. Phishing primarily uses email. Baiting offers physical/digital lures.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SE-006",
+          "question": "Baiting attacks rely on what?",
+          "options": {
+            "A": "Fake websites",
+            "B": "Curiosity or greed",
+            "C": "Server misconfigurations",
+            "D": "Network congestion"
+          },
+          "correct_answer": "B",
+          "explanation": "Baiting exploits human curiosity or greed by offering something enticing (free USB drives, downloads, prizes) to lure victims into a trap where their information is harvested or malware is installed.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SE-007",
+          "question": "Tailgating involves:",
+          "options": {
+            "A": "Password cracking",
+            "B": "Following someone into a restricted area",
+            "C": "Port scanning",
+            "D": "Malware deployment"
+          },
+          "correct_answer": "B",
+          "explanation": "Tailgating (also called piggybacking) involves gaining unauthorized physical access to restricted areas by following closely behind an authorized person, often relying on their courtesy to hold the door open.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SE-008",
+          "question": "Which of the following is NOT a social engineering attack?",
+          "options": {
+            "A": "Phishing",
+            "B": "Shoulder surfing",
+            "C": "Bluejacking",
+            "D": "Spoofing"
+          },
+          "correct_answer": "C",
+          "explanation": "Bluejacking is a Bluetooth-based attack that sends unsolicited messages to nearby Bluetooth devices. It is a technical wireless attack, not a social engineering technique based on psychological manipulation.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SE-009",
+          "question": "Which of the following is NOT a social engineering example?",
+          "options": {
+            "A": "Phishing",
+            "B": "Shoulder surfing",
+            "C": "Denial of Service",
+            "D": "Tailgating"
+          },
+          "correct_answer": "C",
+          "explanation": "Denial of Service (DoS) overwhelms systems with traffic and is a technical network attack. Phishing deceives via messages, shoulder surfing observes screens/keyboards, and tailgating follows authorized personnel -- all exploit human behavior.",
+          "source": "Vinsys - Top 30 MCQs for CEH"
+        },
+        {
+          "id": "SE-010",
+          "question": "Social engineering provides information about:",
+          "options": {
+            "A": "Computer information",
+            "B": "Social media information",
+            "C": "Human being information",
+            "D": "Post/camera information"
+          },
+          "correct_answer": "C",
+          "explanation": "Social engineering exploits the human element of security by manipulating people into divulging confidential information. It targets human psychology and behavior rather than technical systems.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "SE-011",
+          "question": "An attacker draws attention to a cause by performing cyber attacks. What type of attacker is this?",
+          "options": {
+            "A": "Criminal",
+            "B": "Terrorist",
+            "C": "Hacktivist",
+            "D": "Script kiddie"
+          },
+          "correct_answer": "C",
+          "explanation": "A hacktivist performs cyber attacks to promote political, social, or ideological causes. Criminals seek financial gain. Terrorists aim to cause fear and disruption. Script kiddies use pre-made tools without deep understanding.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "SE-012",
+          "question": "What is the knowledge level of a script kiddie?",
+          "options": {
+            "A": "High",
+            "B": "Average",
+            "C": "Low",
+            "D": "Advanced"
+          },
+          "correct_answer": "C",
+          "explanation": "Script kiddies have low technical knowledge and rely on pre-written tools, scripts, and exploits created by more skilled hackers. They lack the ability to develop their own attack tools or understand underlying vulnerabilities.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "SE-013",
+          "question": "An ethical hacker must have _______ before accessing a target system.",
+          "options": {
+            "A": "Training",
+            "B": "Permission",
+            "C": "Planning",
+            "D": "All of the above"
+          },
+          "correct_answer": "B",
+          "explanation": "Written permission (authorization) is the absolute requirement that distinguishes ethical hacking from criminal hacking. Without explicit permission, accessing a system is illegal regardless of training or planning.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "SE-014",
+          "question": "A white box test requires:",
+          "options": {
+            "A": "Some knowledge of the target",
+            "B": "Complete knowledge of the target",
+            "C": "No knowledge of the target",
+            "D": "Only permission"
+          },
+          "correct_answer": "B",
+          "explanation": "White box testing (also called clear box) provides the tester with complete knowledge of the target including source code, network diagrams, and credentials. Black box has no knowledge. Gray box has partial knowledge.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "SE-015",
+          "question": "What are the stages of hacking in order?",
+          "options": {
+            "A": "Surveillance",
+            "B": "Scanning",
+            "C": "Getting access",
+            "D": "Maintaining access and covering tracks",
+            "E": "All of the above"
+          },
+          "correct_answer": "E",
+          "explanation": "The five phases of ethical hacking are: 1) Reconnaissance/Surveillance, 2) Scanning, 3) Gaining Access, 4) Maintaining Access, and 5) Covering Tracks. These phases are sequential and systematic.",
+          "source": "Sulekha - CEH Exam Questions"
+        },
+        {
+          "id": "SE-016",
+          "question": "The most secure Wi-Fi standard today is:",
+          "options": {
+            "A": "WEP",
+            "B": "WPA",
+            "C": "WPA2",
+            "D": "WPA3"
+          },
+          "correct_answer": "D",
+          "explanation": "WPA3 provides the most enhanced Wi-Fi security with Simultaneous Authentication of Equals (SAE), 192-bit encryption for enterprise, and protection against offline dictionary attacks. WEP is broken. WPA has known weaknesses. WPA2 is less secure than WPA3.",
+          "source": "H2K Infosys - Ethical Hacking Quiz"
+        },
+        {
+          "id": "SE-017",
+          "question": "The network team has established procedures requiring manager approval before implementing new firewall rules. You notice a recently implemented rule without approval. What is the best step?",
+          "options": {
+            "A": "Have the network team document why the rule was implemented without approval",
+            "B": "Monitor all traffic using the firewall rule until a manager can approve it",
+            "C": "Do not roll back the rule as the business may rely on it, but try to get approval soon",
+            "D": "Immediately roll back the firewall rule until a manager can approve it"
+          },
+          "correct_answer": "D",
+          "explanation": "Change management procedures must be followed. Unauthorized changes should be immediately rolled back to maintain security policy compliance. Allowing unauthorized rules to persist creates security risks regardless of business impact.",
+          "source": "Pass4Success - CEH 312-50"
+        },
+        {
+          "id": "SE-018",
+          "question": "After a security risk assessment shows risk decreased from 50% to 10% (below the 20% threshold), which risk decision is best for business continuation with maximum profit?",
+          "options": {
+            "A": "Accept the risk",
+            "B": "Introduce more controls to bring risk to 0%",
+            "C": "Mitigate the risk",
+            "D": "Avoid the risk"
+          },
+          "correct_answer": "A",
+          "explanation": "Since the risk (10%) is now below the acceptable threshold (20%), accepting the remaining residual risk is the most cost-effective strategy. Attempting to eliminate all risk (0%) is impractical and expensive. Further mitigation adds cost without proportional benefit.",
+          "source": "Pass4Success - CEH 312-50"
+        },
+        {
+          "id": "SE-019",
+          "question": "Which is NOT a device considered part of the Internet of Things (IoT)?",
+          "options": {
+            "A": "Smartphone",
+            "B": "Thermostat",
+            "C": "Light bulb",
+            "D": "Set-top cable box"
+          },
+          "correct_answer": "A",
+          "explanation": "Smartphones are general-purpose computing devices with their own operating systems and are not typically classified as IoT devices. IoT refers to everyday objects (thermostats, light bulbs, appliances) embedded with sensors and network connectivity.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "SE-020",
+          "question": "What order, from bottom to top, does the TCP/IP architecture use?",
+          "options": {
+            "A": "Network Access, Network, Transport, Application",
+            "B": "Link, Internet, Transport, Application",
+            "C": "Physical, Network, Session, Application",
+            "D": "Data Link, Internet, Transport, Application"
+          },
+          "correct_answer": "B",
+          "explanation": "The TCP/IP model has four layers from bottom to top: Link (Network Access), Internet, Transport, and Application. Option C describes part of the OSI model. The correct TCP/IP terminology uses 'Link' and 'Internet' for the bottom two layers.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        },
+        {
+          "id": "SE-021",
+          "question": "The DNS server where records for a domain belonging to an organization reside is called the ________ server.",
+          "options": {
+            "A": "Authoritative",
+            "B": "Recursive",
+            "C": "Caching",
+            "D": "Local"
+          },
+          "correct_answer": "A",
+          "explanation": "An authoritative DNS server holds the official DNS records for a domain. Recursive servers query other servers on behalf of clients. Caching servers store recently looked-up records. Local servers serve a specific network segment.",
+          "source": "EDUSUM - EC-Council CEH Sample Questions"
+        }
+      ]
+    }
+  }
+}

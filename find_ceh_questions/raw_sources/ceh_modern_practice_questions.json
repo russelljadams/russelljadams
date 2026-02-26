@@ -1,0 +1,1031 @@
+{
+  "metadata": {
+    "title": "CEH Modern Topics Practice Questions (2025-2026)",
+    "description": "Certified Ethical Hacker practice questions focused on modern/current topics: Cloud Security, IoT Hacking, Mobile Hacking, AI/ML in Cybersecurity, Container Security, Zero Trust, Supply Chain Attacks, Ransomware/APT",
+    "total_questions": 72,
+    "date_compiled": "2026-02-26",
+    "exam_versions_covered": ["CEH v12 (312-50v12)", "CEH v13 (312-50v13)", "Cisco Ethical Hacker"],
+    "categories": [
+      "Cloud Security",
+      "Container Security",
+      "IoT Hacking",
+      "Mobile Hacking",
+      "AI/ML in Cybersecurity",
+      "Zero Trust Architecture",
+      "Supply Chain Attacks",
+      "Ransomware and APT",
+      "Wireless Security (Modern)"
+    ]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "category": "Cloud Security - Serverless Attacks",
+      "question": "A startup is building a serverless photo sharing application where users can upload images that are automatically processed for thumbnail generation and facial recognition. During testing, the development team notices that some larger image uploads are triggering security alerts in their cloud provider's monitoring system. Upon investigation, they discover that malicious users could potentially exploit their application by uploading specially crafted image files with embedded code. What is the most effective approach to mitigate this vulnerability?",
+      "options": {
+        "A": "Implement a comprehensive logging and monitoring system that tracks all file uploads and serverless function executions",
+        "B": "Implement strict input validation and content type verification before processing any uploaded files",
+        "C": "Configure the serverless function to run in an isolated container environment with enhanced security permissions",
+        "D": "Increase the memory allocation of the serverless function to handle complex processing tasks more effectively"
+      },
+      "correct_answer": "B",
+      "explanation": "Input validation addresses the root vulnerability by preventing malicious files from entering the processing pipeline before execution occurs. While logging (A) helps with detection, it doesn't prevent the attack. Isolation (C) is a defense-in-depth measure but doesn't address the root cause. Memory allocation (D) is irrelevant to the security issue.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/cloud-computing/"
+    },
+    {
+      "id": 2,
+      "category": "Container Security - Docker",
+      "question": "A DevOps engineer at a financial services company is transitioning their infrastructure to Docker containers. During a security review, they discover that several of their containers are communicating with unexpected external IP addresses. After investigation, they determine that a malicious actor has likely placed a backdoor in one of the custom container images they're using. Which approach should they implement to prevent this type of compromise in the future?",
+      "options": {
+        "A": "Implement a network monitoring tool that alerts when containers communicate with IP addresses not on an approved list",
+        "B": "Configure the Docker daemon to only pull images during business hours when IT staff can monitor network traffic",
+        "C": "Add an additional layer of firewall rules that blocks all container traffic except to explicitly permitted destinations",
+        "D": "Implement image signing with Docker Content Trust to verify image authenticity before deployment"
+      },
+      "correct_answer": "D",
+      "explanation": "Image signing with Docker Content Trust provides preventive protection through cryptographic verification of image integrity and origin before deployment. This ensures only trusted, verified images are deployed, directly addressing the root cause of backdoored images. Network monitoring (A) and firewall rules (C) are detective/reactive controls. Restricting pull times (B) is impractical and ineffective.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/cloud-computing/"
+    },
+    {
+      "id": 3,
+      "category": "Cloud Security - Misconfigured Storage",
+      "question": "Which of the following is a common attack vector in cloud environments where an attacker exploits misconfigured cloud storage permissions to extract sensitive data?",
+      "options": {
+        "A": "Lateral movement through extended storage credentials that were previously established by the cloud provider",
+        "B": "Cross-service request forgery using hypervisor backdoors",
+        "C": "Authentication token manipulation from adjacent virtual private networks",
+        "D": "Data exfiltration via insecure storage buckets"
+      },
+      "correct_answer": "D",
+      "explanation": "Data exfiltration via insecure storage buckets (such as AWS S3, Azure Blob Storage, or Google Cloud Storage) is one of the most common and well-documented cloud attack vectors. Misconfigured bucket permissions allowing public read access have led to numerous real-world data breaches.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/cloud-computing/"
+    },
+    {
+      "id": 4,
+      "category": "Cloud Security - Network Scanning",
+      "question": "During a penetration test on a cloud infrastructure, you need to identify open ports and services running on a specific VM instance. Which tool would be most effective for this purpose?",
+      "options": {
+        "A": "Nmap",
+        "B": "Burp Suite",
+        "C": "Wireshark",
+        "D": "Metasploit"
+      },
+      "correct_answer": "A",
+      "explanation": "Nmap is a powerful network scanning tool that can detect open ports, services, and their versions on a specified IP address, making it ideal for cloud VM reconnaissance. Burp Suite is for web application testing, Wireshark is for packet analysis, and Metasploit is for exploitation.",
+      "source_url": "https://flashgenius.net/blog-article/ceh-certified-ethical-hacker-practice-questions-cloud-computing-1749512641816"
+    },
+    {
+      "id": 5,
+      "category": "Cloud Security - Data Protection",
+      "question": "In a cloud deployment, which practice helps prevent unauthorized data access by limiting exposure of sensitive information?",
+      "options": {
+        "A": "Network zoning",
+        "B": "Data tokenization",
+        "C": "Public key infrastructure (PKI)",
+        "D": "Cloud elasticity"
+      },
+      "correct_answer": "B",
+      "explanation": "Data tokenization replaces sensitive data with non-sensitive equivalents (tokens), reducing the risk of unauthorized access. Even if an attacker gains access to the tokenized data, they cannot reverse-engineer the original sensitive information without access to the token vault.",
+      "source_url": "https://flashgenius.net/blog-article/ceh-certified-ethical-hacker-practice-questions-cloud-computing-1749512641816"
+    },
+    {
+      "id": 6,
+      "category": "Cloud Security - Hybrid Cloud",
+      "question": "You are evaluating the security posture of a hybrid cloud environment. What is the most critical factor to assess when ensuring seamless security between on-premises and cloud resources?",
+      "options": {
+        "A": "Compatibility of hardware components in both environments",
+        "B": "Consistency of security policies across both environments",
+        "C": "Speed of data transfer between on-premises and cloud",
+        "D": "Availability of technical support from the cloud provider"
+      },
+      "correct_answer": "B",
+      "explanation": "Ensuring consistent security policies across both on-premises and cloud environments is crucial for maintaining a cohesive security posture. Inconsistent policies create gaps that attackers can exploit, especially during data transfer between environments.",
+      "source_url": "https://flashgenius.net/blog-article/ceh-certified-ethical-hacker-practice-questions-cloud-computing-1749512641816"
+    },
+    {
+      "id": 7,
+      "category": "Cloud Security - Encryption",
+      "question": "While reviewing a cloud-based application, you identify that it lacks proper encryption for sensitive data at rest. Which encryption mechanism should be recommended to address this issue effectively?",
+      "options": {
+        "A": "Symmetric encryption using AES",
+        "B": "Asymmetric encryption using RSA",
+        "C": "Data masking techniques",
+        "D": "Steganography"
+      },
+      "correct_answer": "A",
+      "explanation": "Symmetric encryption using AES (Advanced Encryption Standard) is commonly used for encrypting data at rest due to its efficiency and strength. AES-256 is the industry standard for protecting sensitive data stored in cloud environments.",
+      "source_url": "https://flashgenius.net/blog-article/ceh-certified-ethical-hacker-practice-questions-cloud-computing-1749512641816"
+    },
+    {
+      "id": 8,
+      "category": "Cloud Security - Access Control",
+      "question": "Which of the following is an effective method for preventing unauthorized access to cloud management interfaces?",
+      "options": {
+        "A": "Using a single-factor authentication",
+        "B": "Implementing multi-factor authentication",
+        "C": "Disabling encryption",
+        "D": "Allowing all IP addresses"
+      },
+      "correct_answer": "B",
+      "explanation": "Implementing multi-factor authentication (MFA) adds an extra layer of security, significantly reducing the risk of unauthorized access to cloud management consoles even if credentials are compromised.",
+      "source_url": "https://flashgenius.net/blog-article/ceh-certified-ethical-hacker-practice-questions-cloud-computing-1749512641816"
+    },
+    {
+      "id": 9,
+      "category": "Cloud Security - NIST Architecture",
+      "question": "According to the NIST cloud deployment reference architecture, which component provides connectivity and transport services to consumers?",
+      "options": {
+        "A": "Cloud connector",
+        "B": "Cloud broker",
+        "C": "Cloud provider",
+        "D": "Cloud carrier"
+      },
+      "correct_answer": "D",
+      "explanation": "Cloud carriers deliver transport services and connectivity to enable data flow between consumers and cloud providers. A cloud broker mediates between consumers and providers. A cloud provider delivers cloud services. The cloud carrier is specifically responsible for the transport layer.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 10,
+      "category": "Container Security - Kubernetes",
+      "question": "Which master component in Kubernetes allocates nodes to newly generated pods based on resource requirements, data locality, and policy restrictions?",
+      "options": {
+        "A": "Kube-apiserver",
+        "B": "Etcd cluster",
+        "C": "Kube-controller-manager",
+        "D": "Kube-scheduler"
+      },
+      "correct_answer": "D",
+      "explanation": "The kube-scheduler assigns nodes to pods considering overall resource needs, hardware/software constraints, affinity specifications, data locality, and various policy restrictions. Kube-apiserver handles API requests, etcd stores cluster state, and kube-controller-manager runs controller processes.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 11,
+      "category": "Container Security - Docker",
+      "question": "What open-source technology helps develop, package, and run applications while providing PaaS through OS-level virtualization?",
+      "options": {
+        "A": "Virtual machine",
+        "B": "Docker",
+        "C": "Zero trust network",
+        "D": "Serverless computing"
+      },
+      "correct_answer": "B",
+      "explanation": "Docker enables containerized software delivery and accelerates development cycles through application isolation using OS-level virtualization. Unlike VMs, Docker containers share the host kernel, making them lightweight and fast to start.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 12,
+      "category": "IoT Hacking - Wireless Protocols",
+      "question": "George transferred sensitive data using a short-range wireless protocol based on IEEE 802.15.4 standard, operating at 10-100m range. What technology did he use?",
+      "options": {
+        "A": "LPWAN",
+        "B": "MQTT",
+        "C": "NB-IoT",
+        "D": "Zigbee"
+      },
+      "correct_answer": "D",
+      "explanation": "Zigbee operates per IEEE 802.15.4, enabling infrequent, low-rate data transfers within the 10-100m range. LPWAN covers long distances, MQTT is a messaging protocol (not a radio technology), and NB-IoT is a cellular-based technology.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 13,
+      "category": "IoT Hacking - Botnets",
+      "question": "After infiltrating IoT devices, Mirai malware creates botnets to launch which type of attack?",
+      "options": {
+        "A": "MITM attack",
+        "B": "Password attack",
+        "C": "Birthday attack",
+        "D": "DDoS attack"
+      },
+      "correct_answer": "D",
+      "explanation": "Mirai botnets coordinate compromised IoT devices (cameras, routers, DVRs) to execute massive distributed denial-of-service (DDoS) operations. The 2016 Mirai attack took down major internet services by generating over 1 Tbps of traffic.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 14,
+      "category": "IoT Hacking - Hardware Attacks",
+      "question": "Robert injects faults into power supplies and clock networks of an IoT device for remote execution. What type of fault injection is this?",
+      "options": {
+        "A": "Frequency/voltage tampering",
+        "B": "Optical, electromagnetic fault injection",
+        "C": "Temperature attack",
+        "D": "Power/clock/reset glitching"
+      },
+      "correct_answer": "D",
+      "explanation": "Power/clock/reset glitching involves manipulating power supplies, clock signals, and reset lines to cause instruction skipping, incorrect execution, or security bypass on embedded IoT devices. This is a hardware-level attack targeting the device's physical execution environment.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 15,
+      "category": "Mobile Hacking - SQL Injection via QR",
+      "question": "You're conducting a security assessment for a travel company that has released a mobile app allowing users to book flights and access boarding passes. The app utilizes QR codes for boarding pass verification. You notice that when users generate QR codes, the app creates them with embedded SQL commands that are passed directly to the backend database for validation. What mobile attack vector is most likely being implemented here?",
+      "options": {
+        "A": "QR code spoofing with malformed authentication tokens that execute when scanned by personnel at boarding gates",
+        "B": "Cross-Site Request Forgery through mobile app redirection",
+        "C": "SQL Injection through QR code payloads",
+        "D": "Session hijacking through insecure QR code generation and transmission protocols over mobile networks"
+      },
+      "correct_answer": "C",
+      "explanation": "The scenario describes untrusted data (SQL commands) embedded in QR codes sent directly to a database interpreter without sanitization or parameterization, which constitutes SQL Injection through QR code payloads - a modern mobile-specific attack vector.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/hacking-mobile-platforms/"
+    },
+    {
+      "id": 16,
+      "category": "Mobile Hacking - MDM/Containerization",
+      "question": "A financial services company recently launched a new mobile banking application for their customers. During a security assessment, you discover that several employees are testing the app with development credentials on their personal devices before the official release. What MDM strategy would best address the security risks in this scenario?",
+      "options": {
+        "A": "Deploy a mobile threat defense solution that continuously monitors network traffic",
+        "B": "Implement application containerization to isolate the banking app and its data from personal apps",
+        "C": "Create a mobile application management policy that blocks screenshots and copy/paste functionality",
+        "D": "Configure remote attestation to verify device integrity before allowing access"
+      },
+      "correct_answer": "B",
+      "explanation": "Application containerization creates a secure, isolated environment (container) on the device that separates sensitive banking data and credentials from personal applications. This addresses the BYOD risk by ensuring corporate data remains protected even on unmanaged personal devices.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/hacking-mobile-platforms/"
+    },
+    {
+      "id": 17,
+      "category": "Mobile Hacking - iOS Security",
+      "question": "Which iOS security mechanism can be exploited using Frida to inject JavaScript into running iOS applications for runtime manipulation?",
+      "options": {
+        "A": "Secure Enclave Privilege Escalation",
+        "B": "Transport Layer Security Tunneling",
+        "C": "Code Signing Bypass",
+        "D": "Application Sandbox Protection Layer Manipulation"
+      },
+      "correct_answer": "C",
+      "explanation": "Frida is a dynamic instrumentation toolkit that can bypass Apple's code signing mechanism, enabling JavaScript injection into running processes for runtime application analysis, hook installation, and manipulation. This is a key technique in iOS application security testing.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/hacking-mobile-platforms/"
+    },
+    {
+      "id": 18,
+      "category": "Mobile Hacking - Spearphone Attack",
+      "question": "Bob exploits Kate's phone loudspeaker vulnerability using a malicious app to monitor audio output. What attack is this?",
+      "options": {
+        "A": "SIM card attack",
+        "B": "aLTEr attack",
+        "C": "Spearphone attack",
+        "D": "Man-in-the-disk attack"
+      },
+      "correct_answer": "C",
+      "explanation": "A Spearphone attack breaches speech privacy by covertly monitoring loudspeaker output using a malicious application that accesses the device's motion sensors (accelerometer) to reconstruct audio from speaker vibrations, without requiring microphone permissions.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 19,
+      "category": "Mobile Hacking - iOS Jailbreaking",
+      "question": "Which jailbreaking technique patches the kernel during boot, making the device jailbroken after each reboot?",
+      "options": {
+        "A": "Tethered jailbreaking",
+        "B": "Semi-untethered jailbreaking",
+        "C": "Semi-tethered jailbreaking",
+        "D": "Untethered jailbreaking"
+      },
+      "correct_answer": "D",
+      "explanation": "Untethered jailbreaks persist across reboots through permanent kernel modifications applied during the boot process. Tethered requires a computer connection each reboot. Semi-tethered boots to stock but can re-jailbreak. Semi-untethered requires an app to re-jailbreak after reboot.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 20,
+      "category": "Mobile Hacking - Reverse Engineering",
+      "question": "Jacob extracts and disassembles mobile app source code to analyze design flaws. What is this technique called?",
+      "options": {
+        "A": "Reverse engineering",
+        "B": "App sandboxing",
+        "C": "Jailbreaking",
+        "D": "Social engineering"
+      },
+      "correct_answer": "A",
+      "explanation": "Reverse engineering involves extracting, decompiling, and analyzing application code to identify vulnerabilities, understand logic, and discover design flaws. Tools like IDA Pro, Hopper, Ghidra, jadx, and apktool are commonly used for mobile app reverse engineering.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 21,
+      "category": "Cloud Security - Azure AD Reconnaissance",
+      "question": "When performing user enumeration in Azure AD using the AADInternals PowerShell tool, what does the 'Exists' field display if the user account exists?",
+      "options": {
+        "A": "Valid",
+        "B": "True",
+        "C": "Found",
+        "D": "Active"
+      },
+      "correct_answer": "B",
+      "explanation": "AADInternals is a PowerShell module primarily focused on auditing and attacking Azure Active Directory. When performing user enumeration, the 'Exists' field returns 'True' if the queried user account exists in the Azure AD tenant.",
+      "source_url": "https://github.com/Duffer-9533/CEH-V13/blob/main/Module%2019%20-%20Cloud%20Computing"
+    },
+    {
+      "id": 22,
+      "category": "Cloud Security - AWS S3 Exploitation",
+      "question": "During a cloud penetration test, you need to list the contents of a target's misconfigured S3 bucket named 'certifiedhacker02'. Which AWS CLI command would you use?",
+      "options": {
+        "A": "aws s3 get s3://certifiedhacker02",
+        "B": "aws s3 ls s3://certifiedhacker02",
+        "C": "aws s3 cp s3://certifiedhacker02",
+        "D": "aws s3 cat s3://certifiedhacker02"
+      },
+      "correct_answer": "B",
+      "explanation": "The 'aws s3 ls' command lists objects and common prefixes in a specified bucket. This is a critical command in cloud penetration testing for discovering exposed data in misconfigured S3 buckets that allow public listing.",
+      "source_url": "https://github.com/Duffer-9533/CEH-V13/blob/main/Module%2019%20-%20Cloud%20Computing"
+    },
+    {
+      "id": 23,
+      "category": "Cloud Security - IAM Privilege Escalation",
+      "question": "During an AWS cloud security assessment, which AWS CLI command allows you to enumerate all user policies for potential privilege escalation paths?",
+      "options": {
+        "A": "aws iam get-user-policies",
+        "B": "aws iam list-user-policies",
+        "C": "aws iam describe-user-policies",
+        "D": "aws iam show-user-policies"
+      },
+      "correct_answer": "B",
+      "explanation": "The 'aws iam list-user-policies' command lists the names of the inline policies attached to a specified IAM user. Identifying overly permissive policies is a key step in IAM privilege escalation during cloud penetration testing.",
+      "source_url": "https://github.com/Duffer-9533/CEH-V13/blob/main/Module%2019%20-%20Cloud%20Computing"
+    },
+    {
+      "id": 24,
+      "category": "Container Security - Vulnerability Scanning",
+      "question": "After installing Ubuntu and nginx:1.19.6 Docker images and scanning with the Trivy security scanner, what severity level is typically observed for the bsdutils vulnerability in nginx:1.19.6?",
+      "options": {
+        "A": "Critical",
+        "B": "Medium",
+        "C": "High",
+        "D": "Low"
+      },
+      "correct_answer": "B",
+      "explanation": "Trivy is an open-source vulnerability scanner for containers and other artifacts. When scanning the nginx:1.19.6 image, the bsdutils package vulnerability is classified as Medium severity. Regular container image scanning is essential for identifying and remediating known vulnerabilities.",
+      "source_url": "https://github.com/Duffer-9533/CEH-V13/blob/main/Module%2019%20-%20Cloud%20Computing"
+    },
+    {
+      "id": 25,
+      "category": "Cloud Security - NIST Characteristics",
+      "question": "Which of the following is an essential characteristic of cloud computing as defined by NIST SP 800-145?",
+      "options": {
+        "A": "Centralized storage",
+        "B": "Resource pooling",
+        "C": "Reduced bandwidth requirements",
+        "D": "Slow elasticity"
+      },
+      "correct_answer": "B",
+      "explanation": "NIST SP 800-145 identifies five essential characteristics of cloud computing: on-demand self-service, broad network access, resource pooling, rapid elasticity, and measured service. Resource pooling means the provider's resources are pooled to serve multiple consumers using a multi-tenant model.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 26,
+      "category": "Cloud Security - Credential Harvesting",
+      "question": "An attacker breaches a cloud infrastructure to gather usernames, passwords, tokens, and PINs from a compromised environment. What type of attack method is this?",
+      "options": {
+        "A": "Account takeover",
+        "B": "Credential harvesting",
+        "C": "Privilege escalation",
+        "D": "Side-channel attacks"
+      },
+      "correct_answer": "B",
+      "explanation": "Credential harvesting is the process of gathering and stealing valid usernames, passwords, tokens, and PINs through infrastructure breaches. Unlike account takeover (which uses stolen credentials), credential harvesting focuses on the collection phase.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 27,
+      "category": "Cloud Security - Privilege Escalation",
+      "question": "An attacker exploits a software bug or design flaw to access resources that are normally protected from an application or user. What type of attack is this?",
+      "options": {
+        "A": "Account takeover",
+        "B": "Credential harvesting",
+        "C": "Privilege escalation",
+        "D": "Side-channel attacks"
+      },
+      "correct_answer": "C",
+      "explanation": "Privilege escalation attacks exploit bugs or design flaws in software to gain access to resources beyond what is normally authorized. In cloud environments, this can allow an attacker to move from a standard user role to administrator access.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 28,
+      "category": "Cloud Security - Vertical Privilege Escalation",
+      "question": "A lower-privileged user accesses functions reserved for higher-privileged users in a cloud environment. What type of privilege escalation is this?",
+      "options": {
+        "A": "Vertical privilege escalation",
+        "B": "Horizontal privilege escalation",
+        "C": "Credential harvesting",
+        "D": "Metadata service attacks"
+      },
+      "correct_answer": "A",
+      "explanation": "Vertical privilege escalation occurs when a standard user accesses functions of an administrator or other higher-privileged role. This is different from horizontal escalation, where a user accesses resources of another user at the same privilege level.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 29,
+      "category": "Cloud Security - Account Takeover",
+      "question": "An attacker gains access to a user account in a cloud environment to subsequently access more accounts and sensitive information. What type of attack is this?",
+      "options": {
+        "A": "Account takeover",
+        "B": "Metadata service attacks",
+        "C": "Resource exhaustion and DoS",
+        "D": "Side-channel attacks"
+      },
+      "correct_answer": "A",
+      "explanation": "Account takeover occurs when an attacker gains access to a legitimate user account and uses it to access additional accounts, escalate privileges, and exfiltrate information. This is particularly dangerous in cloud environments with SSO and federated identity systems.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 30,
+      "category": "Cloud Security - Metadata Service Attacks",
+      "question": "Which tool is specifically designed to find vulnerabilities related to metadata service attacks in cloud environments?",
+      "options": {
+        "A": "Nimbostratus",
+        "B": "Clair",
+        "C": "Falco",
+        "D": "Dagda"
+      },
+      "correct_answer": "A",
+      "explanation": "Nimbostratus is a tool for fingerprinting and exploiting Amazon cloud infrastructures, specifically designed to discover and exploit metadata service vulnerabilities (such as SSRF to the EC2 metadata endpoint at 169.254.169.254). Clair and Dagda are container scanners; Falco is a runtime security tool.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 31,
+      "category": "Cloud Security - DoS Attacks",
+      "question": "An attacker generates specially crafted packets to crash a cloud application. What type of cloud attack is this?",
+      "options": {
+        "A": "Resource exhaustion attack",
+        "B": "Account takeover",
+        "C": "Metadata service attack",
+        "D": "Side-channel attack"
+      },
+      "correct_answer": "A",
+      "explanation": "Resource exhaustion attacks leverage single-packet DoS vulnerabilities or crafted packets to crash cloud applications, consuming resources and making services unavailable. Cloud architectures with auto-scaling can also be targeted to cause financial damage through resource consumption.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 32,
+      "category": "Cloud Security - Malware Injection",
+      "question": "An attacker creates a malicious application and injects it into a cloud environment targeting SaaS, PaaS, or IaaS layers. What type of attack is this?",
+      "options": {
+        "A": "Resource exhaustion attack",
+        "B": "Account takeover",
+        "C": "Metadata service attack",
+        "D": "Cloud malware injection attack"
+      },
+      "correct_answer": "D",
+      "explanation": "Cloud malware injection attacks involve creating and injecting malicious applications, virtual machines, or service instances into cloud environments. The malicious code then executes alongside legitimate services, potentially stealing data or disrupting operations.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 33,
+      "category": "Cloud Security - Misconfiguration",
+      "question": "What is the most common cause of data breaches resulting from misconfigured cloud assets?",
+      "options": {
+        "A": "Insecure permission configurations for cloud object storage",
+        "B": "Hard-coded credentials in application code",
+        "C": "Metadata service credentials",
+        "D": "Sensitive information in startup scripts"
+      },
+      "correct_answer": "A",
+      "explanation": "Insecure permission configurations for cloud object storage services (such as AWS S3 buckets, Azure Blob Storage) are the most common cause of cloud data breaches. Publicly accessible storage buckets have exposed millions of records in high-profile incidents.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 34,
+      "category": "Cloud Security - Side-Channel Attacks",
+      "question": "An attacker accesses virtual machines that share physical hardware to extract information from the underlying computer system. What type of attack is this?",
+      "options": {
+        "A": "Side-channel attack",
+        "B": "Cloud malware injection",
+        "C": "Resource exhaustion",
+        "D": "Account takeover"
+      },
+      "correct_answer": "A",
+      "explanation": "Side-channel attacks in cloud environments exploit the shared physical infrastructure (multi-tenancy) to extract information from co-located VMs. Examples include cache-timing attacks (Flush+Reload, Prime+Probe) and Spectre/Meltdown-style attacks that leak data across VM boundaries.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 35,
+      "category": "Cloud Security - Development Tools",
+      "question": "Which tools help developers deploy cloud applications and use provider resources through infrastructure-as-code approaches?",
+      "options": {
+        "A": "Software development kits (SDKs)",
+        "B": "Cloud development kits (CDKs)",
+        "C": "Identity and access management (IAM)",
+        "D": "Nimbostratus"
+      },
+      "correct_answer": "B",
+      "explanation": "Cloud Development Kits (CDKs) such as AWS CDK allow developers to define cloud infrastructure using familiar programming languages and deploy applications through infrastructure-as-code. SDKs provide API access, IAM manages identity/access, and Nimbostratus is a security tool.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 36,
+      "category": "Mobile Hacking - iOS Insecure Storage",
+      "question": "A mobile vulnerability targets iOS key storage, allowing an attacker to use static analysis or reverse engineering to see how keys are created and stored in the iOS Keychain. What type of vulnerability is this?",
+      "options": {
+        "A": "Insecure storage",
+        "B": "Passcode vulnerabilities",
+        "C": "Certificate pinning",
+        "D": "Known vulnerable components"
+      },
+      "correct_answer": "A",
+      "explanation": "Insecure storage vulnerabilities occur when sensitive data (cryptographic keys, tokens, credentials) is stored improperly in the iOS Keychain or local storage, allowing attackers to extract it through static analysis or reverse engineering of the application binary.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 37,
+      "category": "Mobile Hacking - iOS Testing Framework",
+      "question": "Which open-source framework is specifically designed for testing iOS application security?",
+      "options": {
+        "A": "Needle",
+        "B": "Drozer",
+        "C": "APK Studio",
+        "D": "ApkX"
+      },
+      "correct_answer": "A",
+      "explanation": "Needle is an open-source modular framework for streamlining iOS security testing. Drozer is for Android security testing. APK Studio and ApkX are Android APK analysis/reverse engineering tools.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 38,
+      "category": "IoT Hacking - BLE Security",
+      "question": "Match the BLE (Bluetooth Low Energy) pairing phases: Phase 1, Phase 2, and Phase 3.",
+      "options": {
+        "A": "Phase 1: Transport-specific key distribution, Phase 2: Short-term key generation, Phase 3: Pairing feature exchange",
+        "B": "Phase 1: Pairing feature exchange, Phase 2: Short-term key generation, Phase 3: Transport-specific key distribution",
+        "C": "Phase 1: Short-term key generation, Phase 2: Pairing feature exchange, Phase 3: Transport-specific key distribution",
+        "D": "Phase 1: Pairing feature exchange, Phase 2: Transport-specific key distribution, Phase 3: Short-term key generation"
+      },
+      "correct_answer": "B",
+      "explanation": "BLE pairing follows three phases: Phase 1 involves pairing feature exchange where devices negotiate capabilities. Phase 2 generates short-term keys (STK) for encrypted communication. Phase 3 handles transport-specific key distribution for long-term bonding.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 39,
+      "category": "IoT Hacking - Common Vulnerabilities",
+      "question": "Which of the following is a security vulnerability that specifically affects IoT implementations?",
+      "options": {
+        "A": "Plaintext communication and data leakage",
+        "B": "VM escape vulnerabilities",
+        "C": "Certificate pinning",
+        "D": "Hyperjacking"
+      },
+      "correct_answer": "A",
+      "explanation": "IoT devices commonly suffer from plaintext communication and data leakage due to resource constraints and poor security design. Many IoT protocols (like MQTT without TLS) transmit data unencrypted. VM escape and hyperjacking are cloud/virtualization vulnerabilities; certificate pinning is a security measure, not a vulnerability.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 40,
+      "category": "IoT Hacking - OT Security",
+      "question": "Which of the following IoT/OT systems should NEVER be directly exposed to the Internet? (Choose 2)",
+      "options": {
+        "A": "Turbines in a power plant",
+        "B": "Robots in a factory",
+        "C": "Refrigerators in a restaurant",
+        "D": "Thermostats in a home",
+        "E": "Carbon monoxide detectors in a home"
+      },
+      "correct_answer": "A, B",
+      "explanation": "PLCs controlling turbines in power plants and robots in factories are critical OT/ICS systems that should never be directly exposed to the Internet due to the severe physical safety implications of compromise. Consumer IoT devices may have internet connectivity by design, but industrial control systems require air-gapping or strict network segmentation.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 41,
+      "category": "IoT Hacking - Management Interfaces",
+      "question": "Which specification provides management and monitoring capabilities for compute interfaces independently of CPU, firmware, or operating system?",
+      "options": {
+        "A": "Intelligent Platform Management Interface (IPMI)",
+        "B": "Shodan",
+        "C": "SCADA",
+        "D": "Mobile Security Framework"
+      },
+      "correct_answer": "A",
+      "explanation": "IPMI (Intelligent Platform Management Interface) is a collection of computer interface specifications offering management and monitoring capabilities independently of the host CPU, firmware, and operating system. IPMI vulnerabilities are a common attack vector for IoT/OT systems when exposed to networks.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 42,
+      "category": "Container Security - VM Repository Attacks",
+      "question": "A threat actor uploaded fake or impersonated virtual machine images to a cloud marketplace. What type of vulnerability does this exploit?",
+      "options": {
+        "A": "VM repository vulnerability",
+        "B": "Hypervisor vulnerability",
+        "C": "Hyperjacking",
+        "D": "VM escape vulnerability"
+      },
+      "correct_answer": "A",
+      "explanation": "VM repository vulnerabilities occur when attackers upload malicious or impersonated VMs to cloud marketplaces, allowing manipulation of systems, applications, and data when unsuspecting users deploy these tainted images. This is a form of supply chain attack targeting cloud infrastructure.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 43,
+      "category": "Container Security - Docker Vulnerability Scanning",
+      "question": "Which open-source tool detects Docker image vulnerabilities and uses the ClamAV antivirus engine for malware detection?",
+      "options": {
+        "A": "Anchore's Grype",
+        "B": "Clair",
+        "C": "Dagda",
+        "D": "Falco"
+      },
+      "correct_answer": "C",
+      "explanation": "Dagda is a set of open-source static analysis tools that uses the ClamAV antivirus engine to perform vulnerability scanning and malware detection in Docker images and containers. Grype and Clair are vulnerability scanners without AV integration; Falco is a runtime security tool.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 44,
+      "category": "Cloud Security - DDoS Resilience",
+      "question": "Why do cloud architectures tend to minimize the impact of DoS/DDoS attacks compared to traditional infrastructure?",
+      "options": {
+        "A": "Cloud providers use distributed architecture",
+        "B": "Cloud providers use sandbox analysis",
+        "C": "Cloud has limited network exposure",
+        "D": "Cloud uses IPMI for management"
+      },
+      "correct_answer": "A",
+      "explanation": "Cloud providers' distributed and resilient architecture minimizes the impact of DoS/DDoS attacks by spreading traffic across multiple regions, data centers, and edge locations. Auto-scaling capabilities and large bandwidth pools make it harder to overwhelm cloud-hosted services.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 45,
+      "category": "Cloud Security - Hypervisor Types",
+      "question": "Which of the following is a correct characteristic of hypervisors?",
+      "options": {
+        "A": "Type 1 hypervisors are native/bare-metal hypervisors that run directly on physical hardware",
+        "B": "Type 1 hypervisors run on top of other operating systems",
+        "C": "Type 2 hypervisors include ESXi and Hyper-V",
+        "D": "Type 2 hypervisors run on bare-metal hardware"
+      },
+      "correct_answer": "A",
+      "explanation": "Type 1 (bare-metal) hypervisors run directly on physical hardware without a host OS (examples: VMware ESXi, Microsoft Hyper-V, Xen). Type 2 (hosted) hypervisors run on top of an existing operating system (examples: VirtualBox, VMware Workstation/Player).",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 46,
+      "category": "Container Security - VM Escape",
+      "question": "A vulnerability allows an attacker to escape from a virtual machine and obtain access to other virtual machines or the host system. What type of vulnerability is this?",
+      "options": {
+        "A": "VM escape vulnerability",
+        "B": "VM repository vulnerability",
+        "C": "Hypervisor vulnerability",
+        "D": "Hyperjacking"
+      },
+      "correct_answer": "A",
+      "explanation": "VM escape vulnerabilities allow an attacker to break out of the isolation of a virtual machine and interact with the host operating system or other VMs. This is considered one of the most serious cloud/virtualization threats as it breaks the fundamental isolation guarantee.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 47,
+      "category": "IoT Hacking - BLE Attacks",
+      "question": "Which tool is used to perform on-path (man-in-the-middle) attacks against Bluetooth Low Energy (BLE) devices?",
+      "options": {
+        "A": "GATTacker",
+        "B": "Social-Engineer Toolkit",
+        "C": "Nimbostratus",
+        "D": "Dagda"
+      },
+      "correct_answer": "A",
+      "explanation": "GATTacker is a Node.js tool specifically designed for BLE MITM attacks. It creates a cloned BLE device that intercepts communications between a legitimate BLE device and its connected mobile application, allowing traffic interception and modification.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 48,
+      "category": "Container Security - Docker Scanning",
+      "question": "Which open-source tool is designed specifically for scanning Docker container images for vulnerabilities?",
+      "options": {
+        "A": "Anchore's Grype",
+        "B": "GATTacker",
+        "C": "Social-Engineer Toolkit",
+        "D": "Nimbostratus"
+      },
+      "correct_answer": "A",
+      "explanation": "Anchore's Grype is an open-source vulnerability scanner designed specifically for container images and filesystems. It scans Docker images against known vulnerability databases (CVEs) to identify security issues before deployment.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 49,
+      "category": "Cloud Security - Vulnerability Management",
+      "question": "For hybrid IT environments with both on-premise and cloud assets, which tool provides comprehensive coverage, continuous scanning, and change detection?",
+      "options": {
+        "A": "GFI LanGuard",
+        "B": "Qualys Vulnerability Management",
+        "C": "OpenVAS",
+        "D": "Nessus Professional"
+      },
+      "correct_answer": "B",
+      "explanation": "Qualys Vulnerability Management provides comprehensive vulnerability management with continuous monitoring capabilities across hybrid cloud and on-premises infrastructure. It offers cloud-native architecture with agents and scanners that work across distributed environments.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 50,
+      "category": "Ransomware and APT - Fileless Malware",
+      "question": "Security administrator John discovers that user data has been exfiltrated from the network. No antivirus or IDS alerts were triggered, and application whitelisting was in place. What type of malware most likely bypassed all these controls?",
+      "options": {
+        "A": "File-less malware",
+        "B": "Zero-day malware",
+        "C": "Phishing malware",
+        "D": "Logic bomb malware"
+      },
+      "correct_answer": "A",
+      "explanation": "File-less malware resides entirely in memory without creating any files on disk, allowing it to bypass signature-based antivirus detection, IDS signatures, and application whitelisting. It typically uses legitimate system tools (PowerShell, WMI) to execute malicious actions - a technique known as 'living off the land' (LOtL).",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 51,
+      "category": "Ransomware and APT - Malware Prevention",
+      "question": "Employees at an organization receive emails with suspicious attachments that install malware when opened. What measure would most effectively prevent these targeted attacks?",
+      "options": {
+        "A": "Disable Autorun functionality",
+        "B": "Avoid outdated browsers and email software",
+        "C": "Regularly scan for new files",
+        "D": "Apply latest patches and updates"
+      },
+      "correct_answer": "D",
+      "explanation": "Timely patch application closes known vulnerabilities that are exploited by malware delivery mechanisms and attachment-based attacks. While all options have some value, keeping systems patched addresses the most common exploit vectors used in email-based malware campaigns and ransomware delivery.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 52,
+      "category": "Ransomware and APT - Threat Intelligence",
+      "question": "Arnold collects contextual information about security events from human sources, social media, and chat rooms to disclose risks and attacker methodologies. What type of threat intelligence is this?",
+      "options": {
+        "A": "Strategic threat intelligence",
+        "B": "Operational threat intelligence",
+        "C": "Technical threat intelligence",
+        "D": "Tactical threat intelligence"
+      },
+      "correct_answer": "B",
+      "explanation": "Operational threat intelligence provides immediate context about active threats, attacker methodologies, and campaign details for defense planning. It comes from human sources (HUMINT), social media, chat rooms, and dark web forums. Strategic TI is high-level for executives, technical TI is machine-readable IOCs, and tactical TI covers TTPs.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 53,
+      "category": "Ransomware and APT - Technical Threat Intelligence",
+      "question": "Roma feeds threat intelligence data into security devices in digital format to automatically identify and block inbound/outbound malicious traffic. What type of threat intelligence is this?",
+      "options": {
+        "A": "Operational threat intelligence",
+        "B": "Strategic threat intelligence",
+        "C": "Tactical threat intelligence",
+        "D": "Technical threat intelligence"
+      },
+      "correct_answer": "D",
+      "explanation": "Technical threat intelligence provides actionable, machine-readable data such as IP addresses, domain names, file hashes, and signatures that can be fed directly into security devices (SIEM, IDS/IPS, firewalls) for automated blocking and detection of malicious traffic associated with known threats.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 54,
+      "category": "Wireless Security (Modern) - WPA3",
+      "question": "When testing a WPA3-encrypted wireless network called 'Brakeme-Internal,' which vulnerability is most promising to exploit?",
+      "options": {
+        "A": "Cross-site request forgery",
+        "B": "Dragonblood",
+        "C": "Key reinstallation attack (KRACK)",
+        "D": "AP misconfiguration"
+      },
+      "correct_answer": "B",
+      "explanation": "Dragonblood is a set of vulnerabilities (CVE-2019-9494, CVE-2019-9495) targeting the SAE (Simultaneous Authentication of Equals) handshake mechanism used in WPA3, potentially enabling password recovery through side-channel attacks and downgrade attacks. KRACK targets WPA2, not WPA3.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 55,
+      "category": "Wireless Security (Modern) - WPA3 SAE",
+      "question": "What Wi-Fi encryption technology uses SAE (Simultaneous Authentication of Equals / Dragonfly key exchange) instead of PSK, providing resistance against dictionary attacks?",
+      "options": {
+        "A": "WPA",
+        "B": "WEP",
+        "C": "WPA3",
+        "D": "WPA2"
+      },
+      "correct_answer": "C",
+      "explanation": "WPA3 replaces the Pre-Shared Key (PSK) exchange used in WPA2 with the Simultaneous Authentication of Equals (SAE) protocol, also known as the Dragonfly key exchange. SAE provides forward secrecy and resistance against offline dictionary attacks, even if the password is weak.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 56,
+      "category": "Wireless Security (Modern) - WPA3-Personal",
+      "question": "Which wireless protocol replaces PSK authentication with SAE and resists offline dictionary attacks?",
+      "options": {
+        "A": "Bluetooth",
+        "B": "WPA2-Enterprise",
+        "C": "WPA3-Personal",
+        "D": "ZigBee"
+      },
+      "correct_answer": "C",
+      "explanation": "WPA3-Personal implements the SAE (Simultaneous Authentication of Equals) handshake instead of PSK for improved resistance against offline dictionary-based attacks. Each connection uses a unique encryption key, providing forward secrecy.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 57,
+      "category": "Cloud Security - Social Engineering (SET)",
+      "question": "Which tool is commonly used to perform credential harvesting attacks through spear phishing campaigns that clone legitimate websites?",
+      "options": {
+        "A": "Social-Engineer Toolkit (SET)",
+        "B": "Searchsploit",
+        "C": "Drozer",
+        "D": "Dagda"
+      },
+      "correct_answer": "A",
+      "explanation": "The Social-Engineer Toolkit (SET) automates social engineering attacks including website cloning for credential harvesting, spear phishing campaigns, and payload delivery. It can create convincing clones of legitimate login pages to capture credentials.",
+      "source_url": "https://itexamanswers.net/7-3-3-quiz-cloud-mobile-and-iot-security-answers.html"
+    },
+    {
+      "id": 58,
+      "category": "AI/ML in Cybersecurity - CEH v13 AI Topics",
+      "question": "In the context of CEH v13's AI security module, which technique involves manipulating training data to compromise a machine learning model's accuracy and reliability?",
+      "options": {
+        "A": "Model inversion attack",
+        "B": "Data poisoning",
+        "C": "Adversarial evasion",
+        "D": "Model extraction"
+      },
+      "correct_answer": "B",
+      "explanation": "Data poisoning attacks manipulate the training data of machine learning models to compromise their accuracy, introduce backdoors, or cause misclassifications. This is covered in the OWASP Top 10 for AI module included in CEH v13, which addresses how AI systems can be attacked and defended. Model inversion extracts training data, adversarial evasion crafts inputs to fool models at inference time, and model extraction steals the model itself.",
+      "source_url": "https://www.infosectrain.com/blog/whats-new-in-ceh-v13-ai"
+    },
+    {
+      "id": 59,
+      "category": "AI/ML in Cybersecurity - Deepfake Detection",
+      "question": "A CEH v13 candidate is studying AI-driven social engineering techniques. Which of the following represents the most concerning AI-powered attack vector for social engineering?",
+      "options": {
+        "A": "Using AI to automate port scanning",
+        "B": "Deepfake video creation combined with voice cloning for impersonation",
+        "C": "Using machine learning for password cracking",
+        "D": "AI-based network traffic analysis"
+      },
+      "correct_answer": "B",
+      "explanation": "CEH v13 Module 9 specifically covers AI-driven social engineering techniques including deepfake video creation and voice cloning. These technologies enable highly convincing impersonation attacks (e.g., CEO fraud) that bypass traditional verification methods. The combination of visual and audio deepfakes represents the most sophisticated AI-powered social engineering threat.",
+      "source_url": "https://www.infosectrain.com/blog/whats-new-in-ceh-v13-ai"
+    },
+    {
+      "id": 60,
+      "category": "AI/ML in Cybersecurity - GAN Applications",
+      "question": "In CEH v13's cybersecurity AI curriculum, which machine learning technique uses two neural networks competing against each other, and is explored for both malware generation and threat detection?",
+      "options": {
+        "A": "Random Forest Classifier",
+        "B": "Generative Adversarial Networks (GANs)",
+        "C": "Support Vector Machines (SVMs)",
+        "D": "K-Nearest Neighbors (KNN)"
+      },
+      "correct_answer": "B",
+      "explanation": "Generative Adversarial Networks (GANs) consist of a generator and discriminator network that compete, improving both over time. CEH v13 explores GANs for their dual-use potential: attackers can use them to generate convincing phishing content, deepfakes, and evasive malware, while defenders can use them for anomaly detection and threat modeling.",
+      "source_url": "https://www.infosectrain.com/blog/whats-new-in-ceh-v13-ai"
+    },
+    {
+      "id": 61,
+      "category": "AI/ML in Cybersecurity - AI Phishing",
+      "question": "CEH v13 covers the use of large language models in social engineering. Which of the following best describes how tools like ChatGPT are being weaponized for phishing attacks?",
+      "options": {
+        "A": "Generating polymorphic malware that evades antivirus",
+        "B": "Crafting grammatically perfect, contextually aware phishing emails at scale",
+        "C": "Performing automated SQL injection attacks",
+        "D": "Brute-forcing encryption keys using AI acceleration"
+      },
+      "correct_answer": "B",
+      "explanation": "CEH v13 Module 9 specifically addresses AI-driven phishing techniques including using ChatGPT to craft highly convincing, grammatically perfect phishing emails that are contextually aware and personalized. This eliminates the traditional tell-tale signs of phishing (poor grammar, generic content) and enables attacks at unprecedented scale.",
+      "source_url": "https://appinindore.com/blogs/what-will-you-learn-in-the-ceh-v13-syllabus-20-modules-explained/"
+    },
+    {
+      "id": 62,
+      "category": "AI/ML in Cybersecurity - OWASP AI Top 10",
+      "question": "CEH v13 includes the OWASP Top 10 for AI. Which of the following is a vulnerability category specifically addressed in this framework?",
+      "options": {
+        "A": "SQL Injection in REST APIs",
+        "B": "Insecure AI model APIs and model theft",
+        "C": "Cross-site scripting in web applications",
+        "D": "Buffer overflow in compiled binaries"
+      },
+      "correct_answer": "B",
+      "explanation": "The OWASP Top 10 for AI, included in CEH v13 curriculum, addresses vulnerabilities specific to AI systems including insecure APIs that expose ML models, model theft/extraction, data poisoning, adversarial manipulation, and insecure model deployment. SQL injection, XSS, and buffer overflows are traditional web/software vulnerabilities covered in other OWASP lists.",
+      "source_url": "https://appinindore.com/blogs/what-will-you-learn-in-the-ceh-v13-syllabus-20-modules-explained/"
+    },
+    {
+      "id": 63,
+      "category": "Zero Trust Architecture",
+      "question": "A CISO is implementing a security architecture where no user or device is automatically trusted, regardless of whether they are inside or outside the corporate network perimeter. All access requests must be verified, validated, and authorized. What security model is being implemented?",
+      "options": {
+        "A": "Defense in depth",
+        "B": "Zero trust architecture",
+        "C": "Perimeter-based security",
+        "D": "Castle-and-moat model"
+      },
+      "correct_answer": "B",
+      "explanation": "Zero Trust Architecture (ZTA) is based on the principle of 'never trust, always verify.' It eliminates implicit trust based on network location and requires continuous verification of every user, device, and connection. CISA reports 40% fewer successful lateral movement incidents in organizations with comprehensive ZTA. Defense in depth uses layered security but may still include trusted zones.",
+      "source_url": "https://dokumen.pub/ceh-v12-certified-ethical-hacker-study-guide-with-750-practice-test-questions-9781394186921-9781394186877-9781394186914-1394186924.html"
+    },
+    {
+      "id": 64,
+      "category": "Zero Trust Architecture",
+      "question": "Which modern security framework combines networking and security services including CASB, Zero Trust Network Access (ZTNA), Secure Web Gateway (SWG), and Firewall-as-a-Service (FWaaS) into a single cloud-delivered service?",
+      "options": {
+        "A": "SIEM (Security Information and Event Management)",
+        "B": "SASE (Secure Access Service Edge)",
+        "C": "SOAR (Security Orchestration, Automation and Response)",
+        "D": "EDR (Endpoint Detection and Response)"
+      },
+      "correct_answer": "B",
+      "explanation": "SASE (Secure Access Service Edge) integrates networking (SD-WAN) and security services (CASB, ZTNA, SWG, FWaaS) into a unified cloud-delivered model. It supports zero trust principles by enforcing identity-based access policies regardless of user location. SIEM collects and analyzes logs, SOAR automates incident response, and EDR monitors endpoints.",
+      "source_url": "https://sase.checkpoint.com/blog/zero-trust/sase-vs-casb"
+    },
+    {
+      "id": 65,
+      "category": "Supply Chain Attacks",
+      "question": "A nation-state threat actor compromised the build process of a widely-used network management software, inserting a backdoor that was distributed to 18,000 organizations through legitimate software updates. Which type of attack does this describe?",
+      "options": {
+        "A": "Watering hole attack",
+        "B": "Supply chain attack",
+        "C": "Drive-by download",
+        "D": "Spear phishing campaign"
+      },
+      "correct_answer": "B",
+      "explanation": "This describes a supply chain attack (modeled on the SolarWinds/SUNBURST incident of 2020). Supply chain attacks compromise trusted software vendors, build systems, or distribution channels to deliver malicious code through legitimate update mechanisms. This bypasses traditional security controls because the malware arrives through a trusted channel. Supply chain attacks nearly doubled in 2025, with 297 documented incidents (up 93% from 2024).",
+      "source_url": "https://www.ethicalhackinginstitute.com/blog/whats-new-in-ceh-v13-updates-you-should-know-about"
+    },
+    {
+      "id": 66,
+      "category": "Supply Chain Attacks",
+      "question": "An attacker compromised a South Korean VPN vendor's distribution channel, replacing legitimate installers with a trojanized version containing the SlowStepper backdoor delivered from the vendor's website. What APT technique category does this represent?",
+      "options": {
+        "A": "Initial Access via Phishing (T1566)",
+        "B": "Initial Access via Supply Chain Compromise (T1195)",
+        "C": "Execution via Command and Scripting Interpreter (T1059)",
+        "D": "Persistence via Boot or Logon Autostart (T1547)"
+      },
+      "correct_answer": "B",
+      "explanation": "MITRE ATT&CK technique T1195 (Supply Chain Compromise) covers attacks that manipulate products or delivery mechanisms prior to receipt by the final consumer. This includes sub-techniques T1195.001 (Compromise Software Dependencies), T1195.002 (Compromise Software Supply Chain), and T1195.003 (Compromise Hardware Supply Chain). The PlushDaemon APT case is a real-world example from 2025.",
+      "source_url": "https://cyble.com/blog/ransomware-attacks-supply-chain-threat-landscape/"
+    },
+    {
+      "id": 67,
+      "category": "Ransomware and APT - Ransomware-as-a-Service",
+      "question": "A cybercriminal group operates a platform where affiliates can access ransomware tools, infrastructure, and negotiation support in exchange for a percentage of ransom payments. What is this business model called?",
+      "options": {
+        "A": "Malware-as-a-Service (MaaS)",
+        "B": "Ransomware-as-a-Service (RaaS)",
+        "C": "Crimeware-as-a-Service (CaaS)",
+        "D": "Exploit-as-a-Service (EaaS)"
+      },
+      "correct_answer": "B",
+      "explanation": "Ransomware-as-a-Service (RaaS) is a subscription or affiliate-based model where ransomware developers provide tools, infrastructure, and support to affiliates who conduct attacks. Groups like RansomHub (531 victims in 2024) and LockBit operate using this model. CEH v13 specifically covers RaaS as a key malware threat trend, with the Malware Threats module representing 10-14% of the exam.",
+      "source_url": "https://www.ethicalhackinginstitute.com/blog/how-to-learn-malware-analysis-for-ceh-exam"
+    },
+    {
+      "id": 68,
+      "category": "Ransomware and APT - APT Lifecycle",
+      "question": "A professional hacker performs a network attack, gains unauthorized access, and remains in the network undetected for an extended period while systematically collecting sensitive information. Which type of attack best describes this scenario?",
+      "options": {
+        "A": "Distributed Denial-of-Service (DDoS) attack",
+        "B": "Advanced Persistent Threat (APT)",
+        "C": "SQL Injection attack",
+        "D": "Social engineering attack"
+      },
+      "correct_answer": "B",
+      "explanation": "An Advanced Persistent Threat (APT) is characterized by sophisticated, long-term, targeted attacks where the adversary gains access and maintains persistence in a network to exfiltrate data over time. Key characteristics include: advanced techniques, persistent access maintenance, and targeted objectives. APT lifecycle phases include initial intrusion, establishing persistence, command and control, lateral movement, and data exfiltration.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 69,
+      "category": "Ransomware and APT - Kill Chain",
+      "question": "Which action represents the 'delivery' step in the Cyber Kill Chain model?",
+      "options": {
+        "A": "Intruder creates a malware payload as an email attachment",
+        "B": "Malware triggers when the target opens the attachment",
+        "C": "Malware installs a backdoor on the target machine",
+        "D": "Intruder sends the malicious attachment via email to the target"
+      },
+      "correct_answer": "D",
+      "explanation": "In Lockheed Martin's Cyber Kill Chain, the Delivery phase involves transmitting the weaponized payload to the target through a selected vector (email, USB, web). Creating the payload is 'Weaponization,' triggering is 'Exploitation,' and installing a backdoor is 'Installation.' Understanding the kill chain is critical for disrupting APT campaigns at different phases.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 70,
+      "category": "Container Security - Serverless Architecture",
+      "question": "An organization needs to build a cloud-native service that handles unpredictable traffic patterns ranging from zero to millions of requests. Which architecture best addresses this requirement while minimizing costs during idle periods?",
+      "options": {
+        "A": "Deploy a cluster of always-on virtual machines with load balancing",
+        "B": "Use HTTP-triggered serverless functions that automatically scale with incoming requests",
+        "C": "Implement a container orchestration platform with fixed replica counts",
+        "D": "Set up a dedicated physical server farm with manual scaling procedures"
+      },
+      "correct_answer": "B",
+      "explanation": "Serverless functions (like AWS Lambda, Azure Functions, Google Cloud Functions) automatically scale out when traffic surges and scale to zero when there is no traffic, making them ideal for unpredictable workloads. This 'pay-per-execution' model eliminates costs during idle periods. Always-on VMs and fixed containers incur costs regardless of usage.",
+      "source_url": "https://trustedinstitute.com/topic/ceh/cloud-computing/"
+    },
+    {
+      "id": 71,
+      "category": "Cloud Security - Web of Trust vs Zero Trust",
+      "question": "Jane implements a security model where users maintain rings of public keys for message authentication, with trust established through peer verification rather than a central authority. What model is this?",
+      "options": {
+        "A": "Zero trust network",
+        "B": "Secure Socket Layer (SSL)",
+        "C": "Transport Layer Security (TLS)",
+        "D": "Web of trust (WOT)"
+      },
+      "correct_answer": "D",
+      "explanation": "The Web of Trust (WOT) is a decentralized trust model used in PGP/GPG where users verify each other's identities and sign each other's public keys, creating a network of trust relationships. This differs from Zero Trust (which trusts no one by default) and PKI/CA-based models (SSL/TLS) which use centralized certificate authorities.",
+      "source_url": "https://awslagi.com/course/312-50v12/lessons/certified-ethical-hacker-v12-topic-2/"
+    },
+    {
+      "id": 72,
+      "category": "AI/ML in Cybersecurity - AI-Powered Defense",
+      "question": "CEH v13 covers both offensive and defensive uses of AI in cybersecurity. Which of the following represents a defensive AI application for threat detection?",
+      "options": {
+        "A": "Using NLP to generate convincing phishing emails",
+        "B": "Using GANs to create deepfake videos for social engineering",
+        "C": "Using reinforcement learning for automated vulnerability exploitation",
+        "D": "Using machine learning for anomaly-based intrusion detection and behavioral analysis"
+      },
+      "correct_answer": "D",
+      "explanation": "Machine learning for anomaly-based intrusion detection analyzes network traffic patterns and user behavior to identify deviations that may indicate threats. This defensive AI application is covered in CEH v13's AI module alongside offensive techniques. Options A, B, and C represent offensive AI applications: NLP for phishing, GANs for deepfakes, and RL for automated exploitation.",
+      "source_url": "https://www.infosectrain.com/blog/whats-new-in-ceh-v13-ai"
+    }
+  ]
+}

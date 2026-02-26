@@ -350,6 +350,40 @@ export default function Home() {
 
         </RevealSection>
 
+        {/* ═══ TOOLS ═══ */}
+        <RevealSection id="tools" className="px-8 md:px-[60px] py-[100px]">
+          <div className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-amber)] tracking-[3px] uppercase mb-3">
+            // Resources
+          </div>
+          <h2 className="font-[family-name:var(--font-chakra)] text-3xl md:text-4xl font-bold text-[var(--color-txt)] mb-10">
+            Tools
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <a
+              href="/ceh-cram/"
+              className="group bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-7 no-underline transition-all duration-300 hover:border-[var(--color-cyan)] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,229,255,0.08)]"
+            >
+              <div className="flex items-start gap-5">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-[rgba(0,229,255,0.1)] border border-[rgba(0,229,255,0.3)] text-[var(--color-cyan)] font-[family-name:var(--font-fira)] text-sm font-semibold shrink-0">
+                  CEH
+                </div>
+                <div className="flex-1">
+                  <div className="font-[family-name:var(--font-chakra)] text-base font-semibold text-[var(--color-txt)] mb-1 group-hover:text-[var(--color-cyan)] transition-colors">
+                    CEH Cram Station
+                  </div>
+                  <div className="text-[13px] text-[var(--color-txt-sec)] mb-2">
+                    424 questions with spaced repetition for the CEH v13 (312-50) exam.
+                  </div>
+                  <span className="font-[family-name:var(--font-fira)] text-[11px] px-2 py-0.5 rounded bg-[rgba(0,229,255,0.08)] text-[var(--color-cyan)]">
+                    Free &middot; Open to all
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </RevealSection>
+
         {/* ═══ CONTACT ═══ */}
         <RevealSection id="contact" className="px-8 md:px-[60px] py-[100px] text-center">
           <div className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-amber)] tracking-[3px] uppercase mb-3">

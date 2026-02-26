@@ -1,0 +1,13 @@
+{
+  "name": "ceh-cram-station",
+  "version": "1.0.0",
+  "description": "CEH v13 spaced repetition study app",
+  "private": true,
+  "scripts": {
+    "dev": "npx vercel dev",
+    "deploy": "npx vercel --prod"
+  },
+  "dependencies": {
+    "vercel": "^50.23.2"
+  }
+}
