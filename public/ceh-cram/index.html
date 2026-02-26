@@ -831,7 +831,7 @@ let currentShuffleMap = {}; // maps display letter -> original key
 // ─── INIT ───
 async function init() {
   try {
-    const resp = await fetch('CEH_Master_Question_Bank.json');
+    const resp = await fetch('/ceh-cram/CEH_Master_Question_Bank.json');
     const data = await resp.json();
     questions = data.questions;
     loadProgress();

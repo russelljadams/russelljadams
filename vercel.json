@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
+  "rewrites": [
+    { "source": "/ceh-cram", "destination": "/ceh-cram/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
