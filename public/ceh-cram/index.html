@@ -428,8 +428,32 @@ body::before {
   background: rgba(255, 51, 102, 0.15);
 }
 
+.option-btn.selected {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+}
+.option-btn.selected .option-letter {
+  border-color: var(--accent-cyan);
+  color: var(--bg-deep);
+  background: var(--accent-cyan);
+}
+
 .option-btn.disabled { cursor: default; pointer-events: none; }
 .option-btn.dimmed { opacity: 0.35; }
+
+.multi-hint {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--accent-amber);
+  background: var(--accent-amber-dim);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
 /* Explanation panel */
 .explanation {
@@ -878,6 +902,20 @@ let sessionStats = { reviewed: 0, correct: 0, wrong: 0, missed: [] };
 let totalSessionCards = 0;
 let answered = false;
 let currentShuffleMap = {}; // maps display letter -> original key
+let selectedAnswers = new Set(); // for multi-select questions
+const ALL_LETTERS = ['A','B','C','D','E','F','G','H'];
+
+// ─── ANSWER HELPERS ───
+function getCorrectAnswers(q) {
+  const ans = q.answer;
+  if (Array.isArray(ans)) return ans.map(a => a.trim());
+  if (typeof ans === 'string' && ans.includes(',')) return ans.split(',').map(a => a.trim());
+  return [ans.trim()];
+}
+
+function isMultiSelect(q) {
+  return getCorrectAnswers(q).length > 1;
+}
 
 // ─── INIT ───
 async function init() {
@@ -1058,8 +1096,11 @@ function showNextCard() {
   }
 
   answered = false;
+  selectedAnswers = new Set();
   const q = sessionQueue[0];
   const container = document.getElementById('card-container');
+  const multi = isMultiSelect(q);
+  const numCorrect = getCorrectAnswers(q).length;
 
   // Shuffle options so you can't memorize positions
   const entries = Object.entries(q.options);
@@ -1067,23 +1108,30 @@ function showNextCard() {
     const j = Math.floor(Math.random() * (i + 1));
     [entries[i], entries[j]] = [entries[j], entries[i]];
   }
-  const displayLetters = ['A', 'B', 'C', 'D'];
+  const displayLetters = ALL_LETTERS.slice(0, entries.length);
   // Map display letter -> original key for grading
   currentShuffleMap = {};
   entries.forEach(([origKey], i) => { currentShuffleMap[displayLetters[i]] = origKey; });
 
+  const multiHint = multi ? `<div class="multi-hint">Select ${numCorrect} answers</div>` : '';
+
   container.innerHTML = `
     <div class="question-domain">${q.domain}</div>
     <div class="question-id">#${q.id} of ${questions.length}</div>
-    <div class="question-text">${escapeHtml(q.question)}</div>
+    <div class="question-text">${escapeHtml(q.question)}${multiHint}</div>
     <div class="options-grid" id="options-grid">
       ${entries.map(([origKey, text], i) => `
-        <button class="option-btn" onclick="selectAnswer('${displayLetters[i]}')" data-key="${displayLetters[i]}" data-orig="${origKey}">
+        <button class="option-btn" onclick="${multi ? `toggleOption('${displayLetters[i]}')` : `selectAnswer('${displayLetters[i]}')`}" data-key="${displayLetters[i]}" data-orig="${origKey}">
           <span class="option-letter">${displayLetters[i]}</span>
           <span>${escapeHtml(text)}</span>
         </button>
       `).join('')}
     </div>
+    ${multi ? `<div class="next-btn-wrap" id="submit-btn-wrap">
+      <button class="btn btn-next" id="submit-multi-btn" onclick="submitMultiAnswer()" disabled style="opacity:0.4">
+        Submit Answer <span class="shortcut">${numCorrect} selected needed</span>
+      </button>
+    </div>` : ''}
     <div id="feedback-area"></div>
     <div class="next-btn-wrap hidden" id="next-btn-wrap">
       <button class="btn btn-next" onclick="advanceCard()">
@@ -1101,17 +1149,68 @@ function showNextCard() {
   document.getElementById('study-progress-bar').style.width = pct + '%';
 }
 
+// ─── MULTI-SELECT: toggle an option ───
+function toggleOption(displayKey) {
+  if (answered) return;
+  const q = sessionQueue[0];
+  const numCorrect = getCorrectAnswers(q).length;
+
+  if (selectedAnswers.has(displayKey)) {
+    selectedAnswers.delete(displayKey);
+  } else {
+    selectedAnswers.add(displayKey);
+  }
+
+  // Update visual selected state
+  document.querySelectorAll('.option-btn').forEach(btn => {
+    btn.classList.toggle('selected', selectedAnswers.has(btn.dataset.key));
+  });
+
+  // Update submit button
+  const submitBtn = document.getElementById('submit-multi-btn');
+  if (submitBtn) {
+    const ready = selectedAnswers.size === numCorrect;
+    submitBtn.disabled = !ready;
+    submitBtn.style.opacity = ready ? '1' : '0.4';
+    submitBtn.querySelector('.shortcut').textContent = ready ? 'ENTER' : `${selectedAnswers.size}/${numCorrect} selected`;
+  }
+}
+
+// ─── MULTI-SELECT: submit ───
+function submitMultiAnswer() {
+  if (answered) return;
+  const q = sessionQueue[0];
+  const correctOrigs = getCorrectAnswers(q);
+
+  const chosenOrigs = [...selectedAnswers].map(dk => currentShuffleMap[dk]);
+  const isCorrect = chosenOrigs.length === correctOrigs.length &&
+    correctOrigs.every(a => chosenOrigs.includes(a));
+
+  gradeAndShow(q, isCorrect, chosenOrigs, correctOrigs);
+}
+
+// ─── SINGLE-SELECT: click to answer ───
 function selectAnswer(displayKey) {
   if (answered) return;
+  const q = sessionQueue[0];
+  const origKey = currentShuffleMap[displayKey];
+  const correctOrigs = getCorrectAnswers(q);
+  const isCorrect = correctOrigs.length === 1 && origKey === correctOrigs[0];
+
+  gradeAndShow(q, isCorrect, [origKey], correctOrigs);
+}
+
+// ─── SHARED: grade + show feedback ───
+function gradeAndShow(q, isCorrect, chosenOrigs, correctOrigs) {
   answered = true;
 
-  const q = sessionQueue[0];
-  const origKey = currentShuffleMap[displayKey]; // translate display -> original
-  const correctOrig = q.answer;
-  const isCorrect = origKey === correctOrig;
-
-  // Find which display letter maps to the correct original answer
-  const correctDisplay = Object.entries(currentShuffleMap).find(([dk, ok]) => ok === correctOrig)[0];
+  // Find display keys for correct and chosen answers
+  const correctDisplays = new Set();
+  const chosenDisplays = new Set();
+  Object.entries(currentShuffleMap).forEach(([dk, ok]) => {
+    if (correctOrigs.includes(ok)) correctDisplays.add(dk);
+    if (chosenOrigs.includes(ok)) chosenDisplays.add(dk);
+  });
 
   // Update progress
   const p = getCardProgress(q.id);
@@ -1123,11 +1222,11 @@ function selectAnswer(displayKey) {
   } else {
     p.streak = 0;
     p.wrong++;
-    p.interval = INTERVALS[0]; // 1 minute
+    p.interval = INTERVALS[0];
     sessionStats.missed.push({
       question: q.question,
-      correct: correctOrig + ': ' + q.options[correctOrig],
-      chosen: origKey + ': ' + q.options[origKey]
+      correct: correctOrigs.map(k => k + ': ' + q.options[k]).join('; '),
+      chosen: chosenOrigs.map(k => k + ': ' + q.options[k]).join('; ')
     });
   }
   p.nextReview = Date.now() + p.interval * 60000;
@@ -1137,14 +1236,18 @@ function selectAnswer(displayKey) {
   if (isCorrect) sessionStats.correct++;
   else sessionStats.wrong++;
 
-  // Update UI — highlight using display letters
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(btn => {
+  // Hide submit button for multi-select
+  const submitWrap = document.getElementById('submit-btn-wrap');
+  if (submitWrap) submitWrap.classList.add('hidden');
+
+  // Update UI — highlight options
+  document.querySelectorAll('.option-btn').forEach(btn => {
     const key = btn.dataset.key;
     btn.classList.add('disabled');
-    if (key === correctDisplay) btn.classList.add('correct');
-    if (key === displayKey && !isCorrect) btn.classList.add('wrong');
-    if (key !== correctDisplay && key !== displayKey) btn.classList.add('dimmed');
+    btn.classList.remove('selected');
+    if (correctDisplays.has(key)) btn.classList.add('correct');
+    if (chosenDisplays.has(key) && !correctDisplays.has(key)) btn.classList.add('wrong');
+    if (!correctDisplays.has(key) && !chosenDisplays.has(key)) btn.classList.add('dimmed');
   });
 
   const feedback = document.getElementById('feedback-area');
@@ -1164,11 +1267,10 @@ function selectAnswer(displayKey) {
 
   document.getElementById('next-btn-wrap').classList.remove('hidden');
 
-  // If wrong, re-queue the card near the front (after 2-4 cards)
+  // If wrong, re-queue near the front
   if (!isCorrect && sessionQueue.length > 1) {
     const reinsertPos = Math.min(3, sessionQueue.length - 1);
-    const card = sessionQueue[0];
-    sessionQueue.splice(reinsertPos, 0, card);
+    sessionQueue.splice(reinsertPos, 0, sessionQueue[0]);
   }
 }
 
@@ -1283,12 +1385,28 @@ document.addEventListener('keydown', (e) => {
   if (document.getElementById('study-screen').classList.contains('hidden')) return;
 
   if (!answered) {
-    // 1-4 or A-D to select answer
-    const keyMap = { '1': 'A', '2': 'B', '3': 'C', '4': 'D', 'a': 'A', 'b': 'B', 'c': 'C', 'd': 'D' };
-    const mapped = keyMap[e.key.toLowerCase()];
-    if (mapped) {
+    // Map number keys and letter keys to display letters
+    const numMap = { '1':'A','2':'B','3':'C','4':'D','5':'E','6':'F','7':'G','8':'H' };
+    const letterMap = { 'a':'A','b':'B','c':'C','d':'D','e':'E','f':'F','g':'G','h':'H' };
+    const mapped = numMap[e.key] || letterMap[e.key.toLowerCase()];
+
+    if (mapped && currentShuffleMap[mapped] !== undefined) {
       e.preventDefault();
-      selectAnswer(mapped);
+      const q = sessionQueue[0];
+      if (isMultiSelect(q)) {
+        toggleOption(mapped);
+      } else {
+        selectAnswer(mapped);
+      }
+    }
+
+    // Enter to submit multi-select
+    if (e.key === 'Enter' && sessionQueue.length > 0 && isMultiSelect(sessionQueue[0])) {
+      const submitBtn = document.getElementById('submit-multi-btn');
+      if (submitBtn && !submitBtn.disabled) {
+        e.preventDefault();
+        submitMultiAnswer();
+      }
     }
   } else {
     // Space or Enter to advance
