@@ -459,6 +459,57 @@ body::before {
   color: var(--text-secondary);
 }
 
+/* Deep dive panel */
+.deep-dive {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  animation: slideUp 0.3s ease;
+  position: relative;
+}
+
+.deep-dive::before {
+  content: 'DEEP DIVE';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent-cyan);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.deep-dive p {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.deep-dive p:last-child { margin-bottom: 0; }
+
+.btn-deep-dive {
+  background: transparent;
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  padding: 8px 16px;
+  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.btn-deep-dive:hover {
+  background: var(--accent-cyan-dim);
+  border-color: var(--accent-cyan);
+}
+
 .next-btn-wrap { margin-top: auto; padding-top: 10px; }
 
 .btn-next {
@@ -1097,11 +1148,18 @@ function selectAnswer(displayKey) {
   });
 
   const feedback = document.getElementById('feedback-area');
+  const deepDiveHtml = q.deep_dive
+    ? `<button class="btn-deep-dive" onclick="toggleDeepDive()">Show Deep Dive</button>
+       <div class="deep-dive hidden" id="deep-dive-panel">
+         ${escapeHtml(q.deep_dive).split('\n\n').map(p => `<p>${p}</p>`).join('')}
+       </div>`
+    : '';
   feedback.innerHTML = `
     <div class="result-flash ${isCorrect ? 'correct' : 'wrong'}">
       ${isCorrect ? 'CORRECT' : 'WRONG'}
     </div>
     <div class="explanation"><p>${escapeHtml(q.explanation)}</p></div>
+    ${deepDiveHtml}
   `;
 
   document.getElementById('next-btn-wrap').classList.remove('hidden');
@@ -1111,6 +1169,18 @@ function selectAnswer(displayKey) {
     const reinsertPos = Math.min(3, sessionQueue.length - 1);
     const card = sessionQueue[0];
     sessionQueue.splice(reinsertPos, 0, card);
+  }
+}
+
+function toggleDeepDive() {
+  const panel = document.getElementById('deep-dive-panel');
+  const btn = document.querySelector('.btn-deep-dive');
+  if (panel.classList.contains('hidden')) {
+    panel.classList.remove('hidden');
+    btn.textContent = 'Hide Deep Dive';
+  } else {
+    panel.classList.add('hidden');
+    btn.textContent = 'Show Deep Dive';
   }
 }
 
