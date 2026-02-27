@@ -23,7 +23,7 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Russell J. Adams | Cybersecurity & Technical Operations",
   description:
-    "Veteran technician and aspiring cybersecurity professional. Air Force intelligence analyst turned field tech turned security enthusiast.",
+    "Security-focused technician with CEH and Google Cybersecurity certifications. Air Force intelligence veteran with 10+ years of network and telecom experience.",
 };
 
 export default function RootLayout({

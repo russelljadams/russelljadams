@@ -58,7 +58,7 @@ pdf.cell(0, 10, "Russell J. Adams", align="C", new_x="LMARGIN", new_y="NEXT")
 # Tagline
 pdf.set_font("DejaVu", "", 10.5)
 pdf.set_text_color(80, 80, 80)
-pdf.cell(0, 6, "Technician  |  Veteran  |  Technical Problem Solver", align="C", new_x="LMARGIN", new_y="NEXT")
+pdf.cell(0, 6, "Security-Focused Technician  |  Network Operations  |  U.S. Air Force Veteran", align="C", new_x="LMARGIN", new_y="NEXT")
 
 # Contact
 pdf.set_font("DejaVu", "", 9)
@@ -71,11 +71,10 @@ pdf.ln(3)
 pdf.section_header("Professional Summary")
 pdf.set_font("DejaVu", "", 9.5)
 pdf.multi_cell(0, 5,
-    "Veteran technician with hands-on experience in low-voltage cabling, telecom troubleshooting, "
-    "and field service. Skilled in installing, terminating, and testing cabling and devices; setting "
-    "up and maintaining networks; and mounting/configuring AV and connected systems. Proven reliability, "
-    "safety, and problem-solving across military, telecom, and logistics roles. Strong ability to work "
-    "independently or lead tasks to completion.",
+    "Security-focused technician with 10+ years of network and telecom experience, backed by military "
+    "intelligence analysis. Holds CEH and Google Cybersecurity Professional certifications. Background "
+    "spans network diagnostics, infrastructure troubleshooting, and operational security. Seeking to "
+    "apply analytical skills and technical foundation in a security analyst or SOC analyst role.",
     new_x="LMARGIN", new_y="NEXT")
 pdf.ln(1)
 
@@ -83,16 +82,16 @@ pdf.ln(1)
 pdf.section_header("Core Competencies")
 pdf.set_font("DejaVu", "", 9.5)
 comps_left = [
-    "Low-Voltage Cabling (Cat6, coax, basic fiber)",
-    "Cable Termination, Labeling & Testing",
-    "Network/Wi-Fi Setup & Troubleshooting",
-    "Device Mounting: TVs, cameras, access points",
+    "Network Troubleshooting & Diagnostics",
+    "TCP/IP, DNS, DHCP, Firewalls, VPNs",
+    "Linux, Python, SQL, Bash",
+    "OPSEC, Documentation & Reporting",
 ]
 comps_right = [
-    "Rack Building & Cable Management",
-    "Blueprint/Work Order Reading, OSHA Safety",
-    "Hand/Power Tools, Cable Test Equipment",
-    "Customer Communication & End-User Training",
+    "Security Monitoring & Incident Response",
+    "SIEM Concepts & Log Analysis",
+    "Vulnerability Assessment",
+    "Security Frameworks (NIST, CIA Triad)",
 ]
 col_width = (pdf.w - pdf.l_margin - pdf.r_margin) / 2
 for left, right in zip(comps_left, comps_right):
@@ -106,29 +105,25 @@ pdf.ln(1)
 # Professional Experience
 pdf.section_header("Professional Experience")
 
+pdf.job_header("United States Air Force \u2014 Operations Intelligence Analyst (2006 \u2013 2010)")
+pdf.bullet("Analyzed technical and operational intelligence data to support mission-critical decisions under strict deadlines.")
+pdf.bullet("Applied operational security (OPSEC) protocols and maintained documentation discipline in high-tempo environments.")
+pdf.bullet("Processed and correlated multi-source data to identify patterns, threats, and actionable intelligence.")
+
+pdf.ln(1)
 pdf.job_header("Spectrum (Charter Communications) \u2014 Field Technician II (2017 \u2013 2021)")
-pdf.bullet("Installed and serviced Internet, TV, and Voice for residential/business customers.")
-pdf.bullet("Placed/terminated coax and Cat5e/Cat6; mounted gateways, set-top boxes, Wi-Fi access points.")
-pdf.bullet("Performed signal diagnostics and resolved impairments to DOCSIS standards.")
-pdf.bullet("Executed clean cable management and safety compliance in varied environments.")
-pdf.bullet("Completed work orders, documented materials, and provided customer training.")
+pdf.bullet("Diagnosed and resolved network connectivity issues across residential and business environments.")
+pdf.bullet("Performed signal diagnostics and troubleshooting to DOCSIS standards; configured routers, gateways, and access points.")
+pdf.bullet("Built and maintained structured cabling infrastructure (Cat5e/Cat6, coax, fiber) with rack and cable management.")
+
+pdf.ln(1)
+pdf.job_header("Telecom Outsourcing & Call Centers \u2014 Technical Support (2012 \u2013 2017)")
+pdf.bullet("Troubleshot network connectivity, modem/router issues, and Wi-Fi configuration for telecom customers.")
+pdf.bullet("Documented cases, escalated security-relevant issues, and managed high-volume incident queues.")
 
 pdf.ln(1)
 pdf.job_header("Amazon Logistics \u2014 Delivery Associate (2021 \u2013 Present)")
-pdf.bullet("Completed 180\u2013200+ stops per day with accuracy and safety.")
-pdf.bullet("Recognized for reliability and teamwork (Driver of the Month).")
-pdf.bullet("Maintained vehicle, equipment, and route efficiency.")
-
-pdf.ln(1)
-pdf.job_header("Telecom Outsourcing & Call Centers \u2014 Technical Support & Customer Service (2012 \u2013 2017)")
-pdf.bullet("Provided technical support for telecom customers: modem/router setup, Wi-Fi configuration, connectivity troubleshooting.")
-pdf.bullet("Assisted customers with wiring checks, resets, and device setup.")
-pdf.bullet("Created clear case notes and escalations while managing high call volumes.")
-
-pdf.ln(1)
-pdf.job_header("United States Air Force \u2014 Operations Intelligence Analyst (2006 \u2013 2010)")
-pdf.bullet("Analyzed technical and operational data under strict deadlines.")
-pdf.bullet("Applied operational security (OPSEC) and documentation discipline in fast-moving environments.")
+pdf.bullet("Recognized for reliability and performance (Driver of the Month); maintained accuracy across 180\u2013200+ daily stops.")
 
 pdf.ln(1)
 
@@ -140,4 +135,8 @@ pdf.edu_bullet("University of Kansas \u2014 Coursework in Mathematics, Algorithm
 pdf.edu_bullet("USAF \u2014 Intelligence Operations Specialist Course (2006 \u2013 2010)")
 
 pdf.output("technician_resume_ascii.pdf")
-print("Resume generated successfully")
+
+import shutil
+shutil.copy("technician_resume_ascii.pdf", "public/Russell_J_Adams_Resume.pdf")
+
+print("Resume generated and copied to public/")

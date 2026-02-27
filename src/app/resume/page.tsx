@@ -4,28 +4,47 @@ import { useEffect, useState } from "react";
 import RevealSection from "@/components/RevealSection";
 
 const COMPETENCIES = [
-  "Low-Voltage Cabling (Cat6, coax, basic fiber)",
-  "Cable Termination, Labeling & Testing",
-  "Network/Wi-Fi Setup & Troubleshooting",
-  "Device Mounting: TVs, cameras, access points",
-  "Rack Building & Cable Management",
-  "Blueprint/Work Order Reading, OSHA Safety",
-  "Hand/Power Tools, Cable Test Equipment",
-  "Customer Communication & End-User Training",
+  "Network Troubleshooting & Diagnostics",
+  "TCP/IP, DNS, DHCP, Firewalls, VPNs",
+  "Linux, Python, SQL, Bash",
+  "OPSEC, Documentation & Reporting",
+  "Security Monitoring & Incident Response",
+  "SIEM Concepts & Log Analysis",
+  "Vulnerability Assessment",
+  "Security Frameworks (NIST, CIA Triad)",
 ];
 
 const EXPERIENCE = [
+  {
+    date: "2006 – 2010",
+    role: "Operations Intelligence Analyst",
+    company: "United States Air Force",
+    color: "var(--color-cyan)",
+    bullets: [
+      "Analyzed technical and operational intelligence data to support mission-critical decisions under strict deadlines.",
+      "Applied operational security (OPSEC) protocols and maintained documentation discipline in high-tempo environments.",
+      "Processed and correlated multi-source data to identify patterns, threats, and actionable intelligence.",
+    ],
+  },
   {
     date: "2017 – 2021",
     role: "Field Technician II",
     company: "Spectrum (Charter Communications)",
     color: "var(--color-amber)",
     bullets: [
-      "Installed and serviced Internet, TV, and Voice for residential/business customers.",
-      "Placed/terminated coax and Cat5e/Cat6; mounted gateways, set-top boxes, Wi-Fi access points.",
-      "Performed signal diagnostics and resolved impairments to DOCSIS standards.",
-      "Executed clean cable management and safety compliance in varied environments.",
-      "Completed work orders, documented materials, and provided customer training.",
+      "Diagnosed and resolved network connectivity issues across residential and business environments.",
+      "Performed signal diagnostics and troubleshooting to DOCSIS standards; configured routers, gateways, and access points.",
+      "Built and maintained structured cabling infrastructure (Cat5e/Cat6, coax, fiber) with rack and cable management.",
+    ],
+  },
+  {
+    date: "2012 – 2017",
+    role: "Technical Support",
+    company: "Telecom Outsourcing & Call Centers",
+    color: "var(--color-red)",
+    bullets: [
+      "Troubleshot network connectivity, modem/router issues, and Wi-Fi configuration for telecom customers.",
+      "Documented cases, escalated security-relevant issues, and managed high-volume incident queues.",
     ],
   },
   {
@@ -34,30 +53,7 @@ const EXPERIENCE = [
     company: "Amazon Logistics",
     color: "var(--color-green)",
     bullets: [
-      "Completed 180–200+ stops per day with accuracy and safety.",
-      "Recognized for reliability and teamwork (Driver of the Month).",
-      "Maintained vehicle, equipment, and route efficiency.",
-    ],
-  },
-  {
-    date: "2012 – 2017",
-    role: "Technical Support & Customer Service",
-    company: "Telecom Outsourcing & Call Centers",
-    color: "var(--color-red)",
-    bullets: [
-      "Provided technical support for telecom customers: modem/router setup, Wi-Fi configuration, connectivity troubleshooting.",
-      "Assisted customers with wiring checks, resets, and device setup.",
-      "Created clear case notes and escalations while managing high call volumes.",
-    ],
-  },
-  {
-    date: "2006 – 2010",
-    role: "Operations Intelligence Analyst",
-    company: "United States Air Force",
-    color: "var(--color-cyan)",
-    bullets: [
-      "Analyzed technical and operational data under strict deadlines.",
-      "Applied operational security (OPSEC) and documentation discipline in fast-moving environments.",
+      "Recognized for reliability and performance (Driver of the Month); maintained accuracy across 180–200+ daily stops.",
     ],
   },
 ];
@@ -146,7 +142,7 @@ export default function ResumePage() {
           </h1>
 
           <p className="font-[family-name:var(--font-chakra)] text-lg md:text-xl text-[var(--color-txt-sec)] mb-5">
-            Technician &middot; Veteran &middot; Technical Problem Solver
+            Security-Focused Technician &middot; Network Operations &middot; U.S. Air Force Veteran
           </p>
 
           <div className="flex flex-wrap gap-4 font-[family-name:var(--font-fira)] text-[12px] text-[var(--color-txt-sec)]">
@@ -180,11 +176,10 @@ export default function ResumePage() {
             // Summary
           </div>
           <p className="text-[15px] leading-relaxed text-[var(--color-txt-sec)]">
-            Veteran technician with hands-on experience in low-voltage cabling, telecom troubleshooting,
-            and field service. Skilled in installing, terminating, and testing cabling and devices; setting
-            up and maintaining networks; and mounting/configuring AV and connected systems. Proven reliability,
-            safety, and problem-solving across military, telecom, and logistics roles. Strong ability to work
-            independently or lead tasks to completion.
+            Security-focused technician with 10+ years of network and telecom experience, backed by military
+            intelligence analysis. Holds CEH and Google Cybersecurity Professional certifications. Background
+            spans network diagnostics, infrastructure troubleshooting, and operational security. Seeking to
+            apply analytical skills and technical foundation in a security analyst or SOC analyst role.
           </p>
         </div>
       </RevealSection>

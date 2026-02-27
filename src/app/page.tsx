@@ -7,22 +7,22 @@ import CredlyBadge from "@/components/CredlyBadge";
 import ClientShell from "@/components/ClientShell";
 
 const BADGES = [
-  { label: "USAF Veteran", active: true },
-  { label: "Telecommunications Field Technician", active: true },
   { label: "CEH", active: true },
-  { label: "Google CyberSec", active: true },
+  { label: "Google Cybersecurity", active: true },
+  { label: "USAF Veteran", active: true },
+  { label: "10+ Yrs Network/Telecom", active: true },
 ];
 
 const TIMELINE = [
   {
-    date: "2024 — Present",
-    role: "Delivery Associate",
-    company: "Amazon Logistics · Grand Junction, CO",
-    color: "green" as const,
+    date: "2006 — 2010",
+    role: "Operations Intelligence Analyst",
+    company: "United States Air Force",
+    color: "cyan" as const,
     details: [
-      "180-200+ stops per day with top-tier accuracy and safety record",
-      "Longest tenured driver at station — recognized as Driver of the Month",
-      "Maintained vehicle, equipment, and route efficiency under daily pressure",
+      "Analyzed technical and operational intelligence data to support mission-critical decisions under strict deadlines",
+      "Applied OPSEC protocols and maintained documentation discipline in high-tempo environments",
+      "Processed and correlated multi-source data to identify patterns, threats, and actionable intelligence",
     ],
   },
   {
@@ -31,76 +31,73 @@ const TIMELINE = [
     company: "Spectrum (Charter Communications)",
     color: "amber" as const,
     details: [
-      "Installed and serviced Internet, TV, and Voice for residential and business customers",
-      "Terminated coax and Cat5e/Cat6; mounted gateways, APs, cameras, and AV systems",
-      "Performed signal diagnostics and resolved impairments to DOCSIS standards",
-      "Rack building, cable management, and safety compliance across all environments",
+      "Diagnosed and resolved network connectivity issues across residential and business environments",
+      "Performed signal diagnostics and troubleshooting to DOCSIS standards; configured routers, gateways, and access points",
+      "Built and maintained structured cabling infrastructure (Cat5e/Cat6, coax, fiber) with rack and cable management",
     ],
   },
   {
     date: "2012 — 2017",
-    role: "Technical Support & Customer Service",
+    role: "Technical Support",
     company: "Telecom Outsourcing & Call Centers",
     color: "red" as const,
     details: [
-      "Provided technical support: modem/router setup, Wi-Fi config, connectivity troubleshooting",
-      "Managed high call volumes with clear documentation and escalation procedures",
+      "Troubleshot network connectivity, modem/router issues, and Wi-Fi configuration for telecom customers",
+      "Documented cases, escalated security-relevant issues, and managed high-volume incident queues",
     ],
   },
   {
-    date: "2006 — 2010",
-    role: "Operations Intelligence Analyst",
-    company: "United States Air Force",
-    color: "cyan" as const,
+    date: "2021 — Present",
+    role: "Delivery Associate",
+    company: "Amazon Logistics · Grand Junction, CO",
+    color: "green" as const,
     details: [
-      "Analyzed technical and operational data under strict deadlines",
-      "Applied OPSEC and documentation discipline in fast-moving environments",
+      "Recognized for reliability and performance (Driver of the Month); maintained accuracy across 180-200+ daily stops",
     ],
   },
 ];
 
 const SKILL_GROUPS = [
   {
-    icon: "\u{1F512}",
-    title: "Cybersecurity",
-    tags: [
-      "Network Security",
-      "Vulnerability Assessment",
-      "OPSEC",
-      "TryHackMe",
-      "HackTheBox",
-      "Cryptography",
-      "Threat Analysis",
-    ],
-  },
-  {
     icon: "\u{1F5A5}",
-    title: "Networking & Infrastructure",
-    tags: ["TCP/IP", "Wi-Fi Config", "DOCSIS", "DNS/DHCP", "VPN", "Firewalls", "Routing"],
+    title: "Networking",
+    tags: ["TCP/IP", "DNS/DHCP", "Firewalls", "VPN", "Routing", "DOCSIS", "Wi-Fi Config"],
   },
   {
-    icon: "\u{1F527}",
-    title: "Field & Physical Tech",
+    icon: "\u{1F512}",
+    title: "Security",
     tags: [
-      "Low-Voltage Cabling",
-      "Cat6 / Coax / Fiber",
-      "Rack Building",
-      "Cable Management",
-      "Signal Testing",
-      "Device Mounting",
+      "OPSEC",
+      "Vulnerability Assessment",
+      "Threat Analysis",
+      "Incident Response",
+      "Security Frameworks",
+      "Cryptography",
     ],
   },
   {
     icon: "\u{1F4BB}",
-    title: "Lab & Tools",
+    title: "Tools & Platforms",
     tags: [
       "Linux / Kali",
-      "VirtualBox / VMware",
       "Wireshark",
       "Nmap",
       "Burp Suite",
       "Python",
+      "SQL",
       "Bash",
+    ],
+  },
+  {
+    icon: "\u{1F527}",
+    title: "Hands-On",
+    tags: [
+      "TryHackMe",
+      "HackTheBox",
+      "Network Diagnostics",
+      "Structured Cabling",
+      "Rack Building",
+      "Signal Testing",
     ],
   },
 ];
@@ -158,7 +155,7 @@ export default function Home() {
           <div className="absolute -top-[200px] -right-[200px] w-[600px] h-[600px] glow-green pointer-events-none" />
 
           <div className="font-[family-name:var(--font-fira)] text-[13px] text-[var(--color-green)] tracking-[3px] uppercase mb-5 opacity-0 animate-[fadeInUp_0.7s_ease_2.2s_forwards]">
-            // Veteran &bull; Technician &bull; Security Enthusiast
+            // Security &bull; Networks &bull; Intelligence
           </div>
 
           <h1 className="font-[family-name:var(--font-chakra)] text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-4 opacity-0 animate-[fadeInUp_0.7s_ease_2.4s_forwards]">
