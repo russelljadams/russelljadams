@@ -142,7 +142,7 @@ export default function ResumePage() {
           </h1>
 
           <p className="font-[family-name:var(--font-chakra)] text-lg md:text-xl text-[var(--color-txt-sec)] mb-5">
-            Security-Focused Technician &middot; Network Operations &middot; U.S. Air Force Veteran
+            Technician &middot; Veteran &middot; Technical Problem Solver
           </p>
 
           <div className="flex flex-wrap gap-4 font-[family-name:var(--font-fira)] text-[12px] text-[var(--color-txt-sec)]">

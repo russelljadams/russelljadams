@@ -58,7 +58,7 @@ pdf.cell(0, 10, "Russell J. Adams", align="C", new_x="LMARGIN", new_y="NEXT")
 # Tagline
 pdf.set_font("DejaVu", "", 10.5)
 pdf.set_text_color(80, 80, 80)
-pdf.cell(0, 6, "Security-Focused Technician  |  Network Operations  |  U.S. Air Force Veteran", align="C", new_x="LMARGIN", new_y="NEXT")
+pdf.cell(0, 6, "Technician  |  Veteran  |  Technical Problem Solver", align="C", new_x="LMARGIN", new_y="NEXT")
 
 # Contact
 pdf.set_font("DejaVu", "", 9)
