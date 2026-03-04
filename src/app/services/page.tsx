@@ -4,33 +4,33 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Russell J. Adams | What I Do",
   description:
-    "IT, networking, and cybersecurity — from hands-on repair to infrastructure builds. Veteran-owned, CEH-certified.",
+    "Tech repair, security testing, and offensive security services. Veteran-owned, CEH-certified.",
 };
 
 const CAPABILITIES = [
   {
-    title: "Diagnostics & Repair",
+    title: "Tech Repair",
     description:
-      "Malware removal, hardware troubleshooting, performance issues, data recovery. I figure out what's wrong and fix it.",
+      "Malware removal, hardware diagnostics, data recovery, performance issues. I find what's broken and fix it — computers, networks, whatever.",
     color: "var(--color-green)",
   },
   {
-    title: "Networks & WiFi",
+    title: "Network Troubleshooting",
     description:
-      "Home and small business network setup, WiFi optimization, cabling (Cat6, coax, fiber). 4 years as a Spectrum field tech.",
+      "WiFi dead zones, slow connections, device conflicts, ISP issues. 4 years as a Spectrum field tech — I've seen it all.",
     color: "var(--color-amber)",
   },
   {
-    title: "Security",
+    title: "Penetration Testing",
     description:
-      "Vulnerability assessments, network hardening, security camera systems, smart home lockdown. CEH-certified.",
-    color: "var(--color-cyan)",
+      "Find out where you're vulnerable before someone else does. Network, web app, and wireless assessments. CEH-certified.",
+    color: "var(--color-red)",
   },
   {
-    title: "Infrastructure",
+    title: "Security Audits",
     description:
-      "Server builds, rack installs, managed IT for small businesses. From a single workstation to a full office buildout.",
-    color: "var(--color-red)",
+      "Full security posture review — network hardening, access control, policy gaps. Clear report with prioritized fixes, not a sales pitch for more services.",
+    color: "var(--color-cyan)",
   },
 ];
 
@@ -42,16 +42,16 @@ export default function ServicesPage() {
           {"// What I Do"}
         </p>
         <h1 className="font-[family-name:var(--font-chakra)] text-3xl md:text-5xl font-bold text-[var(--color-green)] mb-6">
-          I fix things and build things.
+          I fix things and break into things.
         </h1>
         <p className="font-[family-name:var(--font-outfit)] text-lg text-[var(--color-txt-sec)] leading-relaxed mb-4">
-          10 years of telecom and networking. 4 years running cable and
-          troubleshooting in the field. Air Force intelligence background.
-          CEH certified. I know how systems work — and how they break.
+          Tech repair and offensive security. Air Force intelligence
+          background, CEH certified, 10+ years in networks and telecom.
+          I know how systems work — and how they fail.
         </p>
         <p className="font-[family-name:var(--font-outfit)] text-lg text-[var(--color-txt-sec)] leading-relaxed">
-          If you&apos;ve got a tech problem, I can probably solve it. If you need
-          something built, I can probably build it. Reach out and we&apos;ll talk.
+          Broken laptop? I&apos;ll fix it. Want to know if your network is
+          actually secure? I&apos;ll find out.
         </p>
       </section>
 
