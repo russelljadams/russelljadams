@@ -133,10 +133,10 @@ export default function ServicesPage() {
               russell@russelljadams.com
             </a>
             <a
-              href="tel:+19134267582"
+              href="/services#contact"
               className="font-[family-name:var(--font-fira)] text-sm px-6 py-3 border border-[var(--color-green)] text-[var(--color-green)] rounded hover:bg-[var(--color-green)] hover:text-[var(--color-bg-deep)] transition-colors"
             >
-              (913) 426-7582
+              Call or Text — number coming soon
             </a>
           </div>
           <p className="font-[family-name:var(--font-fira)] text-xs text-[var(--color-txt-dim)] mt-6">
