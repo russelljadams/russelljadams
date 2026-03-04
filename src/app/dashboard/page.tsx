@@ -28,11 +28,19 @@ interface AgentHealth {
   status: string;
 }
 
+interface ContactSubmission {
+  name: string;
+  email: string;
+  message: string;
+  timestamp: number;
+}
+
 export default function DashboardPage() {
   const { user } = useAuth();
   const [location, setLocation] = useState<LocationData | null>(null);
   const [health, setHealth] = useState<AgentHealth | null>(null);
   const [locationError, setLocationError] = useState(false);
+  const [contacts, setContacts] = useState<ContactSubmission[]>([]);
 
   const fetchLocation = useCallback(async () => {
     try {
@@ -61,18 +69,30 @@ export default function DashboardPage() {
     }
   }, []);
 
+  const fetchContacts = useCallback(async () => {
+    try {
+      const res = await fetch("/api/contact");
+      if (res.ok) setContacts(await res.json());
+    } catch {
+      /* silent */
+    }
+  }, []);
+
   useEffect(() => {
     fetchLocation();
     fetchHealth();
+    fetchContacts();
 
     const locationInterval = setInterval(fetchLocation, 60000);
     const healthInterval = setInterval(fetchHealth, 30000);
+    const contactsInterval = setInterval(fetchContacts, 60000);
 
     return () => {
       clearInterval(locationInterval);
       clearInterval(healthInterval);
+      clearInterval(contactsInterval);
     };
-  }, [fetchLocation, fetchHealth]);
+  }, [fetchLocation, fetchHealth, fetchContacts]);
 
   if (!user) return null;
 
@@ -164,6 +184,51 @@ export default function DashboardPage() {
               Gh0st Agent v2
             </h2>
             <AgentChat />
+          </div>
+        )}
+      </div>
+
+      {/* Contact submissions */}
+      <div>
+        <h2 className="font-[family-name:var(--font-fira)] text-sm text-[var(--color-txt-sec)] mb-3">
+          Contact Submissions
+          {contacts.length > 0 && (
+            <span className="ml-2 text-[var(--color-green)]">
+              ({contacts.length})
+            </span>
+          )}
+        </h2>
+        {contacts.length === 0 ? (
+          <div className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-4">
+            <p className="font-[family-name:var(--font-fira)] text-xs text-[var(--color-txt-dim)]">
+              No submissions yet.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3 max-h-[500px] overflow-y-auto">
+            {contacts.map((c, i) => (
+              <div
+                key={i}
+                className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-4"
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <span className="font-[family-name:var(--font-fira)] text-sm text-[var(--color-green)]">
+                      {c.name}
+                    </span>
+                    <span className="font-[family-name:var(--font-fira)] text-xs text-[var(--color-txt-dim)] ml-3">
+                      {c.email}
+                    </span>
+                  </div>
+                  <span className="font-[family-name:var(--font-fira)] text-[10px] text-[var(--color-txt-dim)] whitespace-nowrap">
+                    {new Date(c.timestamp).toLocaleString()}
+                  </span>
+                </div>
+                <p className="font-[family-name:var(--font-outfit)] text-sm text-[var(--color-txt-sec)] whitespace-pre-wrap">
+                  {c.message}
+                </p>
+              </div>
+            ))}
           </div>
         )}
       </div>

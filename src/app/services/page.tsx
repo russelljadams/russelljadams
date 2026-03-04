@@ -1,3 +1,4 @@
+import ContactForm from "@/components/ContactForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -77,18 +78,7 @@ export default function ServicesPage() {
       </section>
 
       <section className="px-6 md:px-10 pb-20 max-w-3xl mx-auto">
-        <div className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-6 text-center">
-          <p className="font-[family-name:var(--font-outfit)] text-[var(--color-txt-sec)] mb-4">
-            No price list — every job is different. Let&apos;s talk about what you
-            need and I&apos;ll give you a straight answer.
-          </p>
-          <a
-            href="mailto:russell@russelljadams.com"
-            className="inline-block font-[family-name:var(--font-fira)] text-sm px-6 py-3 bg-[var(--color-green)] text-[var(--color-bg-deep)] rounded font-semibold hover:opacity-90 transition-opacity"
-          >
-            russell@russelljadams.com
-          </a>
-        </div>
+        <ContactForm />
       </section>
     </main>
   );
