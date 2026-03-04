@@ -40,7 +40,6 @@ const COMMANDS: Record<string, () => string> = {
   <span class="t-prompt">certs</span>       <span class="t-dim">-</span> Certifications
   <span class="t-prompt">education</span>   <span class="t-dim">-</span> Education
   <span class="t-prompt">contact</span>     <span class="t-dim">-</span> Contact info
-  <span class="t-prompt">services</span>    <span class="t-dim">-</span> Tech services & pricing
   <span class="t-prompt">tools</span>       <span class="t-dim">-</span> Study tools & resources
   <span class="t-prompt">clear</span>       <span class="t-dim">-</span> Clear terminal
   <span class="t-prompt">neofetch</span>    <span class="t-dim">-</span> System info`,
@@ -94,17 +93,6 @@ Looking for work in cybersecurity or IT.`,
   contact: () =>
     `<span class="t-info">Location:</span>  Grand Junction, CO
 <span class="t-info">Email:</span>     radams.starpointlogistics@gmail.com`,
-
-  services: () =>
-    `<span class="t-bold">Adams Tech Services</span>
-<span class="t-dim">──────────────────────────────</span>
-Veteran-owned. CEH-certified. Local IT & cybersecurity.
-
-<span class="t-prompt">[Tier 1]</span> Break/Fix         $50 – $200
-<span class="t-warn">[Tier 2]</span> Home Tech         $75 – $300
-<span class="t-info">[Tier 3]</span> Professional      $100 – $500/mo
-
-<a href="/services" style="color:#00d4ff">→ Full menu & booking at /services</a>`,
 
   tools: () =>
     `<span class="t-bold">Study Tools & Resources</span>
