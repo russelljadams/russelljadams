@@ -1,31 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const LINKS = [
-  { href: "#terminal", label: "Terminal" },
+  { href: "#services", label: "Services" },
+  { href: "#credentials", label: "Credentials" },
   { href: "#experience", label: "Experience" },
-  { href: "#skills", label: "Skills" },
-  { href: "#tools", label: "Tools" },
+  { href: "#terminal", label: "Terminal" },
   { href: "#contact", label: "Contact" },
-  { href: "/services", label: "Services" },
   { href: "/resume", label: "Resume" },
 ];
 
 export default function Nav() {
-  const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 3500);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-10 py-4 flex justify-between items-center bg-[rgba(8,12,20,0.85)] backdrop-blur-[20px] border-b border-[var(--color-border)] transition-transform duration-500 ${
-        visible ? "translate-y-0" : "-translate-y-full"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 py-4 flex justify-between items-center bg-[rgba(8,12,20,0.85)] backdrop-blur-[20px] border-b border-[var(--color-border)]"
     >
       <div className="font-[family-name:var(--font-fira)] text-sm text-[var(--color-green)] font-semibold tracking-wide">
         radams<span className="text-[var(--color-txt-dim)]">@</span>portfolio

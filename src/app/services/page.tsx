@@ -1,4 +1,5 @@
 import ContactForm from "@/components/ContactForm";
+import Nav from "@/components/Nav";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ const CAPABILITIES = [
 export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-[var(--color-bg-deep)] text-[var(--color-txt)]">
+      <Nav />
       <section className="px-6 md:px-10 pt-28 pb-12 max-w-3xl mx-auto">
         <p className="font-[family-name:var(--font-fira)] text-xs text-[var(--color-txt-dim)] tracking-widest uppercase mb-6">
           {"// What I Do"}
