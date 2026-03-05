@@ -21,12 +21,13 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "a1i3n37x | Augmented Human",
+  title: "Russell J. Adams | Cybersecurity & Technical Operations",
   description:
-    "Security operator. CEH certified. USAF intelligence veteran. 10+ years network & telecom. AI-augmented offensive security.",
+    "CEH-certified security professional. USAF intelligence veteran. 10+ years in network and telecom. Penetration testing, security audits, and technical operations.",
   openGraph: {
-    title: "a1i3n37x | Augmented Human",
-    description: "Security operator. CEH certified. USAF intelligence veteran. AI-augmented offensive security.",
+    title: "Russell J. Adams | Cybersecurity & Technical Operations",
+    description:
+      "CEH-certified security professional. USAF intelligence veteran. Penetration testing, security audits, and technical operations.",
     type: "website",
   },
 };
