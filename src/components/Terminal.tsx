@@ -120,8 +120,9 @@ Security operator building AI-human symbiosis.`,
   alien: () => ASCII_ALIEN,
 
   matrix: () => {
-    if (typeof window !== "undefined" && (window as Record<string, unknown>).__toggleMatrix) {
-      (window as Record<string, unknown> & { __toggleMatrix: () => void }).__toggleMatrix();
+    if (typeof window !== "undefined") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).__toggleMatrix?.();
     }
     return `<span class="t-prompt">Matrix rain toggled.</span>`;
   },

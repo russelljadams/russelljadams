@@ -14,7 +14,8 @@ export default function ClientShell({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Expose toggle for terminal command
-    (window as Record<string, unknown>).__toggleMatrix = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__toggleMatrix = () => {
       setMatrixOn((prev) => {
         const next = !prev;
         localStorage.setItem("matrixRain", next ? "on" : "off");
