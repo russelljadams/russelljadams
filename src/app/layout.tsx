@@ -21,9 +21,14 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Russell J. Adams | Cybersecurity & Technical Operations",
+  title: "a1i3n37x | Augmented Human",
   description:
-    "Security-focused technician with CEH and Google Cybersecurity certifications. Air Force intelligence veteran with 10+ years of network and telecom experience.",
+    "Security operator. CEH certified. USAF intelligence veteran. 10+ years network & telecom. AI-augmented offensive security.",
+  openGraph: {
+    title: "a1i3n37x | Augmented Human",
+    description: "Security operator. CEH certified. USAF intelligence veteran. AI-augmented offensive security.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
