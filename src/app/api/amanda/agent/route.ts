@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ANTHROPIC_API_KEY = process.env.AMANDA_AGENT_API_KEY;
-const CLOUD_API = "http://100.85.186.91:3737";
+const CLOUD_API = "http://137.220.32.162:3737";
+const CLOUD_API_KEY = process.env.AMANDA_CLOUD_API_KEY || "amanda-api-secret-37";
 
 const SYSTEM_PROMPT = `You are Amanda's Home Helper — a warm, witty, deeply caring AI assistant that lives inside the dashboard Russell built for her.
 
@@ -22,7 +23,8 @@ Rules:
 - Never be creepy or overly familiar. You're warm, not weird.
 - Keep responses under 3 sentences unless she asks for something detailed.
 - Use your tools to save and recall memories. If she mentions something personal, save it.
-- When relevant, recall previous things she's told you to show you remember.`;
+- When relevant, recall previous things she's told you to show you remember.
+- IMPORTANT: When you use the get_russell_location tool, always include the [MAP:lat,lng] marker EXACTLY as returned by the tool in your response so the app can render it as a map. Never strip it out.`;
 
 const TOOLS = [
   {
@@ -54,7 +56,7 @@ const TOOLS = [
   },
   {
     name: "get_russell_location",
-    description: "Get Russell's current GPS location. Use when Amanda asks where Russell is.",
+    description: "Get Russell's current GPS location. Use when Amanda asks where Russell is. The result includes a [MAP:lat,lng] marker — always include this marker in your reply verbatim.",
     input_schema: {
       type: "object" as const,
       properties: {},
@@ -66,8 +68,16 @@ async function cloudFetch(path: string, options?: RequestInit) {
   try {
     const res = await fetch(`${CLOUD_API}${path}`, {
       ...options,
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": CLOUD_API_KEY,
+        ...options?.headers,
+      },
     });
+    if (!res.ok) {
+      console.error("Cloud API response:", res.status, await res.text());
+      return null;
+    }
     return res.json();
   } catch (e) {
     console.error("Cloud API error:", e);
