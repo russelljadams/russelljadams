@@ -1,32 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { kv } from "@vercel/kv";
 
 const KV_KEY = "location:latest";
 
-interface LocationData {
-  lat: number;
-  lng: number;
-  timestamp: number;
-  accuracy?: number;
-}
-
 export async function GET() {
   try {
-    const data = await kv.get<LocationData>(KV_KEY);
+    const data = await kv.get(KV_KEY);
     if (!data) {
       return NextResponse.json({ error: "No location data yet" }, { status: 404 });
     }
     return NextResponse.json(data);
-  } catch {
-    return NextResponse.json({ error: "Could not fetch location" }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }
 
-// POST — Phone pushes location
-// TODO: re-add auth once env vars are confirmed working
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const body: LocationData = await req.json();
+    const body = await req.json();
     if (typeof body.lat !== "number" || typeof body.lng !== "number") {
       return NextResponse.json({ error: "Invalid location" }, { status: 400 });
     }
@@ -39,7 +30,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }
