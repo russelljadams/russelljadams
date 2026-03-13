@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import Player from "../entities/Player";
-import { TILE_SIZE, INTERNAL_WIDTH, INTERNAL_HEIGHT } from "../constants";
+import { TILE_SIZE, INTERNAL_WIDTH, INTERNAL_HEIGHT, SHAKE_ENEMY_KILL, SHAKE_PLAYER_DAMAGE } from "../constants";
 
 interface EnemyData {
   sprite: Phaser.Physics.Arcade.Sprite;
@@ -57,6 +57,28 @@ export default class Level1Scene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, levelWidth, levelHeight);
     this.cameras.main.startFollow(this.player, true, 0.1, 0.15);
     this.cameras.main.setDeadzone(40, 20);
+
+    // Landing dust particles
+    this.events.on("player-landed", (x: number, y: number, velY: number) => {
+      const count = Math.min(Math.floor(velY / 100), 6);
+      for (let i = 0; i < count; i++) {
+        const dust = this.add.circle(
+          x + Phaser.Math.Between(-12, 12),
+          y + 14,
+          Phaser.Math.Between(2, 4),
+          0x9a8a6a, 0.6
+        ).setDepth(9);
+        this.tweens.add({
+          targets: dust,
+          x: dust.x + Phaser.Math.Between(-18, 18),
+          y: dust.y - Phaser.Math.Between(4, 12),
+          alpha: 0,
+          scale: 0,
+          duration: Phaser.Math.Between(250, 400),
+          onComplete: () => dust.destroy(),
+        });
+      }
+    });
 
     // Collisions
     this.physics.add.collider(this.player, this.platforms);
@@ -255,20 +277,55 @@ export default class Level1Scene extends Phaser.Scene {
   }
 
   private collectHeart(heart: Phaser.Physics.Arcade.Sprite): void {
-    heart.destroy();
-    this.heartsCollected++;
-    this.events.emit("hearts-updated", this.heartsCollected);
+    // Prevent double-collect
+    if (!heart.active) return;
     const x = heart.x, y = heart.y;
-    for (let i = 0; i < 5; i++) {
-      const p = this.add.circle(x, y, 2, 0xff6699);
+
+    // Disable physics so it cannot be collected again
+    const hBody = heart.body as Phaser.Physics.Arcade.Body;
+    if (hBody) hBody.enable = false;
+
+    // Scale up then disappear animation
+    this.tweens.add({
+      targets: heart,
+      scaleX: 1.8,
+      scaleY: 1.8,
+      alpha: 0,
+      duration: 250,
+      ease: "Back.easeIn",
+      onComplete: () => heart.destroy(),
+    });
+
+    // Brief white screen flash
+    const flash = this.add.rectangle(
+      this.cameras.main.scrollX + INTERNAL_WIDTH / 2,
+      this.cameras.main.scrollY + INTERNAL_HEIGHT / 2,
+      INTERNAL_WIDTH, INTERNAL_HEIGHT,
+      0xffffff, 0.3
+    ).setScrollFactor(0).setDepth(50);
+    this.tweens.add({
+      targets: flash,
+      alpha: 0,
+      duration: 150,
+      onComplete: () => flash.destroy(),
+    });
+
+    // Burst of heart-colored particles
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const p = this.add.circle(x, y, 3, 0xff6699).setDepth(11);
       this.tweens.add({
         targets: p,
-        x: x + Phaser.Math.Between(-20, 20),
-        y: y + Phaser.Math.Between(-20, -5),
-        alpha: 0, scale: 0, duration: 400,
+        x: x + Math.cos(angle) * 25,
+        y: y + Math.sin(angle) * 25,
+        alpha: 0, scale: 0, duration: 350,
+        ease: "Quad.easeOut",
         onComplete: () => p.destroy(),
       });
     }
+
+    this.heartsCollected++;
+    this.events.emit("hearts-updated", this.heartsCollected);
   }
 
   private collectFragment(frag: Phaser.Physics.Arcade.Sprite): void {
@@ -293,6 +350,37 @@ export default class Level1Scene extends Phaser.Scene {
     this.activeCheckpoints.add(key);
     cp.setTexture("checkpoint_active");
     this.player.setCheckpoint(cp.x, cp.y - TILE_SIZE);
+
+    // Activation glow
+    const glow = this.add.circle(cp.x, cp.y, 8, 0x44ff44, 0.5).setDepth(11);
+    this.tweens.add({
+      targets: glow,
+      scaleX: 4,
+      scaleY: 4,
+      alpha: 0,
+      duration: 500,
+      ease: "Quad.easeOut",
+      onComplete: () => glow.destroy(),
+    });
+
+    // Upward particles
+    for (let i = 0; i < 10; i++) {
+      const spark = this.add.circle(
+        cp.x + Phaser.Math.Between(-8, 8),
+        cp.y,
+        2,
+        0x44ff88, 0.8
+      ).setDepth(11);
+      this.tweens.add({
+        targets: spark,
+        y: cp.y - Phaser.Math.Between(20, 50),
+        x: spark.x + Phaser.Math.Between(-10, 10),
+        alpha: 0,
+        duration: Phaser.Math.Between(400, 700),
+        ease: "Quad.easeOut",
+        onComplete: () => spark.destroy(),
+      });
+    }
   }
 
   private playerHitEnemy(enemyData: EnemyData): void {
@@ -315,18 +403,53 @@ export default class Level1Scene extends Phaser.Scene {
     enemyData.hp--;
     if (enemyData.hp <= 0) {
       const x = enemyData.sprite.x, y = enemyData.sprite.y;
-      enemyData.sprite.destroy();
+      const spr = enemyData.sprite;
+
+      // Screen shake on kill
+      this.cameras.main.shake(SHAKE_ENEMY_KILL.duration, SHAKE_ENEMY_KILL.intensity);
+
+      // Flash white, scale up, then burst into particles
+      spr.setTint(0xffffff);
+      this.tweens.add({
+        targets: spr,
+        scaleX: 1.6,
+        scaleY: 1.6,
+        alpha: 0,
+        duration: 200,
+        ease: "Quad.easeOut",
+        onComplete: () => {
+          spr.destroy();
+          // Burst particles
+          for (let i = 0; i < 12; i++) {
+            const angle = (i / 12) * Math.PI * 2;
+            const dist = Phaser.Math.Between(15, 35);
+            const p = this.add.circle(x, y, Phaser.Math.Between(2, 4), 0x9944cc, 0.9)
+              .setDepth(11);
+            this.tweens.add({
+              targets: p,
+              x: x + Math.cos(angle) * dist,
+              y: y + Math.sin(angle) * dist,
+              alpha: 0,
+              scale: 0,
+              duration: Phaser.Math.Between(300, 500),
+              ease: "Quad.easeOut",
+              onComplete: () => p.destroy(),
+            });
+          }
+          // Central flash
+          const flash = this.add.circle(x, y, 6, 0xff44ff, 0.6).setDepth(11);
+          this.tweens.add({
+            targets: flash,
+            scaleX: 3,
+            scaleY: 3,
+            alpha: 0,
+            duration: 300,
+            onComplete: () => flash.destroy(),
+          });
+        },
+      });
+
       this.enemies = this.enemies.filter(e => e !== enemyData);
-      for (let i = 0; i < 6; i++) {
-        const p = this.add.circle(x, y, 3, 0x9944cc);
-        this.tweens.add({
-          targets: p,
-          x: x + Phaser.Math.Between(-25, 25),
-          y: y + Phaser.Math.Between(-25, 25),
-          alpha: 0, duration: 500,
-          onComplete: () => p.destroy(),
-        });
-      }
     }
   }
 

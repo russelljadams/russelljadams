@@ -18,10 +18,14 @@ export function createGameConfig(parent: HTMLElement): Phaser.Types.Core.GameCon
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
+      expandParent: true,
     },
     input: {
       activePointers: 3,
+      touch: {
+        capture: true,
+      },
     },
-    scene: [], // scenes added dynamically after import
+    scene: [],
   };
 }

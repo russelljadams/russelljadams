@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 
 interface Props {
   onBack: () => void;
@@ -9,8 +9,13 @@ interface Props {
 export default function GGsHeartGame({ onBack }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<Phaser.Game | null>(null);
+  const [ready, setReady] = useState(false);
 
   const handleBack = useCallback(() => {
+    // Exit fullscreen if active
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
     onBack();
   }, [onBack]);
 
@@ -34,9 +39,8 @@ export default function GGsHeartGame({ onBack }: Props) {
 
       game = new Phaser.Game(config);
       gameRef.current = game;
-
-      // Listen for back-to-dashboard event
       game.events.on("back-to-dashboard", handleBack);
+      setReady(true);
     };
 
     init();
@@ -51,32 +55,59 @@ export default function GGsHeartGame({ onBack }: Props) {
     };
   }, [handleBack]);
 
+  const goFullscreen = () => {
+    const el = containerRef.current?.parentElement;
+    if (!el) return;
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch(() => {});
+    } else if ((el as any).webkitRequestFullscreen) {
+      (el as any).webkitRequestFullscreen();
+    }
+    // Lock to landscape if possible
+    try {
+      (screen.orientation as any)?.lock?.("landscape").catch(() => {});
+    } catch {}
+  };
+
   return (
-    <div className="flex flex-col items-center gap-3">
-      <button
-        onClick={onBack}
-        className="self-start text-sm px-3 py-1.5 rounded-lg transition-colors"
-        style={{
-          color: "#C4AFA5",
-          background: "rgba(245, 230, 224, 0.5)",
-        }}
-      >
-        ← Back to games
-      </button>
+    <div
+      className="flex flex-col items-center"
+      style={{
+        // In fullscreen this becomes the fullscreen element
+        background: "#1a1a2e",
+        minHeight: "100%",
+      }}
+    >
+      {/* Top bar */}
+      <div className="w-full flex items-center justify-between px-3 py-2" style={{ background: "#1a1a2e" }}>
+        <button
+          onClick={handleBack}
+          className="text-sm px-3 py-2 rounded-lg"
+          style={{ color: "#aaaacc", background: "rgba(255,255,255,0.08)" }}
+        >
+          ← Back
+        </button>
+        {ready && (
+          <button
+            onClick={goFullscreen}
+            className="text-sm px-3 py-2 rounded-lg"
+            style={{ color: "#aaaacc", background: "rgba(255,255,255,0.08)" }}
+          >
+            ⛶ Fullscreen
+          </button>
+        )}
+      </div>
+      {/* Game canvas */}
       <div
         ref={containerRef}
         style={{
           width: "100%",
-          maxWidth: 960,
-          aspectRatio: "16 / 9",
-          borderRadius: 12,
+          flex: 1,
+          minHeight: 0,
           overflow: "hidden",
           background: "#1a1a2e",
         }}
       />
-      <p className="text-xs text-center" style={{ color: "#C4AFA5" }}>
-        Arrow keys or touch controls • ↑/Space = Jump • X = Attack
-      </p>
     </div>
   );
 }

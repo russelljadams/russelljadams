@@ -38,3 +38,17 @@ export const CART_MAX_SPEED = 700;
 export const CART_MIN_SPEED = 250;
 export const CART_JUMP_MULTIPLIER = 0.8;
 export const CART_HITS_BEFORE_CRASH = 3;
+
+// Screen Shake
+export const SHAKE_ENEMY_KILL = { duration: 80, intensity: 0.004 };
+export const SHAKE_PLAYER_DAMAGE = { duration: 150, intensity: 0.012 };
+export const SHAKE_LANDING = { duration: 60, intensity: 0.002 };
+
+// Visual Polish
+export const GHOST_TRAIL_ALPHA = 0.3;
+export const GHOST_TRAIL_INTERVAL = 50; // ms between afterimages
+export const SPEED_LINE_THRESHOLD = 0.85; // fraction of MAX_RUN_SPEED
+export const CAMERA_LOOKAHEAD_X = 40;
+export const SQUASH_SCALE = { x: 1.3, y: 0.7 };
+export const STRETCH_SCALE = { x: 0.8, y: 1.2 };
+export const SQUASH_DURATION = 120;
