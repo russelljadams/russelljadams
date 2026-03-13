@@ -5,9 +5,10 @@ import {
   COYOTE_TIME, JUMP_BUFFER, MAX_FALL_SPEED,
   ATTACK_RANGE, ATTACK_DURATION, ATTACK_COOLDOWN,
   MAX_HP, INVINCIBILITY_DURATION,
-  GHOST_TRAIL_ALPHA, GHOST_TRAIL_INTERVAL, SPEED_LINE_THRESHOLD,
-  CAMERA_LOOKAHEAD_X, SQUASH_SCALE, STRETCH_SCALE, SQUASH_DURATION,
-  SHAKE_LANDING, SHAKE_PLAYER_DAMAGE,
+  SHAKE_PLAYER_DAMAGE_DURATION, SHAKE_PLAYER_DAMAGE_INTENSITY, SHAKE_LANDING_DURATION, SHAKE_LANDING_INTENSITY,
+  GHOST_TRAIL_INTERVAL, GHOST_TRAIL_FADE,
+  SQUASH_SCALE_X, SQUASH_SCALE_Y, STRETCH_SCALE_X, STRETCH_SCALE_Y, SQUASH_DURATION,
+  CAMERA_LOOKAHEAD,
 } from "../constants";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
@@ -29,17 +30,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private iFrameTimer: number = 0;
   private isDead: boolean = false;
 
-  // Landing / airborne tracking
-  private airborneVelocityY: number = 0;
-  private wasAirborne: boolean = false;
-  private ghostTrailTimer: number = 0;
-  private speedLineEmitter: Phaser.GameObjects.Particles.ParticleEmitter | null = null;
-
-  // Keyboard (may be null on mobile)
+  // Keyboard
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys | null = null;
   private attackKey: Phaser.Input.Keyboard.Key | null = null;
 
-  // Touch input (set by UIScene)
+  // Touch
   public touchLeft: boolean = false;
   public touchRight: boolean = false;
   public touchJump: boolean = false;
@@ -48,6 +43,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   public checkpointX: number = 0;
   public checkpointY: number = 0;
+
+  // Polish state
+  private wasAirborne: boolean = false;
+  private airborneVelY: number = 0;
+  private ghostTrailTimer: number = 0;
+  private cameraOffsetX: number = 0;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "ghostboy");
@@ -67,66 +68,57 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.cursors = scene.input.keyboard.createCursorKeys();
       this.attackKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
     }
-
-    // Speed lines particle emitter (starts inactive)
-    this.speedLineEmitter = scene.add.particles(0, 0, "particle", {
-      speed: { min: 30, max: 80 },
-      angle: { min: 170, max: 190 },
-      scale: { start: 0.3, end: 0 },
-      alpha: { start: 0.4, end: 0 },
-      lifespan: 200,
-      tint: 0xaaccff,
-      frequency: 30,
-      quantity: 1,
-      emitting: false,
-    });
-    this.speedLineEmitter.setDepth(9);
   }
 
   private get inputLeft(): boolean {
     return (this.cursors?.left?.isDown ?? false) || this.touchLeft;
   }
-
   private get inputRight(): boolean {
     return (this.cursors?.right?.isDown ?? false) || this.touchRight;
   }
-
   private get inputJump(): boolean {
-    return (this.cursors?.up?.isDown ?? false) ||
-           (this.cursors?.space?.isDown ?? false) ||
-           this.touchJump;
+    return (this.cursors?.up?.isDown ?? false) || (this.cursors?.space?.isDown ?? false) || this.touchJump;
   }
-
   private get inputJumpJustPressed(): boolean {
-    let kbJump = false;
-    if (this.cursors?.up) {
-      kbJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
-    }
-    if (!kbJump && this.cursors?.space) {
-      kbJump = Phaser.Input.Keyboard.JustDown(this.cursors.space);
-    }
-    return kbJump || this.touchJumpJustPressed;
+    let kb = false;
+    if (this.cursors?.up) kb = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+    if (!kb && this.cursors?.space) kb = Phaser.Input.Keyboard.JustDown(this.cursors.space);
+    return kb || this.touchJumpJustPressed;
   }
-
   private get inputAttack(): boolean {
-    let kbAttack = false;
-    if (this.attackKey) {
-      kbAttack = Phaser.Input.Keyboard.JustDown(this.attackKey);
-    }
-    return kbAttack || this.touchAttack;
+    let kb = false;
+    if (this.attackKey) kb = Phaser.Input.Keyboard.JustDown(this.attackKey);
+    return kb || this.touchAttack;
   }
 
   update(_time: number, delta: number): void {
     if (this.isDead) return;
-
     const body = this.body as Phaser.Physics.Arcade.Body;
     if (!body) return;
-
     const dt = delta;
 
     // Ground detection
     this.wasGrounded = this.isGrounded;
     this.isGrounded = body.blocked.down || body.touching.down;
+
+    // ═══ LANDING DETECTION + SQUASH + DUST ═══
+    if (this.isGrounded && this.wasAirborne) {
+      // Squash
+      this.setScale(SQUASH_SCALE_X, SQUASH_SCALE_Y);
+      this.scene.tweens.add({
+        targets: this, scaleX: 1, scaleY: 1,
+        duration: SQUASH_DURATION, ease: "Back.easeOut",
+      });
+      // Shake proportional to fall speed
+      if (this.airborneVelY > 200) {
+        const intensity = Math.min(SHAKE_LANDING_INTENSITY * (this.airborneVelY / 400), 0.008);
+        this.scene.cameras.main.shake(SHAKE_LANDING_DURATION, intensity);
+      }
+      // Dust particles
+      this.scene.events.emit("player-landed", this.x, this.y + 14, this.airborneVelY);
+    }
+    this.wasAirborne = !this.isGrounded;
+    if (!this.isGrounded) this.airborneVelY = body.velocity.y;
 
     // Coyote time
     if (this.isGrounded) {
@@ -138,37 +130,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.coyoteTimer += dt;
     }
 
-    // Landing detection — squash/stretch + dust + screen shake
-    if (this.isGrounded && this.wasAirborne) {
-      // Squash on landing
-      this.setScale(SQUASH_SCALE.x, SQUASH_SCALE.y);
-      this.scene.tweens.add({
-        targets: this,
-        scaleX: 1, scaleY: 1,
-        duration: SQUASH_DURATION,
-        ease: "Back.easeOut",
-      });
-      // Emit landing event for scene to handle particles + shake
-      this.scene.events.emit("player-landed", this.x, this.y, this.airborneVelocityY);
-      // Subtle screen shake based on fall speed
-      if (this.airborneVelocityY > 200) {
-        const intensity = Math.min(this.airborneVelocityY / 600, 1) * SHAKE_LANDING.intensity;
-        this.scene.cameras.main.shake(SHAKE_LANDING.duration, intensity);
-      }
-    }
-    this.wasAirborne = !this.isGrounded;
-    if (!this.isGrounded) {
-      this.airborneVelocityY = body.velocity.y;
-    }
-
-    // Horizontal movement
+    // ═══ HORIZONTAL MOVEMENT ═══
     const moveDir = (this.inputRight ? 1 : 0) - (this.inputLeft ? 1 : 0);
     const accel = this.isGrounded ? ACCELERATION : ACCELERATION * AIR_CONTROL;
 
     if (moveDir !== 0) {
       this.facingRight = moveDir > 0;
       this.setFlipX(!this.facingRight);
-
       if (Math.sign(body.velocity.x) === -moveDir && Math.abs(body.velocity.x) > 10) {
         body.velocity.x += moveDir * (DECELERATION + accel) * (dt / 1000);
       } else {
@@ -183,16 +151,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // Jump buffer
-    if (this.inputJumpJustPressed) {
-      this.jumpBufferTimer = JUMP_BUFFER;
-    } else {
-      this.jumpBufferTimer = Math.max(0, this.jumpBufferTimer - dt);
-    }
-
+    // ═══ JUMP ═══
+    if (this.inputJumpJustPressed) this.jumpBufferTimer = JUMP_BUFFER;
+    else this.jumpBufferTimer = Math.max(0, this.jumpBufferTimer - dt);
     this.jumpHeld = this.inputJump;
 
-    // Jump execution
     const canJump = this.isGrounded || this.coyoteTimer < COYOTE_TIME;
     if (this.jumpBufferTimer > 0 && canJump) {
       body.velocity.y = JUMP_VELOCITY;
@@ -201,16 +164,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.jumpBufferTimer = 0;
       this.coyoteTimer = COYOTE_TIME + 1;
       // Stretch on jump
-      this.setScale(STRETCH_SCALE.x, STRETCH_SCALE.y);
+      this.setScale(STRETCH_SCALE_X, STRETCH_SCALE_Y);
       this.scene.tweens.add({
-        targets: this,
-        scaleX: 1, scaleY: 1,
-        duration: SQUASH_DURATION,
-        ease: "Back.easeOut",
+        targets: this, scaleX: 1, scaleY: 1,
+        duration: SQUASH_DURATION, ease: "Back.easeOut",
       });
     }
 
-    // Variable jump height (extra gravity when falling or short-hopping)
+    // Variable jump height
     if (!this.isGrounded) {
       if (body.velocity.y > 0) {
         body.velocity.y += FALL_MULTIPLIER * (dt / 1000) * 1000;
@@ -220,7 +181,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       body.velocity.y = Math.min(body.velocity.y, MAX_FALL_SPEED);
     }
 
-    // Attack
+    // ═══ GHOST TRAIL (while airborne) ═══
+    if (!this.isGrounded) {
+      this.ghostTrailTimer += dt;
+      if (this.ghostTrailTimer >= GHOST_TRAIL_INTERVAL) {
+        this.ghostTrailTimer = 0;
+        const ghost = this.scene.add.image(this.x, this.y, "ghostboy")
+          .setFlipX(!this.facingRight)
+          .setAlpha(0.4)
+          .setTint(0x6688ff)
+          .setDepth(this.depth - 1);
+        this.scene.tweens.add({
+          targets: ghost, alpha: 0, duration: GHOST_TRAIL_FADE,
+          onComplete: () => ghost.destroy(),
+        });
+      }
+    } else {
+      this.ghostTrailTimer = 0;
+    }
+
+    // ═══ ATTACK ═══
     this.attackCooldownTimer = Math.max(0, this.attackCooldownTimer - dt);
     if (this.inputAttack && this.attackCooldownTimer <= 0 && !this.isAttacking) {
       this.doAttack();
@@ -230,58 +210,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       if (this.attackTimer <= 0) this.endAttack();
     }
 
-    // I-frames flash
+    // ═══ I-FRAMES ═══
     if (this.iFrameTimer > 0) {
       this.iFrameTimer -= dt;
       this.setAlpha(Math.sin(Date.now() * 0.02) > 0 ? 1 : 0.3);
       if (this.iFrameTimer <= 0) this.setAlpha(1);
     }
 
-    // Ghost trail when airborne
-    if (!this.isGrounded && !this.isDead) {
-      this.ghostTrailTimer -= dt;
-      if (this.ghostTrailTimer <= 0) {
-        this.ghostTrailTimer = GHOST_TRAIL_INTERVAL;
-        const ghost = this.scene.add.image(this.x, this.y, "ghostboy")
-          .setFlipX(!this.facingRight)
-          .setAlpha(GHOST_TRAIL_ALPHA)
-          .setTint(0x6688cc)
-          .setDepth(this.depth - 1);
-        this.scene.tweens.add({
-          targets: ghost,
-          alpha: 0,
-          scale: 0.6,
-          duration: 250,
-          onComplete: () => ghost.destroy(),
-        });
-      }
-    } else {
-      this.ghostTrailTimer = 0;
-    }
+    // ═══ CAMERA LOOK-AHEAD ═══
+    const targetOffset = this.facingRight ? CAMERA_LOOKAHEAD : -CAMERA_LOOKAHEAD;
+    this.cameraOffsetX += (targetOffset - this.cameraOffsetX) * 0.05;
+    this.scene.cameras.main.setFollowOffset(-this.cameraOffsetX, 0);
 
-    // Speed lines when running fast
-    if (this.speedLineEmitter) {
-      const speedFrac = Math.abs(body.velocity.x) / MAX_RUN_SPEED;
-      if (this.isGrounded && speedFrac >= SPEED_LINE_THRESHOLD) {
-        this.speedLineEmitter.emitting = true;
-        this.speedLineEmitter.setPosition(this.x, this.y);
-      } else {
-        this.speedLineEmitter.emitting = false;
-      }
-    }
-
-    // Camera look-ahead in movement direction
-    const cam = this.scene.cameras.main;
-    const targetOffsetX = this.facingRight ? CAMERA_LOOKAHEAD_X : -CAMERA_LOOKAHEAD_X;
-    cam.setFollowOffset(
-      Phaser.Math.Linear(cam.followOffset.x, -targetOffsetX, 0.05),
-      cam.followOffset.y
-    );
-
-    // Tint based on state (placeholder for real animations)
     this.updateTint();
-
-    // Clear one-frame touch flags
     this.touchJumpJustPressed = false;
     this.touchAttack = false;
   }
@@ -292,59 +233,39 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.attackCooldownTimer = ATTACK_COOLDOWN;
 
     const dir = this.facingRight ? 1 : -1;
-    const offsetX = dir * (ATTACK_RANGE / 2 + 10);
+    const ox = dir * (ATTACK_RANGE / 2 + 10);
 
-    // Invisible hitbox for collision
-    this.attackHitbox = this.scene.add.rectangle(
-      this.x + offsetX, this.y, ATTACK_RANGE, 24, 0x88ccff, 0.0
-    );
-    this.scene.physics.add.existing(this.attackHitbox, true);
-
-    // Visual ghost pulse wave arc
-    const waveX = this.x + dir * 8;
-    const wave = this.scene.add.ellipse(waveX, this.y, 12, 20, 0x88ccff, 0.7)
+    // Attack wave effect
+    const wave = this.scene.add.ellipse(this.x + ox, this.y, 8, 20, 0x88ccff, 0.5)
       .setDepth(this.depth + 1);
     this.scene.tweens.add({
       targets: wave,
-      x: waveX + dir * ATTACK_RANGE,
-      scaleX: 2.5,
-      scaleY: 1.8,
-      alpha: 0,
+      scaleX: 3, scaleY: 1.5, alpha: 0,
       duration: ATTACK_DURATION,
-      ease: "Quad.easeOut",
       onComplete: () => wave.destroy(),
     });
 
-    // Secondary ring
-    const ring = this.scene.add.circle(this.x + dir * 16, this.y, 6, 0xaaddff, 0)
-      .setDepth(this.depth + 1);
-    (ring as any).setStrokeStyle(2, 0x88ccff, 0.8);
-    this.scene.tweens.add({
-      targets: ring,
-      scaleX: 3,
-      scaleY: 3,
-      alpha: 0,
-      duration: ATTACK_DURATION + 50,
-      ease: "Quad.easeOut",
-      onComplete: () => ring.destroy(),
-    });
-
-    // Emit small particles along attack path
+    // Spark particles
     for (let i = 0; i < 4; i++) {
-      const px = this.x + dir * (10 + i * 10);
-      const py = this.y + Phaser.Math.Between(-8, 8);
-      const spark = this.scene.add.circle(px, py, 2, 0x88ccff, 0.8)
-        .setDepth(this.depth + 1);
+      const spark = this.scene.add.circle(
+        this.x + ox + Phaser.Math.Between(-10, 10),
+        this.y + Phaser.Math.Between(-10, 10),
+        2, 0xaaddff
+      ).setDepth(this.depth + 1);
       this.scene.tweens.add({
         targets: spark,
-        x: px + dir * Phaser.Math.Between(5, 15),
-        alpha: 0,
-        scale: 0,
-        duration: 200,
-        delay: i * 30,
+        x: spark.x + dir * Phaser.Math.Between(10, 25),
+        y: spark.y + Phaser.Math.Between(-15, 15),
+        alpha: 0, scale: 0, duration: 200,
         onComplete: () => spark.destroy(),
       });
     }
+
+    // Hitbox (invisible now, visual is the wave)
+    this.attackHitbox = this.scene.add.rectangle(
+      this.x + ox, this.y, ATTACK_RANGE, 24, 0x88ccff, 0
+    );
+    this.scene.physics.add.existing(this.attackHitbox, true);
   }
 
   private endAttack(): void {
@@ -363,7 +284,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.iFrameTimer > 0 || this.isDead) return;
     this.hp -= amount;
     this.iFrameTimer = INVINCIBILITY_DURATION;
-    this.scene.cameras.main.shake(SHAKE_PLAYER_DAMAGE.duration, SHAKE_PLAYER_DAMAGE.intensity);
+    this.scene.cameras.main.shake(SHAKE_PLAYER_DAMAGE_DURATION, SHAKE_PLAYER_DAMAGE_INTENSITY);
     this.scene.events.emit("player-damaged", this.hp);
     if (this.hp <= 0) this.die();
   }
@@ -382,6 +303,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.hp = MAX_HP;
     this.iFrameTimer = 0;
     this.setAlpha(1);
+    this.setScale(1, 1);
     this.setPosition(this.checkpointX, this.checkpointY);
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.velocity.x = 0;
@@ -397,14 +319,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private updateTint(): void {
     if (this.isDead) return;
     const body = this.body as Phaser.Physics.Arcade.Body;
-    if (this.isAttacking) {
-      this.setTint(0x88ccff);
-    } else if (!this.isGrounded) {
-      this.setTint(body.velocity.y < 0 ? 0xaaddff : 0x8899cc);
-    } else if (Math.abs(body.velocity.x) > 10) {
-      this.setTint(0xffffff);
-    } else {
-      this.setTint(0xccccff);
-    }
+    if (this.isAttacking) this.setTint(0x88ccff);
+    else if (!this.isGrounded) this.setTint(body.velocity.y < 0 ? 0xaaddff : 0x8899cc);
+    else if (Math.abs(body.velocity.x) > 10) this.setTint(0xffffff);
+    else this.setTint(0xccccff);
   }
 }

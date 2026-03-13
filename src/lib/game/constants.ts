@@ -1,5 +1,4 @@
 // GG's Heart — All GDD balance values. Single source of truth.
-// Every value marked [PLACEHOLDER] in GDD lives here for easy tuning.
 
 // Movement
 export const MAX_RUN_SPEED = 300;
@@ -32,23 +31,31 @@ export const TILE_SIZE = 32;
 export const INTERNAL_WIDTH = 480;
 export const INTERNAL_HEIGHT = 270;
 
-// Cart Runner (for later phases)
+// Screen shake
+export const SHAKE_ENEMY_KILL_DURATION = 80;
+export const SHAKE_ENEMY_KILL_INTENSITY = 0.006;
+export const SHAKE_PLAYER_DAMAGE_DURATION = 150;
+export const SHAKE_PLAYER_DAMAGE_INTENSITY = 0.012;
+export const SHAKE_LANDING_DURATION = 50;
+export const SHAKE_LANDING_INTENSITY = 0.003;
+
+// Ghost trail
+export const GHOST_TRAIL_INTERVAL = 60;
+export const GHOST_TRAIL_FADE = 300;
+
+// Squash/stretch
+export const SQUASH_SCALE_X = 1.3;
+export const SQUASH_SCALE_Y = 0.7;
+export const STRETCH_SCALE_X = 0.8;
+export const STRETCH_SCALE_Y = 1.2;
+export const SQUASH_DURATION = 120;
+
+// Camera
+export const CAMERA_LOOKAHEAD = 40;
+
+// Cart Runner (future)
 export const CART_BASE_SPEED = 400;
 export const CART_MAX_SPEED = 700;
 export const CART_MIN_SPEED = 250;
 export const CART_JUMP_MULTIPLIER = 0.8;
 export const CART_HITS_BEFORE_CRASH = 3;
-
-// Screen Shake
-export const SHAKE_ENEMY_KILL = { duration: 80, intensity: 0.004 };
-export const SHAKE_PLAYER_DAMAGE = { duration: 150, intensity: 0.012 };
-export const SHAKE_LANDING = { duration: 60, intensity: 0.002 };
-
-// Visual Polish
-export const GHOST_TRAIL_ALPHA = 0.3;
-export const GHOST_TRAIL_INTERVAL = 50; // ms between afterimages
-export const SPEED_LINE_THRESHOLD = 0.85; // fraction of MAX_RUN_SPEED
-export const CAMERA_LOOKAHEAD_X = 40;
-export const SQUASH_SCALE = { x: 1.3, y: 0.7 };
-export const STRETCH_SCALE = { x: 0.8, y: 1.2 };
-export const SQUASH_DURATION = 120;

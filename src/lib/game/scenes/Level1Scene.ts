@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import Player from "../entities/Player";
-import { TILE_SIZE, INTERNAL_WIDTH, INTERNAL_HEIGHT, SHAKE_ENEMY_KILL, SHAKE_PLAYER_DAMAGE } from "../constants";
+import { TILE_SIZE, INTERNAL_WIDTH, INTERNAL_HEIGHT, SHAKE_ENEMY_KILL_DURATION, SHAKE_ENEMY_KILL_INTENSITY } from "../constants";
 
 interface EnemyData {
   sprite: Phaser.Physics.Arcade.Sprite;
@@ -116,6 +116,24 @@ export default class Level1Scene extends Phaser.Scene {
     }
     this.events.emit("player-damaged", this.player.hp);
     this.events.emit("hearts-updated", this.heartsCollected);
+
+    // Landing dust particles
+    this.events.on("player-landed", (x: number, y: number, velY: number) => {
+      const count = Math.min(Math.floor(velY / 100), 6);
+      for (let i = 0; i < count; i++) {
+        const dust = this.add.circle(
+          x + Phaser.Math.Between(-12, 12), y,
+          Phaser.Math.Between(1, 3), 0xbbaa99, 0.6
+        ).setDepth(9);
+        this.tweens.add({
+          targets: dust,
+          x: dust.x + Phaser.Math.Between(-15, 15),
+          y: dust.y - Phaser.Math.Between(5, 15),
+          alpha: 0, scale: 0, duration: 300 + Phaser.Math.Between(0, 200),
+          onComplete: () => dust.destroy(),
+        });
+      }
+    });
 
     console.log("[GGsHeart] Level1Scene ready. Player at", this.player.x, this.player.y);
     console.log("[GGsHeart] Platforms count:", this.platforms.getLength());
@@ -406,7 +424,7 @@ export default class Level1Scene extends Phaser.Scene {
       const spr = enemyData.sprite;
 
       // Screen shake on kill
-      this.cameras.main.shake(SHAKE_ENEMY_KILL.duration, SHAKE_ENEMY_KILL.intensity);
+      this.cameras.main.shake(SHAKE_ENEMY_KILL_DURATION, SHAKE_ENEMY_KILL_INTENSITY);
 
       // Flash white, scale up, then burst into particles
       spr.setTint(0xffffff);
