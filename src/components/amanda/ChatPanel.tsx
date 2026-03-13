@@ -25,6 +25,7 @@ const SUGGESTED_ACTIONS = [
   "Play music",
   "Tell me something nice",
   "Surprise me",
+  "Where's Russell?",
 ];
 
 function TypingIndicator() {
