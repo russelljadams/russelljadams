@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthProvider, useAuth } from "@/components/AuthProvider";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -60,29 +59,7 @@ function TabItem({ href, active, label, children }: {
   );
 }
 
-function AmandaDashboardShell({ children }: { children: React.ReactNode }) {
-  const { user, loading, logout } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center"
-        style={{ background: "#FFF8F5" }}>
-        <div className="flex gap-1.5">
-          {[0, 1, 2].map(i => (
-            <div key={i} className="w-2 h-2 rounded-full"
-              style={{
-                background: "#E8788A",
-                animation: `amandaDotBounce 1.4s infinite ease-in-out ${i * 0.2}s`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) return null;
-
+export default function AmandaDashboardLayout({ children }: { children: React.ReactNode }) {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
@@ -98,13 +75,10 @@ function AmandaDashboardShell({ children }: { children: React.ReactNode }) {
             Amanda
           </h1>
         </div>
-        <button
-          onClick={logout}
-          className="text-xs px-3 py-1.5 rounded-full transition-opacity hover:opacity-80"
-          style={{ color: "#C4AFA5", background: "#FFF0EB" }}
-        >
-          Sign out
-        </button>
+        <div className="text-xs px-3 py-1.5 rounded-full"
+          style={{ color: "#C4AFA5", background: "#FFF0EB" }}>
+          Preview
+        </div>
       </header>
 
       {/* Content */}
@@ -125,13 +99,5 @@ function AmandaDashboardShell({ children }: { children: React.ReactNode }) {
         }
       `}</style>
     </div>
-  );
-}
-
-export default function AmandaDashboardLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <AuthProvider>
-      <AmandaDashboardShell>{children}</AmandaDashboardShell>
-    </AuthProvider>
   );
 }
