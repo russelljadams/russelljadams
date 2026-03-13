@@ -58,6 +58,78 @@ function TypingIndicator() {
   );
 }
 
+
+// Render message text, detecting [MAP:lat,lng] markers
+function renderMessageText(text: string) {
+  const mapRegex = /\[MAP:([-\d.]+),([-\d.]+)\]/g;
+  const parts: (string | { lat: number; lng: number })[] = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = mapRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    parts.push({ lat: parseFloat(match[1]), lng: parseFloat(match[2]) });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  if (parts.length === 1 && typeof parts[0] === "string") {
+    return <>{text}</>;
+  }
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (typeof part === "string") return <span key={i}>{part}</span>;
+        const mapsUrl = `https://www.google.com/maps?q=${part.lat},${part.lng}`;
+        return (
+          <a
+            key={i}
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mt-2 rounded-xl overflow-hidden no-underline"
+            style={{ border: `1px solid ${COLORS.border}` }}
+          >
+            <img
+              src={`https://maps.googleapis.com/maps/api/staticmap?center=${part.lat},${part.lng}&zoom=14&size=300x160&markers=color:red%7C${part.lat},${part.lng}&style=feature:all%7Csaturation:-30&key=`}
+              alt="Map"
+              className="w-full h-28 object-cover"
+              style={{ background: "#F5E6E0" }}
+              onError={(e) => {
+                // If no API key / static map fails, show a styled fallback
+                const el = e.currentTarget;
+                el.style.display = "none";
+                el.nextElementSibling?.classList.remove("hidden");
+              }}
+            />
+            <div className="hidden w-full h-28 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #FDEEF0, #F0E6FF)" }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill={COLORS.primary}>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
+            <div className="px-3 py-2 flex items-center gap-2" style={{ background: COLORS.surface }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill={COLORS.primary}>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span className="text-xs font-medium" style={{ color: COLORS.primary }}>
+                Tap to open map
+              </span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill={COLORS.muted} className="ml-auto">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </div>
+          </a>
+        );
+      })}
+    </>
+  );
+}
+
 export default function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -208,7 +280,7 @@ export default function ChatPanel() {
                   className="rounded-2xl rounded-bl-md px-4 py-2.5 text-sm max-w-[80%]"
                   style={{ background: COLORS.bubbleAgent, color: COLORS.text }}
                 >
-                  {msg.text}
+                  {renderMessageText(msg.text)}
                 </div>
               </div>
             ) : (

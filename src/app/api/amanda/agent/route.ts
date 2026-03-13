@@ -97,7 +97,7 @@ async function handleToolCall(name: string, input: Record<string, string>) {
       if (!result?.lat) return "I don't have Russell's location right now.";
       const ago = Math.floor((Date.now() - result.timestamp) / 60000);
       const timeStr = ago < 1 ? "just now" : ago < 60 ? `${ago} minutes ago` : `${Math.floor(ago / 60)} hours ago`;
-      return `Russell's last location: ${result.lat.toFixed(4)}, ${result.lng.toFixed(4)} (updated ${timeStr}).`;
+      return `Russell's last known location was updated ${timeStr}. [MAP:${result.lat},${result.lng}]`;
     }
     default:
       return "Unknown tool.";
