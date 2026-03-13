@@ -326,20 +326,20 @@ export default class Level1_4Scene extends Phaser.Scene {
     placeGround(70, 6);
 
     // Floating platforms across a vast gap — lonely, spacious
-    placePlatform(80, 10, 3);
-    placeEnemy(81, 9, 2, 35);  // Slow patrol — eerie
-    placeHeart(81, 9);
+    placePlatform(79, 10, 3);
+    placeEnemy(80, 9, 2, 35);  // Slow patrol — eerie
+    placeHeart(80, 9);
 
-    placeCrumblingPlatform(87, 8, 2);
+    placeCrumblingPlatform(85, 8, 3);
 
-    placePlatform(93, 11, 3);
-    placeHeart(94, 10);
+    placePlatform(90, 11, 3);
+    placeHeart(91, 10);
 
-    placePlatform(99, 9, 2);
-    placeEnemy(100, 8, 2, 40);
+    placePlatform(96, 9, 3);
+    placeEnemy(97, 8, 2, 40);
 
-    placeCrumblingPlatform(105, 7, 2);
-    placeHeart(106, 6);
+    placeCrumblingPlatform(102, 7, 3);
+    placeHeart(103, 6);
 
     // Mid-hollow checkpoint on a solid island
     placeGround(110, 8);
@@ -348,16 +348,16 @@ export default class Level1_4Scene extends Phaser.Scene {
     placeHeart(112, 13);
 
     // Second half of the hollow — higher floating platforms
-    placePlatform(122, 6, 3);
-    placeEnemy(123, 5, 2, 45);
+    placePlatform(118, 6, 3);
+    placeEnemy(119, 5, 2, 45);
 
-    placePlatform(128, 8, 2);
-    placeHeart(129, 7);
+    placePlatform(124, 8, 3);
+    placeHeart(125, 7);
 
-    placeCrumblingPlatform(133, 5, 3);
-    placeFragment(134, 4);  // Fragment 2 — on crumbling platform, high up
+    placeCrumblingPlatform(130, 5, 3);
+    placeFragment(131, 4);  // Fragment 2 — on crumbling platform, high up
 
-    placePlatform(139, 9, 3);
+    placePlatform(136, 9, 3);
 
     // ═══════════════════════════════════════════════════════════════
     // BEAT 4: The Deep Floor — Descent back to solid ground
