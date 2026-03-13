@@ -32,6 +32,9 @@ export default function GGsHeartGame({ onBack }: Props) {
       const { default: Level1_2Scene } = await import("@/lib/game/scenes/Level1_2Scene");
       const { default: Level1_3Scene } = await import("@/lib/game/scenes/Level1_3Scene");
       const { default: Boss1Scene } = await import("@/lib/game/scenes/Boss1Scene");
+      const { default: Level1_4Scene } = await import("@/lib/game/scenes/Level1_4Scene");
+      const { default: Level1_5Scene } = await import("@/lib/game/scenes/Level1_5Scene");
+      const { default: Level1_6Scene } = await import("@/lib/game/scenes/Level1_6Scene");
       const { default: UIScene } = await import("@/lib/game/scenes/UIScene");
       const { default: LevelCompleteScene } = await import("@/lib/game/scenes/LevelCompleteScene");
 
@@ -40,7 +43,7 @@ export default function GGsHeartGame({ onBack }: Props) {
       const config = createGameConfig(containerRef.current);
       config.scene = [
         BootScene, PreloadScene, WorldMapScene,
-        Level1Scene, Level1_2Scene, Level1_3Scene, Boss1Scene,
+        Level1Scene, Level1_2Scene, Level1_3Scene, Level1_4Scene, Level1_5Scene, Level1_6Scene, Boss1Scene,
         UIScene, LevelCompleteScene,
       ];
 

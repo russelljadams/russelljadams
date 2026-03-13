@@ -86,7 +86,7 @@ export default class UIScene extends Phaser.Scene {
       .setInteractive().setScrollFactor(0).setDepth(100);
 
     // Duck button (cart runner levels) — replaces attack position
-    if (this.levelSceneKey === "Level1_3") {
+    if (this.levelSceneKey === "Level1_3" || this.levelSceneKey === "Level1_6") {
       this.attackBtn.setVisible(false);
       const duckBtn = this.add.circle(W - 100, H - 55, 18, 0x44aaff, 0.1)
         .setInteractive().setScrollFactor(0).setDepth(100);
