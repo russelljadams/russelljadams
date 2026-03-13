@@ -314,10 +314,10 @@ export default class Level1_4Scene extends Phaser.Scene {
 
     // Rising platforms with crumbling
     placePlatform(56, 12, 3);
-    placeCrumblingPlatform(60, 10, 3);
-    placeHeart(61, 9);
-    placePlatform(65, 8, 3);
-    placeFragment(66, 7);  // Fragment 1 — requires crumble platform or precise jump
+    placeCrumblingPlatform(60, 11, 3);
+    placeHeart(61, 10);
+    placePlatform(65, 11, 3);
+    placeFragment(66, 10);  // Fragment 1 — requires crumble platform or precise jump
 
     // ═══════════════════════════════════════════════════════════════
     // BEAT 3: The Hollow Echo — Wide open space, floating platforms
