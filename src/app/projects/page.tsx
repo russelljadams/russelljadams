@@ -17,6 +17,14 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
+    name: "AlienRecon",
+    status: "Active",
+    statusColor: "var(--color-green)",
+    description: "Cybersecurity instructor that walks you through CTF rooms step by step. Runs real tools, teaches real techniques. 40 guided walkthroughs covering the full Jr Penetration Tester path.",
+    tech: ["Python", "Typer", "Claude API", "Rich", "YAML"],
+    link: { label: "alien37.com", href: "https://alien37.com" },
+  },
+  {
     name: "Gh0st Agent",
     status: "Active",
     statusColor: "var(--color-green)",
@@ -41,9 +49,9 @@ const PROJECTS: Project[] = [
   },
   {
     name: "CTF Practice Pipeline",
-    status: "In Progress",
-    statusColor: "var(--color-amber)",
-    description: "Structured progression through TryHackMe and HackTheBox challenges. Building toward real-world bug bounty hunting. Completed rooms: Blog, LazyAdmin, SQLi Lab.",
+    status: "Active",
+    statusColor: "var(--color-green)",
+    description: "Structured progression through TryHackMe and HackTheBox challenges, powered by AlienRecon. Completed rooms: Blog, LazyAdmin, SQLi Lab, and 37 more.",
     tech: ["Kali Linux", "Nmap", "Burp Suite", "Metasploit", "OSINT"],
   },
 ];

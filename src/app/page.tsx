@@ -155,6 +155,14 @@ export default function Home() {
         </p>
         <div className="flex gap-5">
           <a
+            href="https://alien37.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-[family-name:var(--font-fira)] text-[11px] text-[var(--color-text-muted)] no-underline hover:text-[var(--color-green)] transition-colors"
+          >
+            AlienRecon
+          </a>
+          <a
             href="https://github.com/russelljadams"
             target="_blank"
             rel="noopener noreferrer"
