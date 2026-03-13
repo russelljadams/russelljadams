@@ -567,6 +567,7 @@ export default class Level1_6Scene extends Phaser.Scene {
     }
 
     this.heartsCollected++;
+    if (this.cartHP < 3) { this.cartHP++; this.events.emit("player-damaged", this.cartHP); }
     this.events.emit("hearts-updated", this.heartsCollected);
   }
 
