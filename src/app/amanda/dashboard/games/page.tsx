@@ -1,7 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import SudokuGame from "@/components/amanda/SudokuGame";
+
+const GGsHeartGame = dynamic(() => import("@/components/amanda/GGsHeartGame"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center" style={{ minHeight: 200, color: "#C4AFA5" }}>
+      <p className="text-sm">Loading game...</p>
+    </div>
+  ),
+});
 
 const PALETTE = {
   rose: "#E8788A",
@@ -49,6 +59,14 @@ export default function GamesPage() {
     );
   }
 
+  if (activeGame === "GGsHeart") {
+    return (
+      <div className="max-w-lg mx-auto">
+        <GGsHeartGame onBack={() => setActiveGame(null)} />
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-lg mx-auto">
       <h2 className="text-lg font-semibold mb-4" style={{ color: PALETTE.text }}>
@@ -66,7 +84,6 @@ export default function GamesPage() {
           </div>
           <p className="text-sm font-medium" style={{ color: PALETTE.text }}>Sudoku</p>
           <p className="text-xs" style={{ color: PALETTE.muted }}>Classic number puzzle</p>
-          {/* Petal count + garden mini */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, marginTop: 2 }}>
             {sudokuInfo.petals > 0 && (
               <span className="text-[10px] font-semibold" style={{ color: PALETTE.sage }}>
@@ -84,9 +101,9 @@ export default function GamesPage() {
 
         {/* GG's Heart card */}
         <button
-          className="rounded-2xl p-5 flex flex-col items-center text-center gap-2"
-          style={{ background: `${PALETTE.rose}08`, border: "none", cursor: "default" }}
-          disabled
+          onClick={() => setActiveGame("GGsHeart")}
+          className="rounded-2xl p-5 flex flex-col items-center text-center gap-2 transition-transform active:scale-95"
+          style={{ background: `${PALETTE.rose}12`, border: "none", cursor: "pointer" }}
         >
           <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: `${PALETTE.rose}22` }}>
             <span className="text-2xl" style={{ color: PALETTE.rose }}>{"\u2665"}</span>
@@ -94,7 +111,7 @@ export default function GamesPage() {
           <p className="text-sm font-medium" style={{ color: PALETTE.text }}>GG&apos;s Heart</p>
           <p className="text-xs" style={{ color: PALETTE.muted }}>A platformer adventure</p>
           <span className="text-[10px] px-2 py-0.5 rounded-full mt-1" style={{ background: `${PALETTE.rose}18`, color: PALETTE.rose }}>
-            Coming Soon
+            Play
           </span>
         </button>
       </div>
