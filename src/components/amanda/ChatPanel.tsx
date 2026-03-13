@@ -16,7 +16,6 @@ const COLORS = {
   text: "#4A3728",
   border: "#F5E6E0",
   muted: "#C4AFA5",
-  lavender: "#B590D4",
   bubbleAgent: "#FFF0EE",
   bubbleUser: "#E8788A",
 };
@@ -35,7 +34,7 @@ function TypingIndicator() {
         className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
         style={{ background: "#FDEEF0" }}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill={COLORS.primary} xmlns="http://www.w3.org/2000/svg">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill={COLORS.primary}>
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
       </div>
@@ -63,7 +62,7 @@ export default function ChatPanel() {
     {
       id: "welcome",
       role: "agent",
-      text: "Hi there! I can help with your shopping list, play music, or just chat. What would you like?",
+      text: "Hi Amanda! I'm your Home Helper. Russell built me just for you. I can chat, answer questions, or just keep you company. What's on your mind?",
       timestamp: Date.now(),
     },
   ]);
@@ -94,15 +93,24 @@ export default function ChatPanel() {
         timestamp: Date.now(),
       };
 
-      setMessages((prev) => [...prev, userMsg]);
+      const updatedMessages = [...messages, userMsg];
+      setMessages(updatedMessages);
       setInput("");
       setIsTyping(true);
+
+      // Build history for context
+      const history = updatedMessages
+        .filter((m) => m.id !== "welcome")
+        .map((m) => ({
+          role: m.role === "user" ? "user" : "assistant",
+          content: m.text,
+        }));
 
       try {
         const res = await fetch("/api/amanda/agent", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: trimmed }),
+          body: JSON.stringify({ message: trimmed, history }),
         });
         const data = await res.json();
 
@@ -119,7 +127,7 @@ export default function ChatPanel() {
           {
             id: `e-${Date.now()}`,
             role: "agent",
-            text: "Oops, I could not reach the server. Try again in a moment!",
+            text: "Oops, I couldn't reach the server. Try again in a moment!",
             timestamp: Date.now(),
           },
         ]);
@@ -128,7 +136,7 @@ export default function ChatPanel() {
         inputRef.current?.focus();
       }
     },
-    [isTyping]
+    [isTyping, messages],
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -138,7 +146,6 @@ export default function ChatPanel() {
 
   return (
     <>
-      {/* Bounce animation */}
       <style>{`
         @keyframes amandaBounce {
           0%, 60%, 100% { transform: translateY(0); }
@@ -165,7 +172,7 @@ export default function ChatPanel() {
             className="w-8 h-8 rounded-full flex items-center justify-center"
             style={{ background: "#FDEEF0" }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill={COLORS.primary} xmlns="http://www.w3.org/2000/svg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={COLORS.primary}>
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
           </div>
@@ -192,16 +199,13 @@ export default function ChatPanel() {
                   className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{ background: "#FDEEF0" }}
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill={COLORS.primary} xmlns="http://www.w3.org/2000/svg">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill={COLORS.primary}>
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                   </svg>
                 </div>
                 <div
                   className="rounded-2xl rounded-bl-md px-4 py-2.5 text-sm max-w-[80%]"
-                  style={{
-                    background: COLORS.bubbleAgent,
-                    color: COLORS.text,
-                  }}
+                  style={{ background: COLORS.bubbleAgent, color: COLORS.text }}
                 >
                   {msg.text}
                 </div>
@@ -210,15 +214,12 @@ export default function ChatPanel() {
               <div key={msg.id} className="flex justify-end">
                 <div
                   className="rounded-2xl rounded-br-md px-4 py-2.5 text-sm max-w-[80%]"
-                  style={{
-                    background: COLORS.bubbleUser,
-                    color: "#FFFFFF",
-                  }}
+                  style={{ background: COLORS.bubbleUser, color: "#FFFFFF" }}
                 >
                   {msg.text}
                 </div>
               </div>
-            )
+            ),
           )}
           {isTyping && <TypingIndicator />}
         </div>
@@ -268,7 +269,7 @@ export default function ChatPanel() {
             className="w-10 h-10 rounded-full flex items-center justify-center transition-opacity hover:opacity-80 disabled:opacity-40 flex-shrink-0"
             style={{ background: COLORS.primary }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="#FFFFFF"/>
             </svg>
           </button>
