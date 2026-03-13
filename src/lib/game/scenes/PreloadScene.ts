@@ -6,9 +6,7 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create(): void {
-    console.log("[GGsHeart] PreloadScene — starting Level1Scene");
-    
-    // Skip the fancy title, go straight to game
-    this.scene.start("Level1Scene");
+    console.log("[GGsHeart] PreloadScene — starting WorldMapScene");
+    this.scene.start("WorldMapScene");
   }
 }

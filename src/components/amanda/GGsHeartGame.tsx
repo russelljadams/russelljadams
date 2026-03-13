@@ -12,7 +12,6 @@ export default function GGsHeartGame({ onBack }: Props) {
   const [ready, setReady] = useState(false);
 
   const handleBack = useCallback(() => {
-    // Exit fullscreen if active
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});
     }
@@ -28,14 +27,22 @@ export default function GGsHeartGame({ onBack }: Props) {
       const { createGameConfig } = await import("@/lib/game/config");
       const { default: BootScene } = await import("@/lib/game/scenes/BootScene");
       const { default: PreloadScene } = await import("@/lib/game/scenes/PreloadScene");
+      const { default: WorldMapScene } = await import("@/lib/game/scenes/WorldMapScene");
       const { default: Level1Scene } = await import("@/lib/game/scenes/Level1Scene");
+      const { default: Level1_2Scene } = await import("@/lib/game/scenes/Level1_2Scene");
+      const { default: Level1_3Scene } = await import("@/lib/game/scenes/Level1_3Scene");
+      const { default: Boss1Scene } = await import("@/lib/game/scenes/Boss1Scene");
       const { default: UIScene } = await import("@/lib/game/scenes/UIScene");
       const { default: LevelCompleteScene } = await import("@/lib/game/scenes/LevelCompleteScene");
 
       if (destroyed || !containerRef.current) return;
 
       const config = createGameConfig(containerRef.current);
-      config.scene = [BootScene, PreloadScene, Level1Scene, UIScene, LevelCompleteScene];
+      config.scene = [
+        BootScene, PreloadScene, WorldMapScene,
+        Level1Scene, Level1_2Scene, Level1_3Scene, Boss1Scene,
+        UIScene, LevelCompleteScene,
+      ];
 
       game = new Phaser.Game(config);
       gameRef.current = game;
@@ -63,51 +70,20 @@ export default function GGsHeartGame({ onBack }: Props) {
     } else if ((el as any).webkitRequestFullscreen) {
       (el as any).webkitRequestFullscreen();
     }
-    // Lock to landscape if possible
-    try {
-      (screen.orientation as any)?.lock?.("landscape").catch(() => {});
-    } catch {}
+    try { (screen.orientation as any)?.lock?.("landscape").catch(() => {}); } catch {}
   };
 
   return (
-    <div
-      className="flex flex-col items-center"
-      style={{
-        // In fullscreen this becomes the fullscreen element
-        background: "#1a1a2e",
-        minHeight: "100%",
-      }}
-    >
-      {/* Top bar */}
+    <div className="flex flex-col items-center" style={{ background: "#1a1a2e", minHeight: "100%" }}>
       <div className="w-full flex items-center justify-between px-3 py-2" style={{ background: "#1a1a2e" }}>
-        <button
-          onClick={handleBack}
-          className="text-sm px-3 py-2 rounded-lg"
-          style={{ color: "#aaaacc", background: "rgba(255,255,255,0.08)" }}
-        >
-          ← Back
-        </button>
+        <button onClick={handleBack} className="text-sm px-3 py-2 rounded-lg"
+          style={{ color: "#aaaacc", background: "rgba(255,255,255,0.08)" }}>← Back</button>
         {ready && (
-          <button
-            onClick={goFullscreen}
-            className="text-sm px-3 py-2 rounded-lg"
-            style={{ color: "#aaaacc", background: "rgba(255,255,255,0.08)" }}
-          >
-            ⛶ Fullscreen
-          </button>
+          <button onClick={goFullscreen} className="text-sm px-3 py-2 rounded-lg"
+            style={{ color: "#aaaacc", background: "rgba(255,255,255,0.08)" }}>⛶ Fullscreen</button>
         )}
       </div>
-      {/* Game canvas */}
-      <div
-        ref={containerRef}
-        style={{
-          width: "100%",
-          flex: 1,
-          minHeight: 0,
-          overflow: "hidden",
-          background: "#1a1a2e",
-        }}
-      />
+      <div ref={containerRef} style={{ width: "100%", flex: 1, minHeight: 0, overflow: "hidden", background: "#1a1a2e" }} />
     </div>
   );
 }

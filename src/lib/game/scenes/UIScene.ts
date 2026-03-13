@@ -5,6 +5,7 @@ export default class UIScene extends Phaser.Scene {
   private heartIcons: Phaser.GameObjects.Image[] = [];
   private heartsText!: Phaser.GameObjects.Text;
   private currentHP: number = MAX_HP;
+  private levelSceneKey: string = "Level1_1";
 
   // Touch controls
   private leftZone!: Phaser.GameObjects.Rectangle;
@@ -16,7 +17,14 @@ export default class UIScene extends Phaser.Scene {
     super({ key: "UIScene" });
   }
 
+  init(data: { levelKey?: string }): void {
+    this.levelSceneKey = data?.levelKey || "Level1_1";
+  }
+
   create(): void {
+    this.heartIcons = [];
+    this.currentHP = MAX_HP;
+
     // HP Hearts
     for (let i = 0; i < MAX_HP; i++) {
       const icon = this.add.image(8 + i * 14, 8, "heart_icon").setOrigin(0, 0).setScrollFactor(0);
@@ -31,14 +39,16 @@ export default class UIScene extends Phaser.Scene {
     }).setOrigin(1, 0).setScrollFactor(0);
 
     // Listen to game scene events
-    const level = this.scene.get("Level1Scene");
-    level.events.on("player-damaged", (hp: number) => {
-      this.currentHP = hp;
-      this.updateHearts();
-    });
-    level.events.on("hearts-updated", (count: number) => {
-      this.heartsText.setText(String(count));
-    });
+    const level = this.scene.get(this.levelSceneKey);
+    if (level) {
+      level.events.on("player-damaged", (hp: number) => {
+        this.currentHP = hp;
+        this.updateHearts();
+      });
+      level.events.on("hearts-updated", (count: number) => {
+        this.heartsText.setText(String(count));
+      });
+    }
 
     // Touch controls
     this.createTouchControls();
@@ -50,105 +60,111 @@ export default class UIScene extends Phaser.Scene {
     }
   }
 
+  private getPlayer(): any {
+    const level = this.scene.get(this.levelSceneKey);
+    return level ? (level as any).player : null;
+  }
+
   private createTouchControls(): void {
     const W = INTERNAL_WIDTH;
     const H = 270;
 
-    // Left button — bottom-left
+    // Left button
     this.leftZone = this.add.rectangle(40, H - 30, 50, 40, 0xffffff, 0.08)
-      .setInteractive()
-      .setScrollFactor(0)
-      .setDepth(100);
+      .setInteractive().setScrollFactor(0).setDepth(100);
 
-    // Right button — next to left
+    // Right button
     this.rightZone = this.add.rectangle(100, H - 30, 50, 40, 0xffffff, 0.08)
-      .setInteractive()
-      .setScrollFactor(0)
-      .setDepth(100);
+      .setInteractive().setScrollFactor(0).setDepth(100);
 
-    // Jump button — bottom-right (large)
+    // Jump button (large)
     this.jumpBtn = this.add.circle(W - 50, H - 35, 24, 0xffffff, 0.1)
-      .setInteractive()
-      .setScrollFactor(0)
-      .setDepth(100);
+      .setInteractive().setScrollFactor(0).setDepth(100);
 
-    // Attack button — above jump
+    // Attack button
     this.attackBtn = this.add.circle(W - 100, H - 55, 18, 0xff6699, 0.1)
-      .setInteractive()
-      .setScrollFactor(0)
-      .setDepth(100);
+      .setInteractive().setScrollFactor(0).setDepth(100);
+
+    // Duck button (cart runner levels) — replaces attack position
+    if (this.levelSceneKey === "Level1_3") {
+      this.attackBtn.setVisible(false);
+      const duckBtn = this.add.circle(W - 100, H - 55, 18, 0x44aaff, 0.1)
+        .setInteractive().setScrollFactor(0).setDepth(100);
+      this.add.text(W - 100, H - 55, "\u2B07", { fontSize: "10px", color: "#44aaff" })
+        .setOrigin(0.5).setScrollFactor(0).setDepth(101).setAlpha(0.4);
+      duckBtn.on("pointerdown", () => {
+        const lvl = this.scene.get(this.levelSceneKey);
+        if (lvl) (lvl as any).touchDuck = true;
+        duckBtn.setFillStyle(0x44aaff, 0.25);
+      });
+      duckBtn.on("pointerup", () => {
+        const lvl = this.scene.get(this.levelSceneKey);
+        if (lvl) (lvl as any).touchDuck = false;
+        duckBtn.setFillStyle(0x44aaff, 0.1);
+      });
+      duckBtn.on("pointerout", () => {
+        const lvl = this.scene.get(this.levelSceneKey);
+        if (lvl) (lvl as any).touchDuck = false;
+        duckBtn.setFillStyle(0x44aaff, 0.1);
+      });
+    }
 
     // Labels
-    this.add.text(40, H - 30, "◀", { fontSize: "12px", color: "#ffffff" })
+    this.add.text(40, H - 30, "\u25C0", { fontSize: "12px", color: "#ffffff" })
       .setOrigin(0.5).setScrollFactor(0).setDepth(101).setAlpha(0.4);
-    this.add.text(100, H - 30, "▶", { fontSize: "12px", color: "#ffffff" })
+    this.add.text(100, H - 30, "\u25B6", { fontSize: "12px", color: "#ffffff" })
       .setOrigin(0.5).setScrollFactor(0).setDepth(101).setAlpha(0.4);
-    this.add.text(W - 50, H - 35, "⬆", { fontSize: "14px", color: "#ffffff" })
+    this.add.text(W - 50, H - 35, "\u2B06", { fontSize: "14px", color: "#ffffff" })
       .setOrigin(0.5).setScrollFactor(0).setDepth(101).setAlpha(0.4);
-    this.add.text(W - 100, H - 55, "⚡", { fontSize: "10px", color: "#ff6699" })
+    this.add.text(W - 100, H - 55, "\u26A1", { fontSize: "10px", color: "#ff6699" })
       .setOrigin(0.5).setScrollFactor(0).setDepth(101).setAlpha(0.4);
-
-    // Touch input handling
-    const level = this.scene.get("Level1Scene");
 
     // Left
     this.leftZone.on("pointerdown", () => {
-      const player = (level as any).player;
-      if (player) player.touchLeft = true;
+      const p = this.getPlayer(); if (p) p.touchLeft = true;
       this.leftZone.setFillStyle(0xffffff, 0.2);
     });
     this.leftZone.on("pointerup", () => {
-      const player = (level as any).player;
-      if (player) player.touchLeft = false;
+      const p = this.getPlayer(); if (p) p.touchLeft = false;
       this.leftZone.setFillStyle(0xffffff, 0.08);
     });
     this.leftZone.on("pointerout", () => {
-      const player = (level as any).player;
-      if (player) player.touchLeft = false;
+      const p = this.getPlayer(); if (p) p.touchLeft = false;
       this.leftZone.setFillStyle(0xffffff, 0.08);
     });
 
     // Right
     this.rightZone.on("pointerdown", () => {
-      const player = (level as any).player;
-      if (player) player.touchRight = true;
+      const p = this.getPlayer(); if (p) p.touchRight = true;
       this.rightZone.setFillStyle(0xffffff, 0.2);
     });
     this.rightZone.on("pointerup", () => {
-      const player = (level as any).player;
-      if (player) player.touchRight = false;
+      const p = this.getPlayer(); if (p) p.touchRight = false;
       this.rightZone.setFillStyle(0xffffff, 0.08);
     });
     this.rightZone.on("pointerout", () => {
-      const player = (level as any).player;
-      if (player) player.touchRight = false;
+      const p = this.getPlayer(); if (p) p.touchRight = false;
       this.rightZone.setFillStyle(0xffffff, 0.08);
     });
 
     // Jump
     this.jumpBtn.on("pointerdown", () => {
-      const player = (level as any).player;
-      if (player) {
-        player.touchJump = true;
-        player.touchJumpJustPressed = true;
-      }
+      const p = this.getPlayer();
+      if (p) { p.touchJump = true; p.touchJumpJustPressed = true; }
       this.jumpBtn.setFillStyle(0xffffff, 0.25);
     });
     this.jumpBtn.on("pointerup", () => {
-      const player = (level as any).player;
-      if (player) player.touchJump = false;
+      const p = this.getPlayer(); if (p) p.touchJump = false;
       this.jumpBtn.setFillStyle(0xffffff, 0.1);
     });
     this.jumpBtn.on("pointerout", () => {
-      const player = (level as any).player;
-      if (player) player.touchJump = false;
+      const p = this.getPlayer(); if (p) p.touchJump = false;
       this.jumpBtn.setFillStyle(0xffffff, 0.1);
     });
 
     // Attack
     this.attackBtn.on("pointerdown", () => {
-      const player = (level as any).player;
-      if (player) player.touchAttack = true;
+      const p = this.getPlayer(); if (p) p.touchAttack = true;
       this.attackBtn.setFillStyle(0xff6699, 0.25);
     });
     this.attackBtn.on("pointerup", () => {
