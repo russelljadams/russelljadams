@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Projects | Russell J. Adams",
-  description: "Security tools, AI agent infrastructure, and technical projects.",
+  description: "Projects by Russell J. Adams.",
 };
 
 interface Project {
@@ -20,7 +20,7 @@ const PROJECTS: Project[] = [
     name: "AlienRecon",
     status: "Active",
     statusColor: "var(--color-green)",
-    description: "Cybersecurity instructor that walks you through CTF rooms step by step. Runs real tools, teaches real techniques. 40 guided walkthroughs covering the full Jr Penetration Tester path.",
+    description: "CLI tool that walks you through CTF rooms. Runs real tools against real targets while an instructor explains what you're doing and why. 40 TryHackMe walkthroughs so far.",
     tech: ["Python", "Typer", "Claude API", "Rich", "YAML"],
     link: { label: "alien37.com", href: "https://alien37.com" },
   },
@@ -28,15 +28,15 @@ const PROJECTS: Project[] = [
     name: "Gh0st Agent",
     status: "Active",
     statusColor: "var(--color-green)",
-    description: "Autonomous AI agent with 117 tools across 5 servers on 3 devices. Built with FastAPI, Ollama, and vector memory. Handles voice commands, security recon, and multi-step reasoning through a custom MCP protocol implementation.",
-    tech: ["Python", "FastAPI", "Ollama", "Qdrant", "MCP Protocol", "Tailscale"],
+    description: "Personal agent that runs across my phone and cloud server. Handles recon tasks, voice commands, and coordinates work between devices.",
+    tech: ["Python", "Claude API", "Tailscale"],
     link: { label: "GitHub", href: "https://github.com/russelljadams/gh0st-agent" },
   },
   {
     name: "CEH Cram Station",
     status: "Deployed",
     statusColor: "var(--color-cyan)",
-    description: "424-question spaced repetition study app for the CEH v13 (312-50) exam. Built from scratch with zero dependencies — pure HTML, CSS, and JavaScript. Category filtering, progress tracking, and streak system.",
+    description: "Spaced repetition study app for the CEH v13 exam. 424 questions with category filtering, progress tracking, and streaks. No frameworks, just HTML/CSS/JS.",
     tech: ["HTML", "CSS", "JavaScript", "Spaced Repetition"],
     link: { label: "Live App", href: "/ceh-cram/" },
   },
@@ -44,16 +44,10 @@ const PROJECTS: Project[] = [
     name: "This Portfolio",
     status: "Active",
     statusColor: "var(--color-green)",
-    description: "Custom-built portfolio site. Next.js with custom JWT auth, Vercel KV for contact form submissions, and a dashboard for managing inquiries. No templates, no page builders.",
+    description: "This site. Next.js on Vercel with JWT auth and a contact form dashboard.",
     tech: ["Next.js", "React", "TypeScript", "Tailwind", "Vercel KV"],
   },
-  {
-    name: "CTF Practice Pipeline",
-    status: "Active",
-    statusColor: "var(--color-green)",
-    description: "Structured progression through TryHackMe and HackTheBox challenges, powered by AlienRecon. Completed rooms: Blog, LazyAdmin, SQLi Lab, and 37 more.",
-    tech: ["Kali Linux", "Nmap", "Burp Suite", "Metasploit", "OSINT"],
-  },
+
 ];
 
 export default function ProjectsPage() {
@@ -65,10 +59,10 @@ export default function ProjectsPage() {
           Projects
         </div>
         <h1 className="font-[family-name:var(--font-chakra)] text-3xl md:text-4xl font-bold text-[var(--color-text)] mb-4">
-          What I&apos;ve Built
+          Projects
         </h1>
         <p className="font-[family-name:var(--font-outfit)] text-[15px] text-[var(--color-text-secondary)] leading-relaxed mb-12">
-          Security tools, automation, and infrastructure. Everything built from scratch.
+          Things I work on.
         </p>
 
         <div className="space-y-5">

@@ -11,22 +11,22 @@ const BADGES = [
 const SERVICES = [
   {
     title: "Penetration Testing",
-    desc: "Find out where you're vulnerable before someone else does. Network, web app, and wireless assessments.",
+    desc: "Network, web app, and wireless assessments.",
     color: "var(--color-red)",
   },
   {
     title: "Security Audits",
-    desc: "Full security posture review — hardening, access control, policy gaps. Clear report with prioritized fixes.",
+    desc: "Hardening, access control, policy gaps. Clear report with prioritized fixes.",
     color: "var(--color-cyan)",
   },
   {
     title: "Network Troubleshooting",
-    desc: "WiFi dead zones, slow connections, device conflicts. 4 years as a Spectrum field tech.",
+    desc: "WiFi dead zones, slow connections, device conflicts. 4 years field tech experience.",
     color: "var(--color-amber)",
   },
   {
     title: "Tech Repair",
-    desc: "Malware removal, hardware diagnostics, data recovery. I find what's broken and fix it.",
+    desc: "Malware removal, hardware diagnostics, data recovery.",
     color: "var(--color-green)",
   },
 ];
@@ -39,7 +39,7 @@ export default function Home() {
       {/* ═══ HERO ═══ */}
       <section className="min-h-screen flex flex-col justify-center px-6 md:px-10 pt-24 pb-16 max-w-4xl">
         <div className="font-[family-name:var(--font-fira)] text-xs text-[var(--color-green)] tracking-widest uppercase mb-6 opacity-0 animate-[fadeUp_0.5s_ease_0.1s_forwards]">
-          Cybersecurity &bull; Offensive Operations &bull; Technical Services
+          Cybersecurity &bull; Networking &bull; Technical Services
         </div>
 
         <h1 className="font-[family-name:var(--font-chakra)] text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.08] mb-5 opacity-0 animate-[fadeUp_0.5s_ease_0.2s_forwards]">
@@ -50,7 +50,7 @@ export default function Home() {
         </h1>
 
         <p className="font-[family-name:var(--font-outfit)] text-lg text-[var(--color-text-secondary)] mb-8 max-w-xl leading-relaxed opacity-0 animate-[fadeUp_0.5s_ease_0.3s_forwards]">
-          Security-focused technician with a military intelligence background, CEH certification, and 10+ years in networks and telecom. Grand Junction, CO.
+          CEH-certified security tech. USAF intelligence background, 10+ years in networks and telecom. Grand Junction, CO.
         </p>
 
         <div className="flex flex-wrap gap-3 mb-10 opacity-0 animate-[fadeUp_0.5s_ease_0.4s_forwards]">
