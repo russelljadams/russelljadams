@@ -227,8 +227,18 @@ async function handleToolCall(name: string, input: Record<string, string>) {
         ).join("\n");
     }
     case "get_russell_location": {
-      const result = await cloudFetch("/location");
-      if (!result?.lat) return "I don't have Russell's location right now.";
+      // Request fresh location from phone, then wait for it
+      await cloudFetch("/location/request", { method: "POST" });
+      let result = await cloudFetch("/location");
+      const staleThreshold = 5 * 60 * 1000;
+      if (!result?.lat || (Date.now() - result.timestamp) > staleThreshold) {
+        for (let i = 0; i < 4; i++) {
+          await new Promise((r) => setTimeout(r, 3000));
+          result = await cloudFetch("/location");
+          if (result?.timestamp && (Date.now() - result.timestamp) < staleThreshold) break;
+        }
+      }
+      if (!result?.lat) return "I don't have Russell's location right now \u2014 his phone might be offline.";
       const ago = Math.floor((Date.now() - result.timestamp) / 60000);
       const timeStr = ago < 1 ? "just now" : ago < 60 ? `${ago} minutes ago` : `${Math.floor(ago / 60)} hours ago`;
       return `Russell's last known location was updated ${timeStr}. [MAP:${result.lat},${result.lng}]`;
