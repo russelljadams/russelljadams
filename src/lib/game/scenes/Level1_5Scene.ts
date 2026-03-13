@@ -375,7 +375,7 @@ export default class Level1_5Scene extends Phaser.Scene {
     placeGround(112, 12, GR);
 
     // Shaft 1: climb up through narrow gap
-    placeWall(117, 1, 12);
+    placeWall(117, 5, 8);
     placeWall(114, 1, 8);
     placePlat(115, 10, 2);
     placePlat(115, 7, 2);
@@ -389,8 +389,8 @@ export default class Level1_5Scene extends Phaser.Scene {
     placeHeart(120, 2);
 
     // Shaft 2: descend with wall spikes
-    placeWall(122, 1, 12);
-    placeWall(126, 1, 12);
+    placeWall(122, 5, 8);
+    placeWall(126, 1, 9);
     placeSpike(123, 5);
     placeSpike(125, 7);
     placeSpike(123, 9);
@@ -405,8 +405,8 @@ export default class Level1_5Scene extends Phaser.Scene {
     placeHeart(132, 11);
 
     // Shaft 3: spikes on BOTH walls — the nasty one
-    placeWall(140, 1, 12);
-    placeWall(145, 1, 12);
+    placeWall(140, 1, 9);
+    placeWall(145, 1, 9);
     placeSpike(141, 4);
     placeSpike(144, 3);
     placeSpike(141, 6);
