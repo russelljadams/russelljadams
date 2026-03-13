@@ -369,59 +369,36 @@ export default class Level1_5Scene extends Phaser.Scene {
     placeCP(109, GR);
 
     // ═══════════════════════════════════════════════════
-    // SECTION 4: Vertical Corridors (112-155)
-    // Tight shafts — precision jumping between close walls
+    // SECTION 4: Vertical Climb (112-155)
+    // Open climbing section with spike hazards on ledges
     // ═══════════════════════════════════════════════════
-    placeGround(112, 12, GR);
+    placeGround(112, 6, GR);
 
-    // Shaft 1: climb up through narrow gap
-    placeWall(117, 5, 8);
-    placeWall(114, 1, 8);
-    placePlat(115, 10, 2);
-    placePlat(115, 7, 2);
-    placePlat(115, 4, 2);
-    placeHeart(115, 9);
-    placeHeart(116, 6);
-    placeEnemy(115, 3, 1, 30);
+    // Climb up — open staircase platforms, no walls
+    placePlat(115, 10, 3);
+    placeHeart(116, 9);
+    placePlat(119, 8, 3);
+    placeEnemy(120, 7, 2, 30);
+    placePlat(123, 6, 3);
+    placeHeart(124, 5);
+    placePlat(127, 4, 3);
 
-    // Bridge between shafts
-    placePlat(118, 3, 4);
-    placeHeart(120, 2);
+    // Top bridge with spikes below
+    placePlat(131, 4, 6);
+    spikeRow(131, 6, 5);
+    placeHeart(134, 3);
 
-    // Shaft 2: descend with wall spikes
-    placeWall(122, 5, 8);
-    placeWall(126, 1, 9);
-    placeSpike(123, 5);
-    placeSpike(125, 7);
-    placeSpike(123, 9);
-    placePlat(123, 3, 3);
-    placePlat(124, 6, 2);
-    placePlat(123, 8, 2);
-    placePlat(124, 10, 2);
-    placeGround(123, 3, GR);
-    placeGround(127, 15, GR);
+    // Descend the other side
+    placePlat(138, 6, 3);
+    placeEnemy(139, 5, 2, 40);
+    placePlat(142, 8, 3);
+    placeSpike(143, 9);
+    placeHeart(142, 7);
+    placePlat(146, 10, 3);
 
-    placeEnemy(130, 11, 3, 50);
-    placeHeart(132, 11);
+    // Fragment 2: under the bridge, risky drop
+    placeFrag(133, 4);
 
-    // Shaft 3: spikes on BOTH walls — the nasty one
-    placeWall(140, 1, 9);
-    placeWall(145, 1, 9);
-    placeSpike(141, 4);
-    placeSpike(144, 3);
-    placeSpike(141, 6);
-    placeSpike(144, 7);
-    placeSpike(141, 9);
-    placeSpike(144, 10);
-    placePlat(142, 3, 2);
-    placePlat(142, 5, 2);
-    placePlat(142, 8, 2);
-    placePlat(142, 11, 2);
-
-    // Fragment 2: deep in the spike corridor
-    placeFrag(143, 6);
-
-    placeGround(141, 5, GR);
     placeGround(146, 10, GR);
     placeCP(148, GR);
 
