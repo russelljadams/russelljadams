@@ -8,8 +8,12 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get(COOKIE_NAME)?.value;
   const path = req.nextUrl.pathname;
 
+  // Temporarily bypass auth for Amanda's dashboard (REMOVE WHEN PASSWORD IS SET)
+  if (path.startsWith("/amanda/dashboard")) {
+    return NextResponse.next();
+  }
+
   if (!token) {
-    // Redirect to the appropriate login page
     if (path.startsWith("/amanda")) {
       return NextResponse.redirect(new URL("/amanda/login", req.url));
     }
@@ -20,12 +24,6 @@ export async function middleware(req: NextRequest) {
     const { payload } = await jwtVerify(token, JWT_SECRET);
     const role = payload.role as string;
 
-    // Amanda routes: only viewer role
-    if (path.startsWith("/amanda/dashboard") && role !== "viewer") {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
-    }
-
-    // Admin routes: redirect Amanda to her dashboard
     if (path.startsWith("/dashboard") && !path.startsWith("/amanda") && role === "viewer") {
       return NextResponse.redirect(new URL("/amanda/dashboard", req.url));
     }
