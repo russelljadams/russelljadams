@@ -3,7 +3,7 @@ import {
   MAX_RUN_SPEED, ACCELERATION, DECELERATION, AIR_CONTROL,
   JUMP_VELOCITY, FALL_MULTIPLIER, SHORT_HOP_MULTIPLIER,
   COYOTE_TIME, JUMP_BUFFER, MAX_FALL_SPEED,
-  ATTACK_RANGE, ATTACK_DURATION, ATTACK_COOLDOWN, ATTACK_KNOCKBACK,
+  ATTACK_RANGE, ATTACK_DURATION, ATTACK_COOLDOWN,
   MAX_HP, INVINCIBILITY_DURATION,
 } from "../constants";
 
@@ -11,36 +11,32 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hp: number = MAX_HP;
   facingRight: boolean = true;
 
-  // Jump state
   private isGrounded: boolean = false;
   private wasGrounded: boolean = false;
-  private coyoteTimer: number = COYOTE_TIME + 1; // start expired
+  private coyoteTimer: number = COYOTE_TIME + 1;
   private jumpBufferTimer: number = 0;
   private isJumping: boolean = false;
   private jumpHeld: boolean = false;
 
-  // Attack state
   private isAttacking: boolean = false;
   private attackTimer: number = 0;
   private attackCooldownTimer: number = 0;
   private attackHitbox: Phaser.GameObjects.Rectangle | null = null;
 
-  // Damage state
   private iFrameTimer: number = 0;
   private isDead: boolean = false;
 
-  // Input
-  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  private attackKey!: Phaser.Input.Keyboard.Key;
+  // Keyboard (may be null on mobile)
+  private cursors: Phaser.Types.Input.Keyboard.CursorKeys | null = null;
+  private attackKey: Phaser.Input.Keyboard.Key | null = null;
 
-  // Touch input state (set by UIScene)
+  // Touch input (set by UIScene)
   public touchLeft: boolean = false;
   public touchRight: boolean = false;
   public touchJump: boolean = false;
   public touchJumpJustPressed: boolean = false;
   public touchAttack: boolean = false;
 
-  // Checkpoint
   public checkpointX: number = 0;
   public checkpointY: number = 0;
 
@@ -65,49 +61,61 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   private get inputLeft(): boolean {
-    return this.cursors?.left?.isDown || this.touchLeft;
+    return (this.cursors?.left?.isDown ?? false) || this.touchLeft;
   }
 
   private get inputRight(): boolean {
-    return this.cursors?.right?.isDown || this.touchRight;
+    return (this.cursors?.right?.isDown ?? false) || this.touchRight;
   }
 
   private get inputJump(): boolean {
-    return this.cursors?.up?.isDown || this.cursors?.space?.isDown || this.touchJump;
+    return (this.cursors?.up?.isDown ?? false) ||
+           (this.cursors?.space?.isDown ?? false) ||
+           this.touchJump;
   }
 
   private get inputJumpJustPressed(): boolean {
-    return Phaser.Input.Keyboard.JustDown(this.cursors?.up) ||
-           Phaser.Input.Keyboard.JustDown(this.cursors?.space) ||
-           this.touchJumpJustPressed;
+    let kbJump = false;
+    if (this.cursors?.up) {
+      kbJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+    }
+    if (!kbJump && this.cursors?.space) {
+      kbJump = Phaser.Input.Keyboard.JustDown(this.cursors.space);
+    }
+    return kbJump || this.touchJumpJustPressed;
   }
 
   private get inputAttack(): boolean {
-    return Phaser.Input.Keyboard.JustDown(this.attackKey) || this.touchAttack;
+    let kbAttack = false;
+    if (this.attackKey) {
+      kbAttack = Phaser.Input.Keyboard.JustDown(this.attackKey);
+    }
+    return kbAttack || this.touchAttack;
   }
 
   update(_time: number, delta: number): void {
     if (this.isDead) return;
 
     const body = this.body as Phaser.Physics.Arcade.Body;
-    const dt = delta; // ms
+    if (!body) return;
+
+    const dt = delta;
 
     // Ground detection
     this.wasGrounded = this.isGrounded;
     this.isGrounded = body.blocked.down || body.touching.down;
 
-    // --- COYOTE TIME ---
+    // Coyote time
     if (this.isGrounded) {
       this.coyoteTimer = 0;
       this.isJumping = false;
     } else if (this.wasGrounded && !this.isJumping) {
-      // Just left ground without jumping — start coyote
       this.coyoteTimer = 0;
     } else {
       this.coyoteTimer += dt;
     }
 
-    // --- HORIZONTAL MOVEMENT ---
+    // Horizontal movement
     const moveDir = (this.inputRight ? 1 : 0) - (this.inputLeft ? 1 : 0);
     const accel = this.isGrounded ? ACCELERATION : ACCELERATION * AIR_CONTROL;
 
@@ -115,16 +123,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.facingRight = moveDir > 0;
       this.setFlipX(!this.facingRight);
 
-      const currentVelX = body.velocity.x;
-      // If moving against current velocity, apply decel first for snappy turnaround
-      if (Math.sign(currentVelX) === -moveDir && Math.abs(currentVelX) > 10) {
+      if (Math.sign(body.velocity.x) === -moveDir && Math.abs(body.velocity.x) > 10) {
         body.velocity.x += moveDir * (DECELERATION + accel) * (dt / 1000);
       } else {
         body.velocity.x += moveDir * accel * (dt / 1000);
       }
       body.velocity.x = Phaser.Math.Clamp(body.velocity.x, -MAX_RUN_SPEED, MAX_RUN_SPEED);
     } else {
-      // Decelerate to stop
       if (Math.abs(body.velocity.x) < DECELERATION * (dt / 1000)) {
         body.velocity.x = 0;
       } else {
@@ -132,63 +137,56 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // --- JUMP BUFFER ---
+    // Jump buffer
     if (this.inputJumpJustPressed) {
       this.jumpBufferTimer = JUMP_BUFFER;
     } else {
       this.jumpBufferTimer = Math.max(0, this.jumpBufferTimer - dt);
     }
 
-    // Track if jump button is held
     this.jumpHeld = this.inputJump;
 
-    // --- JUMP EXECUTION ---
+    // Jump execution
     const canJump = this.isGrounded || this.coyoteTimer < COYOTE_TIME;
     if (this.jumpBufferTimer > 0 && canJump) {
       body.velocity.y = JUMP_VELOCITY;
       this.isJumping = true;
       this.jumpHeld = true;
       this.jumpBufferTimer = 0;
-      this.coyoteTimer = COYOTE_TIME + 1; // expire coyote
+      this.coyoteTimer = COYOTE_TIME + 1;
     }
 
-    // --- VARIABLE JUMP HEIGHT ---
+    // Variable jump height (extra gravity when falling or short-hopping)
     if (!this.isGrounded) {
       if (body.velocity.y > 0) {
-        // Falling: apply fall multiplier
         body.velocity.y += FALL_MULTIPLIER * (dt / 1000) * 1000;
       } else if (body.velocity.y < 0 && !this.jumpHeld) {
-        // Rising but jump released: apply short hop multiplier
         body.velocity.y += SHORT_HOP_MULTIPLIER * (dt / 1000) * 1000;
       }
       body.velocity.y = Math.min(body.velocity.y, MAX_FALL_SPEED);
     }
 
-    // --- ATTACK ---
+    // Attack
     this.attackCooldownTimer = Math.max(0, this.attackCooldownTimer - dt);
     if (this.inputAttack && this.attackCooldownTimer <= 0 && !this.isAttacking) {
       this.doAttack();
     }
     if (this.isAttacking) {
       this.attackTimer -= dt;
-      if (this.attackTimer <= 0) {
-        this.endAttack();
-      }
+      if (this.attackTimer <= 0) this.endAttack();
     }
 
-    // --- I-FRAMES ---
+    // I-frames flash
     if (this.iFrameTimer > 0) {
       this.iFrameTimer -= dt;
       this.setAlpha(Math.sin(Date.now() * 0.02) > 0 ? 1 : 0.3);
-      if (this.iFrameTimer <= 0) {
-        this.setAlpha(1);
-      }
+      if (this.iFrameTimer <= 0) this.setAlpha(1);
     }
 
-    // --- ANIMATION ---
-    this.updateAnimation();
+    // Tint based on state (placeholder for real animations)
+    this.updateTint();
 
-    // Clear one-frame touch inputs
+    // Clear one-frame touch flags
     this.touchJumpJustPressed = false;
     this.touchAttack = false;
   }
@@ -203,7 +201,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.x + offsetX, this.y, ATTACK_RANGE, 24, 0x88ccff, 0.3
     );
     this.scene.physics.add.existing(this.attackHitbox, true);
-    (this.attackHitbox as any).__isAttack = true;
   }
 
   private endAttack(): void {
@@ -224,10 +221,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.iFrameTimer = INVINCIBILITY_DURATION;
     this.scene.cameras.main.shake(100, 0.01);
     this.scene.events.emit("player-damaged", this.hp);
-
-    if (this.hp <= 0) {
-      this.die();
-    }
+    if (this.hp <= 0) this.die();
   }
 
   public die(): void {
@@ -236,10 +230,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.velocity.x = 0;
     body.velocity.y = JUMP_VELOCITY * 0.5;
-
-    this.scene.time.delayedCall(600, () => {
-      this.respawn();
-    });
+    this.scene.time.delayedCall(600, () => this.respawn());
   }
 
   public respawn(): void {
@@ -259,10 +250,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.checkpointY = y;
   }
 
-  private updateAnimation(): void {
+  private updateTint(): void {
     if (this.isDead) return;
     const body = this.body as Phaser.Physics.Arcade.Body;
-
     if (this.isAttacking) {
       this.setTint(0x88ccff);
     } else if (!this.isGrounded) {
