@@ -15,6 +15,11 @@ interface CrumblingPlatform {
   tiles: Phaser.Physics.Arcade.Sprite[];
   triggered: boolean;
   timer: number;
+  originTileX: number;
+  originTileY: number;
+  width: number;
+  destroyed: boolean;
+  respawnTimer: number;
 }
 
 export default class Level1_4Scene extends Phaser.Scene {
@@ -218,7 +223,7 @@ export default class Level1_4Scene extends Phaser.Scene {
         p.setTint(0x887766);
         tiles.push(p);
       }
-      this.crumblingPlatforms.push({ tiles, triggered: false, timer: 0 });
+      this.crumblingPlatforms.push({ tiles, triggered: false, timer: 0, originTileX: tileX, originTileY: tileY, width, destroyed: false, respawnTimer: 0 });
     };
 
     const placeSpikes = (startTile: number, widthTiles: number, row: number = 14) => {
@@ -657,7 +662,32 @@ export default class Level1_4Scene extends Phaser.Scene {
     }
 
     // Crumbling platform logic
+    const T = TILE_SIZE;
     for (const cp of this.crumblingPlatforms) {
+      // Respawn destroyed platforms after 3 seconds
+      if (cp.destroyed) {
+        cp.respawnTimer += delta;
+        if (cp.respawnTimer >= 3000) {
+          const newTiles: Phaser.Physics.Arcade.Sprite[] = [];
+          for (let i = 0; i < cp.width; i++) {
+            const p = this.platforms.create(
+              (cp.originTileX + i) * T + T / 2, cp.originTileY * T + T / 2, "tile_surface"
+            ) as Phaser.Physics.Arcade.Sprite;
+            p.refreshBody();
+            p.setTint(0x887766);
+            p.setAlpha(0);
+            this.tweens.add({ targets: p, alpha: 1, duration: 400 });
+            newTiles.push(p);
+          }
+          cp.tiles = newTiles;
+          cp.triggered = false;
+          cp.timer = 0;
+          cp.destroyed = false;
+          cp.respawnTimer = 0;
+        }
+        continue;
+      }
+
       if (cp.triggered) {
         cp.timer += delta;
 
@@ -672,14 +702,15 @@ export default class Level1_4Scene extends Phaser.Scene {
         }
 
         // Fall and destroy after 1 second
-        if (cp.timer >= 1000) {
+        if (cp.timer >= 1000 && !cp.destroyed) {
           for (const tile of cp.tiles) {
             if (tile.active) {
-              // Remove from static group and destroy
               tile.destroy();
             }
           }
           cp.tiles = [];
+          cp.destroyed = true;
+          cp.respawnTimer = 0;
         }
       } else {
         // Check if player is standing on any tile of this platform
