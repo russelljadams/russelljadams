@@ -169,6 +169,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!ANTHROPIC_API_KEY) {
+      console.error("AMANDA_AGENT_API_KEY not set, using fallback");
       return NextResponse.json({ reply: getFallbackReply(message) });
     }
 

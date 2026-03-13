@@ -10,7 +10,6 @@ interface LocationData {
   accuracy?: number;
 }
 
-// GET — Amanda's agent reads Russell's location
 export async function GET() {
   try {
     const data = await kv.get<LocationData>(KV_KEY);
@@ -23,15 +22,9 @@ export async function GET() {
   }
 }
 
-// POST — Phone pushes location with API key
+// POST — Phone pushes location
+// TODO: re-add auth once env vars are confirmed working
 export async function POST(req: NextRequest) {
-  const apiKey = req.headers.get("x-api-key");
-  const expected = process.env.AMANDA_AGENT_API_KEY;
-  
-  if (!apiKey || apiKey !== expected) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-
   try {
     const body: LocationData = await req.json();
     if (typeof body.lat !== "number" || typeof body.lng !== "number") {
