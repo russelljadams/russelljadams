@@ -26,7 +26,7 @@ export async function GET() {
 // POST — Phone pushes location with API key
 export async function POST(req: NextRequest) {
   const apiKey = req.headers.get("x-api-key");
-  const expected = process.env.AGENT_API_KEY || process.env.AMANDA_AGENT_API_KEY;
+  const expected = process.env.AMANDA_AGENT_API_KEY;
   
   if (!apiKey || apiKey !== expected) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
