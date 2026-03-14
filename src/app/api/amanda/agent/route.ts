@@ -135,7 +135,7 @@ function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function handleCommand(message: string): CommandResult {
+async function handleCommand(message: string): Promise<CommandResult> {
   const lower = message.toLowerCase().trim();
 
   // "Tell me something nice" → love note, poem, or affirmation
@@ -181,6 +181,23 @@ function handleCommand(message: string): CommandResult {
       "Music mode! I'm not hooked up to Spotify yet, but I'm a pretty good DJ in theory. What's the mood — soft and dreamy, or something with a beat?",
     ];
     return { handled: true, reply: pickRandom(moods) };
+  }
+
+  // "Where's Russell?" → direct location fetch, no LLM
+  if (/where.?s russell/i.test(lower) || lower === "find russell" || lower === "russell's location") {
+    try {
+      // Trigger a fresh push from the phone
+      await cloudFetch("/location/request", { method: "POST" });
+      const result = await cloudFetch("/location");
+      if (!result?.lat) {
+        return { handled: true, reply: "I can't find Russell's location right now — his phone might be offline." };
+      }
+      const ago = Math.floor((Date.now() - result.timestamp) / 60000);
+      const timeStr = ago < 1 ? "just now" : ago < 60 ? `${ago} minutes ago` : `${Math.floor(ago / 60)} hours ago`;
+      return { handled: true, reply: `Russell's location was updated ${timeStr}. [MAP:${result.lat},${result.lng}]` };
+    } catch {
+      return { handled: true, reply: "Couldn't reach Russell's phone right now. Try again in a bit!" };
+    }
   }
 
   return { handled: false };
@@ -260,7 +277,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check commands first — instant response, no LLM call needed
-    const cmd = handleCommand(message);
+    const cmd = await handleCommand(message);
     if (cmd.handled) {
       return NextResponse.json({ reply: cmd.reply });
     }
